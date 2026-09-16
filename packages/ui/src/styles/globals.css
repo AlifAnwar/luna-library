@@ -1,1 +1,153 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@source "../components";
+
+@theme inline {
+  /* Luna primitive brand palette */
+  --color-luna-blue-50: var(--luna-blue-50);
+  --color-luna-blue-100: var(--luna-blue-100);
+  --color-luna-blue-200: var(--luna-blue-200);
+  --color-luna-blue-300: var(--luna-blue-300);
+  --color-luna-blue-400: var(--luna-blue-400);
+  --color-luna-blue-500: var(--luna-blue-500);
+  --color-luna-blue-600: var(--luna-blue-600);
+  --color-luna-blue-700: var(--luna-blue-700);
+  --color-luna-blue-800: var(--luna-blue-800);
+  --color-luna-blue-900: var(--luna-blue-900);
+
+  /* Core semantic colors */
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Status colors */
+  --color-success: var(--success);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-border: var(--warning-border);
+  --color-danger: var(--danger);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-border: var(--danger-border);
+  --color-info: var(--info);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-border: var(--info-border);
+
+  /* Dashboard chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+}
+
+:root {
+  /* Luna blue */
+  --luna-blue-50: #eff5ff;
+  --luna-blue-100: #dbe8ff;
+  --luna-blue-200: #b8d0fc;
+  --luna-blue-300: #80a4f0;
+  --luna-blue-400: #4d7ddd;
+  --luna-blue-500: #2763eb;
+  --luna-blue-600: #2056d2;
+  --luna-blue-700: #1948b8;
+  --luna-blue-800: #163b90;
+  --luna-blue-900: #18366f;
+
+  /* Brand */
+  --primary: var(--luna-blue-500);
+  --primary-hover: var(--luna-blue-600);
+  --primary-active: var(--luna-blue-700);
+  --primary-subtle: var(--luna-blue-50);
+  --primary-foreground: #ffffff;
+
+  /* Background and surfaces */
+  --background: #f6f8fb;
+  --surface: #ffffff;
+  --surface-subtle: #fafbfc;
+  --surface-muted: #f3f5f7;
+
+  /* Text */
+  --foreground: #111318;
+  --foreground-secondary: #667085;
+  --foreground-muted: #98a2b3;
+
+  /* shadcn surface aliases */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --secondary: var(--surface-muted);
+  --secondary-foreground: #344054;
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--foreground-secondary);
+  --accent: var(--primary-subtle);
+  --accent-foreground: var(--primary-active);
+
+  /* Borders and focus */
+  --border: #e6e9ef;
+  --border-subtle: #eef0f3;
+  --input: var(--border);
+  --ring: var(--luna-blue-300);
+
+  /* Semantic status */
+  --success: #168a6b;
+  --success-subtle: #eafbf5;
+  --success-border: #b8eddd;
+  --warning: #b76e00;
+  --warning-subtle: #fff7e6;
+  --warning-border: #f7d99a;
+  --danger: #d94d55;
+  --danger-subtle: #fff0f1;
+  --danger-border: #f4c2c6;
+  --info: var(--luna-blue-500);
+  --info-subtle: var(--luna-blue-50);
+  --info-border: var(--luna-blue-200);
+
+  /* shadcn destructive aliases */
+  --destructive: var(--danger);
+  --destructive-foreground: #ffffff;
+
+  /* Charts */
+  --chart-1: var(--luna-blue-500);
+  --chart-2: var(--luna-blue-400);
+  --chart-3: var(--luna-blue-300);
+  --chart-4: var(--luna-blue-200);
+  --chart-5: var(--luna-blue-100);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
