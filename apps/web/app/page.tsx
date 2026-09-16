@@ -1,101 +1,271 @@
-import Image, { type ImageProps } from "next/image";
-import { Button } from "@withalif/luna";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@withalif/luna";
 import styles from "./page.module.css";
 
-type Props = Omit<ImageProps, "src"> & {
-  srcLight: string;
-  srcDark: string;
-};
+const bluePalette = [
+  { step: "50", token: "--luna-blue-50", hex: "#EFF5FF" },
+  { step: "100", token: "--luna-blue-100", hex: "#DBE8FF" },
+  { step: "200", token: "--luna-blue-200", hex: "#B8D0FC" },
+  { step: "300", token: "--luna-blue-300", hex: "#80A4F0" },
+  { step: "400", token: "--luna-blue-400", hex: "#4D7DDD" },
+  { step: "500", token: "--luna-blue-500", hex: "#2763EB" },
+  { step: "600", token: "--luna-blue-600", hex: "#2056D2" },
+  { step: "700", token: "--luna-blue-700", hex: "#1948B8" },
+  { step: "800", token: "--luna-blue-800", hex: "#163B90" },
+  { step: "900", token: "--luna-blue-900", hex: "#18366F" },
+];
 
-const ThemeImage = (props: Props) => {
-  const { srcLight, srcDark, ...rest } = props;
+const statusColors = [
+  {
+    label: "Success",
+    description: "Completed and healthy states",
+    className: styles.success,
+  },
+  {
+    label: "Warning",
+    description: "Attention and pending states",
+    className: styles.warning,
+  },
+  {
+    label: "Danger",
+    description: "Errors and destructive states",
+    className: styles.danger,
+  },
+  {
+    label: "Info",
+    description: "Guidance and neutral updates",
+    className: styles.info,
+  },
+];
 
-  return (
-    <>
-      <Image {...rest} src={srcLight} className="imgLight" />
-      <Image {...rest} src={srcDark} className="imgDark" />
-    </>
-  );
-};
+const chartColors = [
+  { label: "Chart 1", token: "--chart-1", value: "#2763EB" },
+  { label: "Chart 2", token: "--chart-2", value: "#4D7DDD" },
+  { label: "Chart 3", token: "--chart-3", value: "#80A4F0" },
+  { label: "Chart 4", token: "--chart-4", value: "#B8D0FC" },
+  { label: "Chart 5", token: "--chart-5", value: "#DBE8FF" },
+];
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <ThemeImage
-          className={styles.logo}
-          srcLight="turborepo-dark.svg"
-          srcDark="turborepo-light.svg"
-          alt="Turborepo logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>apps/web/app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+      <header className={styles.topbar}>
+        <a className={styles.brand} href="#top" aria-label="Luna UI home">
+          <span className={styles.brandMark}>L</span>
+          <span>
+            <strong>Luna UI</strong>
+            <small>Internal design system</small>
+          </span>
+        </a>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new/clone?demo-description=Learn+to+implement+a+monorepo+with+a+two+Next.js+sites+that+has+installed+three+local+packages.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F4K8ZISWAzJ8X1504ca0zmC%2F0b21a1c6246add355e55816278ef54bc%2FBasic.png&demo-title=Monorepo+with+Turborepo&demo-url=https%3A%2F%2Fexamples-basic-web.vercel.sh%2F&from=templates&project-name=Monorepo+with+Turborepo&repository-name=monorepo-turborepo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fturborepo%2Ftree%2Fmain%2Fexamples%2Fbasic&root-directory=apps%2Fdocs&skippable-integrations=1&teamSlug=vercel&utm_source=create-turbo"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+        <nav className={styles.nav} aria-label="Documentation sections">
+          <a className={styles.navActive} href="#foundations">
+            Foundations
           </a>
-          <a
-            href="https://turborepo.dev/docs?utm_source"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-        <Button className={styles.secondary}>
-          Open alert
-        </Button>
+          <a href="#components">Components</a>
+          <a href="#data-visualization">Data visualization</a>
+        </nav>
+
+        <span className={styles.version}>v1.0</span>
+      </header>
+
+      <main id="top" className={styles.shell}>
+        <section className={styles.hero}>
+          <div className={styles.heroCopy}>
+            <div className={styles.eyebrow}>
+              <span aria-hidden="true" />
+              Foundations · Color
+            </div>
+            <h1>Luna Color System</h1>
+            <p>
+              A calm, accessible color foundation for enterprise products. Built
+              for dense interfaces, clear hierarchy, and dependable operational
+              decisions.
+            </p>
+            <div className={styles.heroActions}>
+              <Button size="lg">Primary action</Button>
+              <Button size="lg" variant="outline">
+                View guidelines
+              </Button>
+            </div>
+          </div>
+
+          <div className={styles.heroPreview} aria-label="Luna color preview">
+            <div className={styles.previewHeader}>
+              <span>System health</span>
+              <span className={styles.liveStatus}>Operational</span>
+            </div>
+            <div className={styles.metricRow}>
+              <div>
+                <span>Active workflows</span>
+                <strong>2,481</strong>
+              </div>
+              <span className={styles.metricTrend}>+12.4%</span>
+            </div>
+            <div className={styles.chart} aria-hidden="true">
+              {[42, 58, 48, 72, 64, 86, 76, 94].map((height, index) => (
+                <span key={index} style={{ height: `${height}%` }} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="foundations" className={styles.section}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.sectionIndex}>01</span>
+              <h2>Brand foundation</h2>
+            </div>
+            <p>
+              Royal blue anchors the Luna identity while neutral surfaces keep
+              complex workflows focused and readable.
+            </p>
+          </div>
+
+          <Card className={styles.paletteCard}>
+            <CardHeader className={styles.cardHeading}>
+              <div>
+                <CardTitle>Luna blue</CardTitle>
+                <p>Primitive brand scale</p>
+              </div>
+              <code>--luna-blue-*</code>
+            </CardHeader>
+            <CardContent>
+              <div className={styles.paletteGrid}>
+                {bluePalette.map((color) => (
+                  <div className={styles.swatch} key={color.step}>
+                    <div
+                      className={styles.swatchColor}
+                      style={{ backgroundColor: `var(${color.token})` }}
+                    />
+                    <strong>{color.step}</strong>
+                    <span>{color.hex}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section id="components" className={styles.section}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.sectionIndex}>02</span>
+              <h2>Semantic application</h2>
+            </div>
+            <p>
+              Components consume meaningful tokens instead of implementation
+              colors, keeping product behavior consistent.
+            </p>
+          </div>
+
+          <div className={styles.twoColumnGrid}>
+            <Card className={styles.showcaseCard}>
+              <CardHeader>
+                <CardTitle>Button hierarchy</CardTitle>
+                <p className={styles.cardDescription}>
+                  Action emphasis for common enterprise workflows.
+                </p>
+              </CardHeader>
+              <CardContent className={styles.buttonGrid}>
+                <Button>Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="destructive">Destructive</Button>
+                <Button disabled>Disabled</Button>
+              </CardContent>
+            </Card>
+
+            <Card className={styles.showcaseCard}>
+              <CardHeader>
+                <CardTitle>Status colors</CardTitle>
+                <p className={styles.cardDescription}>
+                  Reserved for meaningful operational feedback.
+                </p>
+              </CardHeader>
+              <CardContent className={styles.statusList}>
+                {statusColors.map((status) => (
+                  <div className={status.className} key={status.label}>
+                    <span aria-hidden="true" />
+                    <div>
+                      <strong>{status.label}</strong>
+                      <p>{status.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className={styles.surfaceCard}>
+            <CardHeader>
+              <CardTitle>Surface and text hierarchy</CardTitle>
+              <p className={styles.cardDescription}>
+                Neutral foundations separate content without visual noise.
+              </p>
+            </CardHeader>
+            <CardContent className={styles.surfaceGrid}>
+              <div className={styles.backgroundSurface}>
+                <span>Background</span>
+                <strong>#F6F8FB</strong>
+              </div>
+              <div className={styles.defaultSurface}>
+                <span>Surface</span>
+                <strong>#FFFFFF</strong>
+              </div>
+              <div className={styles.mutedSurface}>
+                <span>Surface muted</span>
+                <strong>#F3F5F7</strong>
+              </div>
+              <div className={styles.textPreview}>
+                <strong>Primary information</strong>
+                <p>Secondary context supports the main content.</p>
+                <span>Muted metadata · Updated 4 minutes ago</span>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section id="data-visualization" className={styles.section}>
+          <div className={styles.sectionHeading}>
+            <div>
+              <span className={styles.sectionIndex}>03</span>
+              <h2>Data visualization</h2>
+            </div>
+            <p>
+              A restrained monochromatic scale keeps dashboards cohesive and
+              makes comparisons easier to scan.
+            </p>
+          </div>
+
+          <Card className={styles.chartCard}>
+            <CardContent className={styles.chartScale}>
+              {chartColors.map((color, index) => (
+                <div className={styles.chartColor} key={color.label}>
+                  <div
+                    style={{
+                      backgroundColor: `var(${color.token})`,
+                      height: `${100 - index * 11}%`,
+                    }}
+                  />
+                  <span>{color.label}</span>
+                  <strong>{color.value}</strong>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </section>
       </main>
+
       <footer className={styles.footer}>
-        <a
-          href="https://vercel.com/templates?search=turborepo&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://turborepo.dev?utm_source=create-turbo"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to turborepo.dev →
-        </a>
+        <span>Luna UI · Color System v1</span>
+        <span>Designed for internal enterprise products</span>
       </footer>
     </div>
   );
