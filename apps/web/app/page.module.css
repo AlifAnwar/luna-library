@@ -55,7 +55,7 @@
 
 .brand small {
   color: var(--foreground-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 .nav {
@@ -93,7 +93,7 @@
   border-radius: 999px;
   background: var(--info-subtle);
   color: var(--info);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
   font-weight: 700;
 }
 
@@ -108,8 +108,8 @@
   grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.8fr);
   gap: 80px;
   align-items: center;
-  min-height: 440px;
-  padding-bottom: 96px;
+  min-height: 360px;
+  padding-bottom: 72px;
 }
 
 .heroCopy {
@@ -140,25 +140,26 @@
   max-width: 620px;
   margin: 0;
   color: var(--foreground);
-  font-size: clamp(46px, 6vw, 72px);
-  font-weight: 720;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: var(--line-height-display);
 }
 
 .heroCopy > p {
   max-width: 650px;
   margin: 26px 0 0;
   color: var(--foreground-secondary);
-  font-size: 18px;
-  line-height: 1.65;
+  font-size: var(--font-size-body-lg);
+  line-height: var(--line-height-body-lg);
 }
 
-.heroActions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 32px;
+.heroCopy > .heroCaption {
+  margin-top: 16px;
+  color: var(--foreground-muted);
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .heroPreview {
@@ -208,7 +209,7 @@
   border-radius: 999px;
   background: var(--success-subtle);
   color: var(--success);
-  font-size: 10px;
+  font-size: var(--font-size-caption);
   font-weight: 700;
 }
 
@@ -227,8 +228,12 @@
 }
 
 .metricRow strong {
-  font-size: 34px;
+  font-size: var(--font-size-display);
   letter-spacing: -0.04em;
+}
+
+.tabularNumber {
+  font-variant-numeric: tabular-nums;
 }
 
 .metricTrend {
@@ -286,8 +291,9 @@
 
 .sectionHeading h2 {
   margin: 0;
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: var(--font-size-heading);
   letter-spacing: -0.035em;
+  line-height: var(--line-height-heading);
 }
 
 .sectionHeading > p,
@@ -325,7 +331,7 @@
   border-radius: 6px;
   background: var(--surface-muted);
   color: var(--foreground-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 .paletteGrid {
@@ -353,7 +359,7 @@
 }
 
 .swatch strong {
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 .swatch span {
@@ -361,28 +367,247 @@
   margin-top: 2px;
   color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
+  font-size: var(--font-size-caption);
   text-overflow: ellipsis;
 }
 
-.twoColumnGrid {
+.componentGrid,
+.foundationGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 20px;
+}
+
+.foundationGrid {
+  margin-top: 20px;
+}
+
+.componentGrid + .componentGrid,
+.componentGrid + .surfaceCard {
+  margin-top: 20px;
+}
+
+.componentGrid > :only-child {
+  grid-column: 1 / -1;
+}
+
+.typeCard,
+.tokenCard {
+  min-height: 420px;
+}
+
+.typeScale {
+  display: grid;
+}
+
+.typeScale > div {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+  padding: 11px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.typeScale > div:first-child {
+  border-top: 0;
+}
+
+.typeScale span,
+.buttonScale span,
+.tokenStack span {
+  color: var(--foreground-muted);
+  font-size: var(--font-size-caption);
+}
+
+.typeScale p {
+  margin: 0;
+  color: var(--foreground);
+}
+
+.typeDisplay {
+  font-size: var(--font-size-display);
+  font-weight: 700;
+  line-height: var(--line-height-display);
+}
+
+.typePageTitle {
+  font-size: var(--font-size-page-title);
+  font-weight: 650;
+  line-height: var(--line-height-page-title);
+}
+
+.typeHeading {
+  font-size: var(--font-size-heading);
+  font-weight: 650;
+  line-height: var(--line-height-heading);
+}
+
+.typeSection {
+  font-size: var(--font-size-section);
+  font-weight: 600;
+  line-height: var(--line-height-section);
+}
+
+.typeBody {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.typeCaption {
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: var(--line-height-caption);
+}
+
+.tokenStack {
+  display: grid;
+  gap: 28px;
+}
+
+.radiusScale {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.radiusScale > div,
+.elevationScale > div {
+  display: grid;
+  gap: 8px;
+}
+
+.radiusScale span {
+  display: block;
+  aspect-ratio: 1;
+  border: 1px solid var(--primary);
+  background: var(--primary-subtle);
+}
+
+.radiusScale strong,
+.elevationScale strong {
+  font-size: var(--font-size-caption);
+  font-weight: 600;
+}
+
+.radiusSm {
+  border-radius: var(--luna-radius-sm);
+}
+
+.radiusMd {
+  border-radius: var(--luna-radius-md);
+}
+
+.radiusLg {
+  border-radius: var(--luna-radius-lg);
+}
+
+.radiusXl {
+  border-radius: var(--luna-radius-xl);
+}
+
+.elevationScale {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.elevationScale > div {
+  min-height: 92px;
+  padding: 14px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--luna-radius-lg);
+  background: var(--surface);
+}
+
+.elevationXs {
+  box-shadow: var(--luna-shadow-xs);
+}
+
+.elevationSm {
+  box-shadow: var(--luna-shadow-sm);
+}
+
+.elevationMd {
+  box-shadow: var(--luna-shadow-md);
 }
 
 .showcaseCard {
   min-height: 330px;
 }
 
-.buttonGrid {
+.buttonScale {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
 }
 
-.buttonGrid button {
+.buttonScale > div {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.buttonScale > div:first-child {
+  border-top: 0;
+}
+
+.buttonScale > .variantPreview {
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 12px;
+}
+
+.variantActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.controlStack {
+  display: grid;
+  gap: 20px;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  color: var(--foreground-secondary);
+  font-size: var(--font-size-label);
+  font-weight: 600;
+}
+
+.field button {
   width: 100%;
+}
+
+.checkboxRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--luna-radius-md);
+  cursor: pointer;
+}
+
+.checkboxRow > span {
+  display: grid;
+  gap: 2px;
+}
+
+.checkboxRow strong {
+  font-size: var(--font-size-body);
+  font-weight: 600;
+}
+
+.checkboxRow small {
+  color: var(--foreground-secondary);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
 }
 
 .statusList {
@@ -420,7 +645,7 @@
 .statusList p {
   margin: 0;
   color: var(--foreground-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 .success {
@@ -466,7 +691,7 @@
 
 .surfaceGrid span {
   color: var(--foreground-muted);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 .surfaceGrid strong {
@@ -535,14 +760,14 @@
 
 .chartColor span {
   color: var(--foreground-secondary);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
   font-weight: 650;
 }
 
 .chartColor strong {
   color: var(--foreground-muted);
   font-family: var(--font-geist-mono), monospace;
-  font-size: 10px;
+  font-size: var(--font-size-caption);
   font-weight: 500;
 }
 
@@ -554,7 +779,7 @@
   padding: 26px 0 40px;
   border-top: 1px solid var(--border);
   color: var(--foreground-muted);
-  font-size: 11px;
+  font-size: var(--font-size-caption);
 }
 
 @media (max-width: 900px) {
@@ -609,11 +834,7 @@
   }
 
   .hero h1 {
-    font-size: clamp(42px, 14vw, 58px);
-  }
-
-  .heroCopy > p {
-    font-size: 16px;
+    font-size: var(--font-size-display);
   }
 
   .section {
@@ -625,9 +846,19 @@
     gap: 16px;
   }
 
-  .twoColumnGrid,
+  .componentGrid,
+  .foundationGrid,
   .surfaceGrid {
     grid-template-columns: 1fr;
+  }
+
+  .typeCard,
+  .tokenCard {
+    min-height: auto;
+  }
+
+  .radiusScale {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .textPreview {

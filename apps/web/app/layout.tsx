@@ -13,8 +13,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Luna UI — Color System",
-  description: "Luna's reusable color foundation for enterprise products.",
+  title: "Luna UI — Foundations",
+  description: "Luna's reusable foundations for enterprise products.",
 };
 
 export default function RootLayout({

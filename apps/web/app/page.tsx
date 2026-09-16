@@ -1,10 +1,5 @@
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@withalif/luna";
+import { Card, CardContent, CardHeader, CardTitle } from "@withalif/luna";
+import { FoundationControls } from "./foundation-controls";
 import styles from "./page.module.css";
 
 const bluePalette = [
@@ -51,6 +46,39 @@ const chartColors = [
   { label: "Chart 5", token: "--chart-5", value: "#DBE8FF" },
 ];
 
+const typeScale = [
+  {
+    label: "Display",
+    sample: "Operational clarity",
+    className: styles.typeDisplay,
+  },
+  {
+    label: "Page title",
+    sample: "Workflow overview",
+    className: styles.typePageTitle,
+  },
+  {
+    label: "Heading",
+    sample: "Performance summary",
+    className: styles.typeHeading,
+  },
+  {
+    label: "Section",
+    sample: "Recent activity",
+    className: styles.typeSection,
+  },
+  {
+    label: "Body",
+    sample: "Supporting information stays easy to scan.",
+    className: styles.typeBody,
+  },
+  {
+    label: "Caption",
+    sample: "UPDATED 4 MINUTES AGO",
+    className: styles.typeCaption,
+  },
+];
+
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -79,20 +107,17 @@ export default function Home() {
           <div className={styles.heroCopy}>
             <div className={styles.eyebrow}>
               <span aria-hidden="true" />
-              Foundations · Color
+              Foundations · v1
             </div>
-            <h1>Luna Color System</h1>
+            <h1>Luna Foundations</h1>
             <p>
-              A calm, accessible color foundation for enterprise products. Built
-              for dense interfaces, clear hierarchy, and dependable operational
-              decisions.
+              A compact, accessible foundation for enterprise products—uniting
+              color, typography, geometry, density, and elevation in one
+              dependable system.
             </p>
-            <div className={styles.heroActions}>
-              <Button size="lg">Primary action</Button>
-              <Button size="lg" variant="outline">
-                View guidelines
-              </Button>
-            </div>
+            <p className={styles.heroCaption}>
+              Designed for information-rich interfaces and operational clarity.
+            </p>
           </div>
 
           <div className={styles.heroPreview} aria-label="Luna color preview">
@@ -103,7 +128,7 @@ export default function Home() {
             <div className={styles.metricRow}>
               <div>
                 <span>Active workflows</span>
-                <strong>2,481</strong>
+                <strong className={styles.tabularNumber}>2,481</strong>
               </div>
               <span className={styles.metricTrend}>+12.4%</span>
             </div>
@@ -150,13 +175,75 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
+
+          <div className={styles.foundationGrid}>
+            <Card className={styles.typeCard}>
+              <CardHeader>
+                <CardTitle>Type scale</CardTitle>
+                <p className={styles.cardDescription}>
+                  A restrained hierarchy optimized for dense product screens.
+                </p>
+              </CardHeader>
+              <CardContent className={styles.typeScale}>
+                {typeScale.map((type) => (
+                  <div key={type.label}>
+                    <span>{type.label}</span>
+                    <p className={type.className}>{type.sample}</p>
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card className={styles.tokenCard}>
+              <CardHeader>
+                <CardTitle>Geometry & elevation</CardTitle>
+                <p className={styles.cardDescription}>
+                  Semantic primitives keep surfaces quiet and consistent.
+                </p>
+              </CardHeader>
+              <CardContent className={styles.tokenStack}>
+                <div className={styles.radiusScale}>
+                  <div>
+                    <span className={styles.radiusSm} />
+                    <strong>sm · 6px</strong>
+                  </div>
+                  <div>
+                    <span className={styles.radiusMd} />
+                    <strong>md · 8px</strong>
+                  </div>
+                  <div>
+                    <span className={styles.radiusLg} />
+                    <strong>lg · 10px</strong>
+                  </div>
+                  <div>
+                    <span className={styles.radiusXl} />
+                    <strong>xl · 12px</strong>
+                  </div>
+                </div>
+                <div className={styles.elevationScale}>
+                  <div className={styles.elevationXs}>
+                    <span>xs</span>
+                    <strong>Card</strong>
+                  </div>
+                  <div className={styles.elevationSm}>
+                    <span>sm</span>
+                    <strong>Popover</strong>
+                  </div>
+                  <div className={styles.elevationMd}>
+                    <span>md</span>
+                    <strong>Dialog</strong>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </section>
 
         <section id="components" className={styles.section}>
           <div className={styles.sectionHeading}>
             <div>
               <span className={styles.sectionIndex}>02</span>
-              <h2>Semantic application</h2>
+              <h2>Component application</h2>
             </div>
             <p>
               Components consume meaningful tokens instead of implementation
@@ -164,24 +251,9 @@ export default function Home() {
             </p>
           </div>
 
-          <div className={styles.twoColumnGrid}>
-            <Card className={styles.showcaseCard}>
-              <CardHeader>
-                <CardTitle>Button hierarchy</CardTitle>
-                <p className={styles.cardDescription}>
-                  Action emphasis for common enterprise workflows.
-                </p>
-              </CardHeader>
-              <CardContent className={styles.buttonGrid}>
-                <Button>Primary</Button>
-                <Button variant="secondary">Secondary</Button>
-                <Button variant="outline">Outline</Button>
-                <Button variant="ghost">Ghost</Button>
-                <Button variant="destructive">Destructive</Button>
-                <Button disabled>Disabled</Button>
-              </CardContent>
-            </Card>
+          <FoundationControls />
 
+          <div className={styles.componentGrid}>
             <Card className={styles.showcaseCard}>
               <CardHeader>
                 <CardTitle>Status colors</CardTitle>
@@ -264,7 +336,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <span>Luna UI · Color System v1</span>
+        <span>Luna UI · Foundations v1</span>
         <span>Designed for internal enterprise products</span>
       </footer>
     </div>
