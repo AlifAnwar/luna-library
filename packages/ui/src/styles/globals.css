@@ -3,6 +3,52 @@
 @source "../components";
 
 @theme inline {
+  /* Typography */
+  --font-sans: var(--luna-font-sans);
+  --font-mono: var(--luna-font-mono);
+  --text-caption: var(--font-size-caption);
+  --text-caption--line-height: var(--line-height-caption);
+  --text-label: var(--font-size-label);
+  --text-label--line-height: var(--line-height-label);
+  --text-body-sm: var(--font-size-body-sm);
+  --text-body-sm--line-height: var(--line-height-body-sm);
+  --text-body: var(--font-size-body);
+  --text-body--line-height: var(--line-height-body);
+  --text-body-lg: var(--font-size-body-lg);
+  --text-body-lg--line-height: var(--line-height-body-lg);
+  --text-card-title: var(--font-size-card-title);
+  --text-card-title--line-height: var(--line-height-card-title);
+  --text-section: var(--font-size-section);
+  --text-section--line-height: var(--line-height-section);
+  --text-heading-sm: var(--font-size-heading-sm);
+  --text-heading-sm--line-height: var(--line-height-heading-sm);
+  --text-heading: var(--font-size-heading);
+  --text-heading--line-height: var(--line-height-heading);
+  --text-page-title: var(--font-size-page-title);
+  --text-page-title--line-height: var(--line-height-page-title);
+  --text-display: var(--font-size-display);
+  --text-display--line-height: var(--line-height-display);
+
+  /* Radius */
+  --radius-xs: var(--luna-radius-xs);
+  --radius-sm: var(--luna-radius-sm);
+  --radius-md: var(--luna-radius-md);
+  --radius-lg: var(--luna-radius-lg);
+  --radius-xl: var(--luna-radius-xl);
+  --radius-full: var(--luna-radius-full);
+
+  /* Semantic density */
+  --spacing-control-xs: var(--control-height-xs);
+  --spacing-control-sm: var(--control-height-sm);
+  --spacing-control-md: var(--control-height-md);
+  --spacing-control-lg: var(--control-height-lg);
+  --spacing-table-row: var(--table-row-height);
+
+  /* Elevation */
+  --shadow-xs: var(--luna-shadow-xs);
+  --shadow-sm: var(--luna-shadow-sm);
+  --shadow-md: var(--luna-shadow-md);
+
   /* Luna primitive brand palette */
   --color-luna-blue-50: var(--luna-blue-50);
   --color-luna-blue-100: var(--luna-blue-100);
@@ -68,6 +114,58 @@
 }
 
 :root {
+  /* Typography */
+  --luna-font-sans:
+    "Inter", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI",
+    sans-serif;
+  --luna-font-mono:
+    "Geist Mono", "SFMono-Regular", consolas, "Liberation Mono", monospace;
+  --font-size-caption: 0.75rem;
+  --line-height-caption: 1rem;
+  --font-size-label: 0.8125rem;
+  --line-height-label: 1.125rem;
+  --font-size-body-sm: 0.8125rem;
+  --line-height-body-sm: 1.125rem;
+  --font-size-body: 0.875rem;
+  --line-height-body: 1.25rem;
+  --font-size-body-lg: 1rem;
+  --line-height-body-lg: 1.5rem;
+  --font-size-card-title: 1rem;
+  --line-height-card-title: 1.5rem;
+  --font-size-section: 1.125rem;
+  --line-height-section: 1.625rem;
+  --font-size-heading-sm: 1.25rem;
+  --line-height-heading-sm: 1.75rem;
+  --font-size-heading: 1.5rem;
+  --line-height-heading: 2rem;
+  --font-size-page-title: 1.75rem;
+  --line-height-page-title: 2.25rem;
+  --font-size-display: 2rem;
+  --line-height-display: 2.5rem;
+
+  /* Radius */
+  --radius: 0.5rem;
+  --luna-radius-xs: 0.25rem;
+  --luna-radius-sm: 0.375rem;
+  --luna-radius-md: 0.5rem;
+  --luna-radius-lg: 0.625rem;
+  --luna-radius-xl: 0.75rem;
+  --luna-radius-full: 9999px;
+
+  /* Density */
+  --control-height-xs: 1.75rem;
+  --control-height-sm: 2rem;
+  --control-height-md: 2.25rem;
+  --control-height-lg: 2.5rem;
+  --table-row-height: 2.5rem;
+  --card-padding: 1rem;
+  --card-padding-sm: 0.75rem;
+
+  /* Elevation */
+  --luna-shadow-xs: 0 1px 2px rgb(16 24 40 / 4%);
+  --luna-shadow-sm: 0 1px 3px rgb(16 24 40 / 6%), 0 1px 2px rgb(16 24 40 / 4%);
+  --luna-shadow-md: 0 4px 12px rgb(16 24 40 / 8%);
+
   /* Luna blue */
   --luna-blue-50: #eff5ff;
   --luna-blue-100: #dbe8ff;
@@ -148,6 +246,6 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-body text-foreground;
   }
 }
