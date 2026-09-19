@@ -3,16 +3,16 @@ import { FoundationControls } from "./foundation-controls";
 import styles from "./page.module.css";
 
 const bluePalette = [
-  { step: "50", token: "--luna-blue-50", hex: "#EFF5FF" },
-  { step: "100", token: "--luna-blue-100", hex: "#DBE8FF" },
-  { step: "200", token: "--luna-blue-200", hex: "#B8D0FC" },
-  { step: "300", token: "--luna-blue-300", hex: "#80A4F0" },
-  { step: "400", token: "--luna-blue-400", hex: "#4D7DDD" },
-  { step: "500", token: "--luna-blue-500", hex: "#2763EB" },
-  { step: "600", token: "--luna-blue-600", hex: "#2056D2" },
-  { step: "700", token: "--luna-blue-700", hex: "#1948B8" },
-  { step: "800", token: "--luna-blue-800", hex: "#163B90" },
-  { step: "900", token: "--luna-blue-900", hex: "#18366F" },
+  { step: "50", token: "--luna-blue-50", hex: "#EEF6FF" },
+  { step: "100", token: "--luna-blue-100", hex: "#D3E5FE" },
+  { step: "200", token: "--luna-blue-200", hex: "#9BC4FC" },
+  { step: "300", token: "--luna-blue-300", hex: "#63A2FA" },
+  { step: "400", token: "--luna-blue-400", hex: "#2B83F7" },
+  { step: "500", token: "--luna-blue-500", hex: "#0065F4" },
+  { step: "600", token: "--luna-blue-600", hex: "#0058D6" },
+  { step: "700", token: "--luna-blue-700", hex: "#0049B3" },
+  { step: "800", token: "--luna-blue-800", hex: "#00398C" },
+  { step: "900", token: "--luna-blue-900", hex: "#002B69" },
 ];
 
 const statusColors = [
@@ -39,11 +39,11 @@ const statusColors = [
 ];
 
 const chartColors = [
-  { label: "Chart 1", token: "--chart-1", value: "#2763EB" },
-  { label: "Chart 2", token: "--chart-2", value: "#4D7DDD" },
-  { label: "Chart 3", token: "--chart-3", value: "#80A4F0" },
-  { label: "Chart 4", token: "--chart-4", value: "#B8D0FC" },
-  { label: "Chart 5", token: "--chart-5", value: "#DBE8FF" },
+  { label: "Chart 1", token: "--chart-1", value: "#0065F4" },
+  { label: "Chart 2", token: "--chart-2", value: "#2B83F7" },
+  { label: "Chart 3", token: "--chart-3", value: "#63A2FA" },
+  { label: "Chart 4", token: "--chart-4", value: "#9BC4FC" },
+  { label: "Chart 5", token: "--chart-5", value: "#D3E5FE" },
 ];
 
 const typeScale = [
