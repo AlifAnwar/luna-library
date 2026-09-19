@@ -1,0 +1,139 @@
+import * as React from "react";
+import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  Search01Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { cn } from "cn";
+
+type SearchableSelectOption = {
+  value: string;
+  label: string;
+  disabled?: boolean;
+};
+
+type SearchableSelectProps = Omit<
+  ComboboxPrimitive.Root.Props<string, false, SearchableSelectOption>,
+  "children" | "items" | "multiple"
+> & {
+  items: SearchableSelectOption[];
+  "aria-label": string;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  searchLabel?: string;
+  emptyText?: string;
+  triggerClassName?: string;
+  contentClassName?: string;
+};
+
+function SearchableSelect({
+  items,
+  "aria-label": ariaLabel,
+  placeholder = "Select an option",
+  searchPlaceholder = "Search...",
+  searchLabel = "Search options",
+  emptyText = "No options found.",
+  triggerClassName,
+  contentClassName,
+  ...props
+}: SearchableSelectProps) {
+  const collection = React.useMemo(
+    () =>
+      ComboboxPrimitive.createItems(items, {
+        getValue: (item) => item.value,
+        getLabel: (item) => item.label,
+      }),
+    [items],
+  );
+
+  return (
+    <ComboboxPrimitive.Root items={collection} {...props}>
+      <ComboboxPrimitive.Trigger
+        data-slot="searchable-select-trigger"
+        aria-label={ariaLabel}
+        className={cn(
+          "flex h-control-md w-full items-center justify-between gap-2 rounded-md border border-input bg-surface px-3 text-body text-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
+          triggerClassName,
+        )}
+      >
+        <span className="min-w-0 flex-1 truncate text-left">
+          <ComboboxPrimitive.Value placeholder={placeholder} />
+        </span>
+        <ComboboxPrimitive.Icon
+          render={
+            <HugeiconsIcon
+              icon={ChevronDownIcon}
+              size={16}
+              strokeWidth={1.5}
+              className="text-muted-foreground"
+              aria-hidden="true"
+            />
+          }
+        />
+      </ComboboxPrimitive.Trigger>
+      <ComboboxPrimitive.Portal>
+        <ComboboxPrimitive.Positioner
+          side="bottom"
+          sideOffset={4}
+          align="start"
+          className="isolate z-50"
+        >
+          <ComboboxPrimitive.Popup
+            data-slot="searchable-select-content"
+            aria-label={ariaLabel}
+            className={cn(
+              "relative isolate z-50 flex max-h-(--available-height) w-(--anchor-width) min-w-36 flex-col overflow-hidden rounded-lg border border-border bg-popover text-popover-foreground shadow-sm duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+              contentClassName,
+            )}
+          >
+            <div className="flex shrink-0 items-center gap-2 border-b border-border px-3">
+              <HugeiconsIcon
+                icon={Search01Icon}
+                size={16}
+                strokeWidth={1.5}
+                className="shrink-0 text-muted-foreground"
+                aria-hidden="true"
+              />
+              <ComboboxPrimitive.Input
+                data-slot="searchable-select-input"
+                aria-label={searchLabel}
+                placeholder={searchPlaceholder}
+                className="h-control-md w-full min-w-0 bg-transparent text-body text-foreground outline-none placeholder:text-muted-foreground"
+              />
+            </div>
+            <div className="min-h-0 overflow-y-auto p-1">
+              <ComboboxPrimitive.Empty className="px-2 py-1.5 text-body text-muted-foreground">
+                {emptyText}
+              </ComboboxPrimitive.Empty>
+              <ComboboxPrimitive.List>
+                {(item: SearchableSelectOption) => (
+                  <ComboboxPrimitive.Item
+                    key={item.value}
+                    value={item.value}
+                    disabled={item.disabled}
+                    className="relative flex min-h-control-sm w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-body outline-hidden hover:bg-muted data-highlighted:bg-muted data-selected:bg-primary-subtle data-selected:text-primary-active data-disabled:pointer-events-none data-disabled:opacity-50"
+                  >
+                    <span className="flex-1 truncate">{item.label}</span>
+                    <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
+                      <HugeiconsIcon
+                        icon={CheckIcon}
+                        size={16}
+                        strokeWidth={1.5}
+                        aria-hidden="true"
+                      />
+                    </ComboboxPrimitive.ItemIndicator>
+                  </ComboboxPrimitive.Item>
+                )}
+              </ComboboxPrimitive.List>
+            </div>
+          </ComboboxPrimitive.Popup>
+        </ComboboxPrimitive.Positioner>
+      </ComboboxPrimitive.Portal>
+    </ComboboxPrimitive.Root>
+  );
+}
+
+export { SearchableSelect };
+export type { SearchableSelectOption, SearchableSelectProps };
