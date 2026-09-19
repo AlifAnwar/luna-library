@@ -107,22 +107,22 @@ This task is **not** to redesign components or create new components.
 Use this palette as the Luna blue family:
 
 ```text
-blue-50   #EFF5FF
-blue-100  #DBE8FF
-blue-200  #B8D0FC
-blue-300  #80A4F0
-blue-400  #4D7DDD
-blue-500  #2763EB
-blue-600  #2056D2
-blue-700  #1948B8
-blue-800  #163B90
-blue-900  #18366F
+blue-50   #EEF6FF
+blue-100  #D3E5FE
+blue-200  #9BC4FC
+blue-300  #63A2FA
+blue-400  #2B83F7
+blue-500  #0065F4
+blue-600  #0058D6
+blue-700  #0049B3
+blue-800  #00398C
+blue-900  #002B69
 ```
 
 Primary Luna brand color:
 
 ```text
-#2763EB
+#0065F4
 ```
 
 ---
@@ -134,10 +134,10 @@ Use these values as the target visual system.
 ## Brand
 
 ```text
-primary              #2763EB
-primary-hover        #2056D2
-primary-active       #1948B8
-primary-subtle       #EFF5FF
+primary              #0065F4
+primary-hover        #0058D6
+primary-active       #0049B3
+primary-subtle       #EEF6FF
 primary-foreground   #FFFFFF
 ```
 
@@ -164,7 +164,7 @@ foreground-muted     #98A2B3
 border               #E6E9EF
 border-subtle        #EEF0F3
 input                #E6E9EF
-ring                 #80A4F0
+ring                 #63A2FA
 ```
 
 ---
@@ -198,9 +198,9 @@ danger-border #F4C2C6
 ## Info
 
 ```text
-info        #2763EB
-info-subtle #EFF5FF
-info-border #B8D0FC
+info        #0065F4
+info-subtle #EEF6FF
+info-border #9BC4FC
 ```
 
 ---
@@ -210,11 +210,11 @@ info-border #B8D0FC
 Luna should prefer a restrained monochromatic blue scale for default dashboards.
 
 ```text
-chart-1 #2763EB
-chart-2 #4D7DDD
-chart-3 #80A4F0
-chart-4 #B8D0FC
-chart-5 #DBE8FF
+chart-1 #0065F4
+chart-2 #2B83F7
+chart-3 #63A2FA
+chart-4 #9BC4FC
+chart-5 #D3E5FE
 ```
 
 Do not introduce a rainbow chart palette as the default.
@@ -237,7 +237,7 @@ card-foreground        -> #111318
 popover                -> #FFFFFF
 popover-foreground     -> #111318
 
-primary                -> #2763EB
+primary                -> #0065F4
 primary-foreground     -> #FFFFFF
 
 secondary              -> #F3F5F7
@@ -246,15 +246,15 @@ secondary-foreground   -> #344054
 muted                  -> #F3F5F7
 muted-foreground       -> #667085
 
-accent                 -> #EFF5FF
-accent-foreground      -> #1948B8
+accent                 -> #EEF6FF
+accent-foreground      -> #0049B3
 
 destructive            -> #D94D55
 destructive-foreground -> #FFFFFF
 
 border                 -> #E6E9EF
 input                  -> #E6E9EF
-ring                   -> #80A4F0
+ring                   -> #63A2FA
 ```
 
 Preserve any additional variables required by the currently generated Base UI / Nova components.
@@ -346,7 +346,7 @@ Luna components
 Example concept:
 
 ```css
---luna-blue-500: #2763eb;
+--luna-blue-500: #0065f4;
 --primary: var(--luna-blue-500);
 ```
 
