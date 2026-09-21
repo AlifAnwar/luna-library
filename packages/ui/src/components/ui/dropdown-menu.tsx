@@ -1,7 +1,7 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { ArrowRight01Icon, CheckIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "cn";
+
+import { CheckIcon, ChevronRightIcon } from "../../icons";
 
 const DropdownMenu = MenuPrimitive.Root;
 const DropdownMenuSub = MenuPrimitive.SubmenuRoot;
@@ -119,7 +119,7 @@ function DropdownMenuCheckboxItem({
       {...props}
     >
       <MenuPrimitive.CheckboxItemIndicator className="absolute left-2 flex size-4 items-center justify-center text-primary">
-        <HugeiconsIcon icon={CheckIcon} strokeWidth={1.5} aria-hidden="true" />
+        <CheckIcon aria-hidden="true" />
       </MenuPrimitive.CheckboxItemIndicator>
       {children}
     </MenuPrimitive.CheckboxItem>
@@ -174,12 +174,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <HugeiconsIcon
-        icon={ArrowRight01Icon}
-        strokeWidth={1.5}
-        className="ml-auto"
-        aria-hidden="true"
-      />
+      <ChevronRightIcon className="ml-auto" aria-hidden="true" />
     </MenuPrimitive.SubmenuTrigger>
   );
 }

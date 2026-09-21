@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { EyeIcon, EyeOffIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "cn";
 
+import { EyeIcon, EyeOffIcon } from "../../icons";
 import { Input } from "./input";
 
 type PasswordInputProps = Omit<React.ComponentProps<"input">, "type">;
@@ -37,12 +36,11 @@ function PasswordInput({
         onClick={() => setVisible((current) => !current)}
         className="absolute inset-y-0 right-1 my-auto flex size-control-xs items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
       >
-        <HugeiconsIcon
-          icon={visible ? EyeOffIcon : EyeIcon}
-          size={18}
-          strokeWidth={1.5}
-          aria-hidden="true"
-        />
+        {visible ? (
+          <EyeOffIcon className="size-4.5" aria-hidden="true" />
+        ) : (
+          <EyeIcon className="size-4.5" aria-hidden="true" />
+        )}
       </button>
     </div>
   );

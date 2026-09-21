@@ -168,16 +168,16 @@
   --luna-shadow-md: 0 4px 12px rgb(16 24 40 / 8%);
 
   /* Luna blue */
-  --luna-blue-50: #eff5ff;
-  --luna-blue-100: #dbe8ff;
-  --luna-blue-200: #b8d0fc;
-  --luna-blue-300: #80a4f0;
-  --luna-blue-400: #4d7ddd;
-  --luna-blue-500: #2763eb; 
-  --luna-blue-600: #2056d2;
-  --luna-blue-700: #1948b8;
-  --luna-blue-800: #163b90;
-  --luna-blue-900: #18366f;
+  --luna-blue-50: #eff6ff;
+  --luna-blue-100: #dcebff;
+  --luna-blue-200: #bdd9ff;
+  --luna-blue-300: #8bbeff;
+  --luna-blue-400: #3f91ff;
+  --luna-blue-500: #0065f4;
+  --luna-blue-600: #0058d9;
+  --luna-blue-700: #0049b0;
+  --luna-blue-800: #003b8f;
+  --luna-blue-900: #002f70;
 
   /* Brand */
   --primary: var(--luna-blue-500);

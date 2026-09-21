@@ -1,11 +1,5 @@
-import {
-  Add01Icon,
-  ArrowRight01Icon,
-  Search01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Button } from "@withalif/luna";
+import { AddIcon, ArrowRightIcon, Button, SearchIcon } from "@withalif/luna";
 
 const meta = {
   title: "Luna/Button",
@@ -69,22 +63,12 @@ export const WithIcon: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
       <Button>
-        <HugeiconsIcon
-          icon={Add01Icon}
-          data-icon="inline-start"
-          strokeWidth={1.5}
-          aria-hidden="true"
-        />
+        <AddIcon data-icon="inline-start" aria-hidden="true" />
         Create record
       </Button>
       <Button variant="outline">
         View details
-        <HugeiconsIcon
-          icon={ArrowRight01Icon}
-          data-icon="inline-end"
-          strokeWidth={1.5}
-          aria-hidden="true"
-        />
+        <ArrowRightIcon data-icon="inline-end" aria-hidden="true" />
       </Button>
     </div>
   ),
@@ -95,13 +79,7 @@ export const IconOnly: Story = {
     size: "icon",
     variant: "outline",
     "aria-label": "Search records",
-    children: (
-      <HugeiconsIcon
-        icon={Search01Icon}
-        strokeWidth={1.5}
-        aria-hidden="true"
-      />
-    ),
+    children: <SearchIcon aria-hidden="true" />,
   },
 };
 
