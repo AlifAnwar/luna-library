@@ -11,10 +11,17 @@ type SearchableSelectOption = {
 
 type SearchableSelectProps = Omit<
   ComboboxPrimitive.Root.Props<string, false, SearchableSelectOption>,
-  "children" | "items" | "multiple"
+  "children" | "disabled" | "id" | "items" | "multiple" | "required"
 > & {
   items: SearchableSelectOption[];
   "aria-label": string;
+  "aria-describedby"?: string;
+  "aria-invalid"?: React.AriaAttributes["aria-invalid"];
+  "aria-labelledby"?: string;
+  "aria-required"?: React.AriaAttributes["aria-required"];
+  disabled?: boolean;
+  id?: string;
+  required?: boolean;
   placeholder?: string;
   searchPlaceholder?: string;
   searchLabel?: string;
@@ -26,12 +33,19 @@ type SearchableSelectProps = Omit<
 function SearchableSelect({
   items,
   "aria-label": ariaLabel,
+  "aria-describedby": ariaDescribedBy,
+  "aria-invalid": ariaInvalid,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-required": ariaRequired,
+  disabled,
+  id,
   placeholder = "Select an option",
   searchPlaceholder = "Search...",
   searchLabel = "Search options",
   emptyText = "No options found.",
   triggerClassName,
   contentClassName,
+  required,
   ...props
 }: SearchableSelectProps) {
   const collection = React.useMemo(
@@ -44,10 +58,21 @@ function SearchableSelect({
   );
 
   return (
-    <ComboboxPrimitive.Root items={collection} {...props}>
+    <ComboboxPrimitive.Root
+      items={collection}
+      disabled={disabled}
+      id={id}
+      required={required}
+      {...props}
+    >
       <ComboboxPrimitive.Trigger
         data-slot="searchable-select-trigger"
         aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid}
+        aria-required={ariaRequired ?? required}
+        disabled={disabled}
         className={cn(
           "flex h-control-md w-full items-center justify-between gap-2 rounded-md border border-input bg-surface px-3 text-body text-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
           triggerClassName,

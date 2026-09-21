@@ -1,5 +1,6 @@
 export { default as AddIcon } from "./AddIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";
+export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CancelIcon } from "./CancelIcon";
 export { default as CheckCircleIcon } from "./CheckCircleIcon";
 export { default as CheckIcon } from "./CheckIcon";
