@@ -6,19 +6,16 @@ import { transform } from "@svgr/core";
 import jsx from "@svgr/plugin-jsx";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const packageJsonUrl = import.meta.resolve(
-  "@material-symbols/svg-400/package.json",
-);
-const svgRoot = path.join(
-  fileURLToPath(packageJsonUrl),
-  "../rounded",
-);
+const packageJsonUrl = import.meta
+  .resolve("@material-symbols/svg-400/package.json");
+const svgRoot = path.join(fileURLToPath(packageJsonUrl), "../rounded");
 const outDir = path.join(__dirname, "../src/icons");
 
 // componentName -> [material symbol file name, filled?]
 const icons = {
   AddIcon: ["add", false],
   ArrowRightIcon: ["arrow_forward", false],
+  CalendarIcon: ["calendar_month", false],
   WarningIcon: ["warning", true],
   ChevronRightIcon: ["chevron_right", false],
   CloseIcon: ["close", false],

@@ -18,7 +18,7 @@ export const config = [
       parserOptions: {
         requireConfigFile: false,
         babelOptions: {
-          presets: ["@babel/preset-typescript"],
+          presets: [import.meta.resolve("@babel/preset-typescript")],
         },
       },
     },
