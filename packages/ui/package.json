@@ -9,11 +9,15 @@
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "generate:component": "turbo gen react-component",
+    "generate:icons": "node scripts/generate-icons.mjs",
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
+    "@material-symbols/svg-400": "^0.47.4",
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
@@ -25,8 +29,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
-    "@hugeicons/core-free-icons": "^4.3.3",
-    "@hugeicons/react": "^1.1.10",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.3.0",
     "lucide-react": "^1.46.0",

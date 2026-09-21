@@ -1,14 +1,7 @@
-import {
-  Delete01Icon,
-  Edit01Icon,
-  MoreHorizontalIcon,
-  Settings01Icon,
-  ViewIcon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import {
   Button,
+  DeleteIcon,
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
@@ -22,6 +15,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  EditIcon,
+  EyeIcon,
+  MoreHorizontalIcon,
+  SettingsIcon,
 } from "@withalif/luna";
 
 const meta = {
@@ -39,41 +36,25 @@ export const Actions: Story = {
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
-        <HugeiconsIcon
-          icon={MoreHorizontalIcon}
-          strokeWidth={1.5}
-          aria-hidden="true"
-        />
+        <MoreHorizontalIcon aria-hidden="true" />
         Actions
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuLabel>Record actions</DropdownMenuLabel>
           <DropdownMenuItem>
-            <HugeiconsIcon
-              icon={ViewIcon}
-              strokeWidth={1.5}
-              aria-hidden="true"
-            />
+            <EyeIcon aria-hidden="true" />
             View details
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <HugeiconsIcon
-              icon={Edit01Icon}
-              strokeWidth={1.5}
-              aria-hidden="true"
-            />
+            <EditIcon aria-hidden="true" />
             Edit record
           </DropdownMenuItem>
           <DropdownMenuItem disabled>Duplicate (unavailable)</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
-          <HugeiconsIcon
-            icon={Delete01Icon}
-            strokeWidth={1.5}
-            aria-hidden="true"
-          />
+          <DeleteIcon aria-hidden="true" />
           Delete record
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -140,16 +121,12 @@ export const Submenu: Story = {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <HugeiconsIcon icon={ViewIcon} strokeWidth={1.5} aria-hidden="true" />
+          <EyeIcon aria-hidden="true" />
           View details
         </DropdownMenuItem>
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>
-            <HugeiconsIcon
-              icon={Settings01Icon}
-              strokeWidth={1.5}
-              aria-hidden="true"
-            />
+            <SettingsIcon aria-hidden="true" />
             Preferences
           </DropdownMenuSubTrigger>
           <DropdownMenuSubContent>

@@ -1,7 +1,6 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { CheckIcon, MinusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "cn";
+import { CheckIcon, MinusIcon } from "../../icons";
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (
@@ -17,15 +16,11 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         data-slot="checkbox-indicator"
         className="group/checkbox-indicator grid place-content-center text-current transition-none [&>svg]:size-3.5"
       >
-        <HugeiconsIcon
-          icon={CheckIcon}
-          strokeWidth={1.5}
+        <CheckIcon
           className="group-data-indeterminate/checkbox-indicator:hidden"
           aria-hidden="true"
         />
-        <HugeiconsIcon
-          icon={MinusSignIcon}
-          strokeWidth={1.5}
+        <MinusIcon
           className="hidden group-data-indeterminate/checkbox-indicator:block"
           aria-hidden="true"
         />

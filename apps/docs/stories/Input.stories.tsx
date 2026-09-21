@@ -1,7 +1,5 @@
-import { Search01Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { Input } from "@withalif/luna";
+import { Input, SearchIcon } from "@withalif/luna";
 
 const meta: Meta<typeof Input> = {
   title: "Luna/Input",
@@ -65,16 +63,15 @@ export const WithHelperText: Story = {
 export const WithIcon: Story = {
   render: () => (
     <div style={{ position: "relative", width: 280 }}>
-      <HugeiconsIcon
-        icon={Search01Icon}
-        size={18}
-        strokeWidth={1.5}
+      <SearchIcon
         aria-hidden="true"
         style={{
           position: "absolute",
           left: 12,
           top: "50%",
           transform: "translateY(-50%)",
+          width: 18,
+          height: 18,
           pointerEvents: "none",
           color: "var(--muted-foreground)",
         }}

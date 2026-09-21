@@ -1,12 +1,7 @@
 import * as React from "react";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
-import {
-  CheckIcon,
-  ChevronDownIcon,
-  Search01Icon,
-} from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "cn";
+import { CheckIcon, ChevronDownIcon, SearchIcon } from "../../icons";
 
 type SearchableSelectOption = {
   value: string;
@@ -63,11 +58,8 @@ function SearchableSelect({
         </span>
         <ComboboxPrimitive.Icon
           render={
-            <HugeiconsIcon
-              icon={ChevronDownIcon}
-              size={16}
-              strokeWidth={1.5}
-              className="text-muted-foreground"
+            <ChevronDownIcon
+              className="size-4 text-muted-foreground"
               aria-hidden="true"
             />
           }
@@ -89,11 +81,8 @@ function SearchableSelect({
             )}
           >
             <div className="flex shrink-0 items-center gap-2 border-b border-border px-3">
-              <HugeiconsIcon
-                icon={Search01Icon}
-                size={16}
-                strokeWidth={1.5}
-                className="shrink-0 text-muted-foreground"
+              <SearchIcon
+                className="size-4 shrink-0 text-muted-foreground"
                 aria-hidden="true"
               />
               <ComboboxPrimitive.Input
@@ -117,12 +106,7 @@ function SearchableSelect({
                   >
                     <span className="flex-1 truncate">{item.label}</span>
                     <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
-                      <HugeiconsIcon
-                        icon={CheckIcon}
-                        size={16}
-                        strokeWidth={1.5}
-                        aria-hidden="true"
-                      />
+                      <CheckIcon className="size-4" aria-hidden="true" />
                     </ComboboxPrimitive.ItemIndicator>
                   </ComboboxPrimitive.Item>
                 )}
