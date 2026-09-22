@@ -38,3 +38,9 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Local AI tooling
+.agents/
+.aider-desk/
+.claude/
+skills-lock.json
