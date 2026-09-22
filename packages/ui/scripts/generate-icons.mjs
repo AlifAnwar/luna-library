@@ -28,12 +28,14 @@ const icons = {
   EditIcon: ["edit", false],
   EyeIcon: ["visibility", false],
   EyeOffIcon: ["visibility_off", false],
+  FileIcon: ["description", false],
   InfoIcon: ["info", true],
   LoadingIcon: ["progress_activity", false],
   MinusIcon: ["remove", false],
   MoreHorizontalIcon: ["more_horiz", false],
   SearchIcon: ["search", false],
   SettingsIcon: ["settings", false],
+  UploadIcon: ["upload_file", false],
 };
 
 async function main() {
