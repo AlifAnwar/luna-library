@@ -23,6 +23,7 @@ const icons = {
   CheckIcon: ["check", false],
   CheckCircleIcon: ["check_circle", true],
   ChevronDownIcon: ["keyboard_arrow_down", false],
+  ChevronLeftIcon: ["chevron_left", false],
   ChevronUpIcon: ["keyboard_arrow_up", false],
   DeleteIcon: ["delete", false],
   EditIcon: ["edit", false],
