@@ -96,6 +96,7 @@
   --color-success: var(--success);
   --color-success-subtle: var(--success-subtle);
   --color-success-border: var(--success-border);
+  --color-success-foreground: var(--success-foreground);
   --color-warning: var(--warning);
   --color-warning-subtle: var(--warning-subtle);
   --color-warning-border: var(--warning-border);
@@ -219,6 +220,7 @@
   --success: #168a6b;
   --success-subtle: #eafbf5;
   --success-border: #b8eddd;
+  --success-foreground: #ffffff;
   --warning: #b76e00;
   --warning-subtle: #fff7e6;
   --warning-border: #f7d99a;
