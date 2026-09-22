@@ -1,5 +1,6 @@
 export { default as AddIcon } from "./AddIcon";
 export { default as ArrowRightIcon } from "./ArrowRightIcon";
+export { default as BellIcon } from "./BellIcon";
 export { default as CalendarIcon } from "./CalendarIcon";
 export { default as CancelIcon } from "./CancelIcon";
 export { default as CheckCircleIcon } from "./CheckCircleIcon";
@@ -14,8 +15,10 @@ export { default as EditIcon } from "./EditIcon";
 export { default as EyeIcon } from "./EyeIcon";
 export { default as EyeOffIcon } from "./EyeOffIcon";
 export { default as FileIcon } from "./FileIcon";
+export { default as HomeIcon } from "./HomeIcon";
 export { default as InfoIcon } from "./InfoIcon";
 export { default as LoadingIcon } from "./LoadingIcon";
+export { default as MenuIcon } from "./MenuIcon";
 export { default as MinusIcon } from "./MinusIcon";
 export { default as MoreHorizontalIcon } from "./MoreHorizontalIcon";
 export { default as SearchIcon } from "./SearchIcon";

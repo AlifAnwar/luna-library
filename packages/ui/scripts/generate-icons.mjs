@@ -15,6 +15,7 @@ const outDir = path.join(__dirname, "../src/icons");
 const icons = {
   AddIcon: ["add", false],
   ArrowRightIcon: ["arrow_forward", false],
+  BellIcon: ["notifications", false],
   CalendarIcon: ["calendar_month", false],
   WarningIcon: ["warning", true],
   ChevronRightIcon: ["chevron_right", false],
@@ -30,8 +31,10 @@ const icons = {
   EyeIcon: ["visibility", false],
   EyeOffIcon: ["visibility_off", false],
   FileIcon: ["description", false],
+  HomeIcon: ["home", false],
   InfoIcon: ["info", true],
   LoadingIcon: ["progress_activity", false],
+  MenuIcon: ["menu", false],
   MinusIcon: ["remove", false],
   MoreHorizontalIcon: ["more_horiz", false],
   SearchIcon: ["search", false],
