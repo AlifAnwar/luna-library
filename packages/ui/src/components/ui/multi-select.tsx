@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
 import { cn } from "cn";
-import { CheckIcon, ChevronDownIcon, CloseIcon, SearchIcon } from "../../icons";
+import { CheckIcon, ChevronDownIcon, CloseIcon } from "../../icons";
 
 type MultiSelectOption = {
   value: string;
@@ -111,12 +111,12 @@ function MultiSelect({
                     key={item.value}
                     aria-label={item.label}
                     aria-description={removeDescription}
-                    className="flex h-6 max-w-full items-center gap-1 rounded-sm bg-muted px-2 text-label text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring/50 data-disabled:opacity-50"
+                    className="flex h-6 max-w-full items-center gap-1 rounded-sm border border-transparent bg-muted px-2 text-label text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 data-disabled:opacity-50"
                   >
                     <span className="truncate">{item.label}</span>
                     <ComboboxPrimitive.ChipRemove
                       aria-label={getRemoveLabel(item)}
-                      className="-mr-1 inline-flex size-5 shrink-0 items-center justify-center rounded-sm text-muted-foreground outline-none hover:bg-surface hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+                      className="-mr-1 inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-surface hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                     >
                       <CloseIcon className="size-3.5" aria-hidden="true" />
                     </ComboboxPrimitive.ChipRemove>
@@ -142,7 +142,7 @@ function MultiSelect({
         <ComboboxPrimitive.Trigger
           aria-label={triggerLabel}
           disabled={disabled}
-          className="inline-flex size-6 shrink-0 items-center justify-center rounded-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
+          className="inline-flex size-6 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <ComboboxPrimitive.Icon
             render={<ChevronDownIcon className="size-4" aria-hidden="true" />}
@@ -165,15 +165,11 @@ function MultiSelect({
               contentClassName,
             )}
           >
-            <div className="flex shrink-0 items-center gap-2 border-b border-border px-3">
-              <SearchIcon
-                className="size-4 shrink-0 text-muted-foreground"
-                aria-hidden="true"
-              />
-              <span className="py-2 text-body-sm text-muted-foreground">
-                {searchLabel}
-              </span>
-            </div>
+            {/*
+             * No search row here: unlike `SearchableSelect`, MultiSelect filters
+             * from the input in its own trigger, so a search-styled header in
+             * the popup would be a control that cannot be typed into.
+             */}
             <div className="min-h-0 overflow-y-auto p-1">
               <ComboboxPrimitive.Empty className="px-2 py-1.5 text-body text-muted-foreground">
                 {emptyText}

@@ -43,11 +43,18 @@ function useStepperItem(componentName: string) {
   return context;
 }
 
-type StepperProps = React.ComponentProps<"div"> & {
+type StepperProps = React.ComponentProps<"ol"> & {
   currentStep: number;
   orientation?: StepperOrientation;
 };
 
+/**
+ * Steps are an ordered sequence, so the stepper renders as `<ol>` and each
+ * `StepperItem` as `<li>`. That gives assistive technology the step count and
+ * each step's position for free. Tailwind's preflight strips list styling and
+ * the `flex` display below overrides `list-item`, so the visual result is
+ * unchanged.
+ */
 function Stepper({
   className,
   currentStep,
@@ -61,7 +68,7 @@ function Stepper({
 
   return (
     <StepperContext.Provider value={context}>
-      <div
+      <ol
         data-slot="stepper"
         data-orientation={orientation}
         className={cn(
@@ -77,7 +84,7 @@ function Stepper({
   );
 }
 
-type StepperItemProps = React.ComponentProps<"div"> & {
+type StepperItemProps = React.ComponentProps<"li"> & {
   step: number;
 };
 
@@ -96,7 +103,7 @@ function StepperItem({ className, step, ...props }: StepperItemProps) {
 
   return (
     <StepperItemContext.Provider value={itemContext}>
-      <div
+      <li
         data-slot="stepper-item"
         data-status={status}
         aria-current={status === "current" ? "step" : undefined}
@@ -200,10 +207,15 @@ function StepperDescription({
   );
 }
 
-type StepperSeparatorProps = React.ComponentProps<"div"> & {
+type StepperSeparatorProps = React.ComponentProps<"li"> & {
   step?: number;
 };
 
+/**
+ * Rendered as `<li>` because it sits between `StepperItem`s inside the `<ol>`,
+ * where a `<div>` would be invalid. It stays hidden from assistive technology,
+ * so it adds no entry to the announced step list.
+ */
 function StepperSeparator({
   className,
   step,
@@ -213,7 +225,7 @@ function StepperSeparator({
   const completed = step !== undefined && step < currentStep;
 
   return (
-    <div
+    <li
       data-slot="stepper-separator"
       data-completed={completed ? "" : undefined}
       role="presentation"

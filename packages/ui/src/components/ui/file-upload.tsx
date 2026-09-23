@@ -103,6 +103,8 @@ function FileUpload({
   const generatedId = React.useId();
   const inputId = id ?? generatedId;
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const rootRef = React.useRef<HTMLDivElement>(null);
+  const pendingFocusIndex = React.useRef<number | null>(null);
   const [internalFiles, setInternalFiles] = React.useState(defaultFiles);
   const [isDragging, setIsDragging] = React.useState(false);
   const selectedFiles = files ?? internalFiles;
@@ -118,6 +120,38 @@ function FileUpload({
     } catch {
       // Some browsers expose FileList as read-only. Callbacks remain canonical.
     }
+  }, [selectedFiles]);
+
+  /**
+   * Removing a file unmounts the control that was focused, which would
+   * otherwise drop focus to `<body>`. Move it somewhere deterministic instead:
+   * the remove control that took the removed one's place, else the one before
+   * it, else the browse trigger once the list is empty.
+   *
+   * Only ever runs for a removal, because `pendingFocusIndex` is set nowhere
+   * else and is cleared as soon as it is read. Adding files, dragging and
+   * re-renders driven by the consumer leave focus alone.
+   */
+  React.useEffect(() => {
+    const index = pendingFocusIndex.current;
+    if (index === null) return;
+
+    pendingFocusIndex.current = null;
+
+    const root = rootRef.current;
+    if (!root) return;
+
+    const removeButtons = root.querySelectorAll<HTMLButtonElement>(
+      '[data-slot="file-upload-remove"]',
+    );
+    const target =
+      removeButtons[index] ??
+      removeButtons[index - 1] ??
+      root.querySelector<HTMLButtonElement>(
+        '[data-slot="file-upload-trigger"]',
+      );
+
+    target?.focus();
   }, [selectedFiles]);
 
   function commitFiles(nextFiles: File[]) {
@@ -154,12 +188,29 @@ function FileUpload({
   }
 
   function removeFile(index: number) {
+    pendingFocusIndex.current = index;
     commitFiles(selectedFiles.filter((_, fileIndex) => fileIndex !== index));
     if (inputRef.current) inputRef.current.value = "";
   }
 
   return (
-    <div data-slot="file-upload" className={cn("space-y-3", className)}>
+    // `min-w-0` keeps the component shrinkable when a consumer drops it into a
+    // flex or grid layout: as a flex item it would otherwise inherit
+    // `min-width: auto`, letting a long file name set its floor and push
+    // siblings out of the row. It is inert in normal flow, where `min-width:
+    // auto` already computes to 0, so fixed-width containers are unaffected.
+    <div
+      ref={rootRef}
+      data-slot="file-upload"
+      className={cn("min-w-0 space-y-3", className)}
+    >
+      {/*
+       * The real file input stays in the DOM so forms, labels and assistive
+       * technology still see a file control, but it is taken out of the
+       * sequential focus order: it is visually hidden, so focusing it would
+       * strand keyboard users on an invisible stop. The visible Browse button
+       * below is the intended interaction surface and forwards the click.
+       */}
       <input
         {...inputProps}
         ref={inputRef}
@@ -169,6 +220,7 @@ function FileUpload({
         multiple={multiple}
         required={required}
         disabled={disabled}
+        tabIndex={-1}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
         aria-describedby={ariaDescribedBy}
@@ -223,6 +275,7 @@ function FileUpload({
         </div>
         <Button
           type="button"
+          data-slot="file-upload-trigger"
           size="sm"
           variant="outline"
           disabled={disabled}
@@ -258,9 +311,10 @@ function FileUpload({
               </div>
               <button
                 type="button"
+                data-slot="file-upload-remove"
                 aria-label={getRemoveLabel(file)}
                 disabled={disabled}
-                className="inline-flex size-7 shrink-0 items-center justify-center rounded-sm text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none"
+                className="inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
                 onClick={() => removeFile(index)}
               >
                 <CloseIcon className="size-4" aria-hidden="true" />

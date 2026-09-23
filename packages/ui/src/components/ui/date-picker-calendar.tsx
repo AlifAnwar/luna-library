@@ -54,17 +54,21 @@ function Calendar({
         caption_label: "text-body-sm font-semibold",
         nav: "absolute inset-x-3 top-3 flex items-center justify-between",
         button_previous:
-          "inline-flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex size-8 items-center justify-center rounded-md border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
         button_next:
-          "inline-flex size-8 items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex size-8 items-center justify-center rounded-md border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50",
         month_grid: "w-full border-collapse",
         weekdays: "flex",
         weekday:
           "flex size-8 items-center justify-center text-caption font-normal text-muted-foreground",
         week: "flex w-full",
         day: "relative size-8 p-0 text-center",
+        // Ring width only: `today` below sets this button's border colour via
+        // `[&>button]:border-primary`, and DayPicker's class names are not run
+        // through `cn`, so a `border-transparent` base here would compete with
+        // it on stylesheet order rather than merge.
         day_button:
-          "inline-flex size-8 items-center justify-center rounded-md text-body outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50",
+          "inline-flex size-8 items-center justify-center rounded-md text-body outline-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50",
         selected: isRangeMode
           ? undefined
           : "[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary-hover",
