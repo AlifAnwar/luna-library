@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { buttonVariants, cn } from "@withalif/luna";
+import { buttonVariants } from "@withalif/luna";
+import { cn } from "../../../packages/ui/src/lib/utils";
 
 /**
  * `cva` concatenates without resolving conflicts; Button merges the result

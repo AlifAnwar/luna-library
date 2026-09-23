@@ -28,6 +28,9 @@ build
 dist
 storybook-static/
 /documentation
+/.agents
+/.aider-desk
+/.claude
 
 
 # Debug

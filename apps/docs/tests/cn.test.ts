@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { cn } from "@withalif/luna";
+import { cn } from "../../../packages/ui/src/lib/utils";
 
 /**
  * The merge engine resolves conflicts per class group, and `text-*` spans both
