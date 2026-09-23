@@ -1,9 +1,29 @@
 import * as React from "react";
 
 import { cn } from "../../lib/utils";
+import { Checkbox } from "./checkbox";
 import { Skeleton } from "./skeleton";
 
 type DataTableAlign = "start" | "center" | "end";
+
+/**
+ * The direction a column is currently sorted in. `undefined` is the unsorted
+ * state — Luna never sorts data, so this only describes what the consumer has
+ * already applied upstream.
+ */
+type DataTableSortDirection = "asc" | "desc";
+
+const ariaSortValues = {
+  asc: "ascending",
+  desc: "descending",
+} as const;
+
+/**
+ * The ids of the selected rows, as `getRowId` produces them, stringified. The
+ * consuming application owns this list: Luna reads it to draw the checkboxes
+ * and reports every toggle back, but never edits it itself.
+ */
+type DataTableSelectionState = readonly string[];
 
 const alignClasses: Record<DataTableAlign, string> = {
   start: "text-start",
@@ -31,6 +51,18 @@ type DataTableColumn<TData> = {
    * for the one column that identifies the record.
    */
   rowHeader?: boolean;
+  /**
+   * Announces the column as sortable, which renders `aria-sort` on the header
+   * cell. It is an ARIA hint only: the sorting itself, and the control that
+   * triggers it, stay with the consumer — pair it with `DataTableColumnHeader`
+   * in `header`.
+   */
+  sortable?: boolean;
+  /**
+   * The direction this column is sorted in, mirrored into `aria-sort`. Only
+   * read when `sortable` is true.
+   */
+  sortDirection?: DataTableSortDirection;
   /** Suggested column width, passed through to the header cell. */
   width?: string | number;
   headerClassName?: string;
@@ -162,7 +194,7 @@ function DataTableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="data-table-row"
       className={cn(
-        "border-b border-border-subtle transition-colors duration-150 hover:bg-muted/50",
+        "border-b border-border-subtle transition-colors duration-150 hover:bg-muted/50 data-selected:bg-primary-subtle data-selected:hover:bg-primary-subtle",
         className,
       )}
       {...props}
@@ -295,6 +327,31 @@ type DataTableProps<TData> = Omit<React.ComponentProps<"table">, "children"> & {
   containerClassName?: string;
   /** Called per row to add row-level classes, e.g. a status tint. */
   rowClassName?: (row: TData, index: number) => string | undefined;
+  /**
+   * The currently selected row ids. Passing this together with
+   * `onSelectionChange` adds the selection column, which is structural: it is
+   * not one of `columns`, so column-visibility controls cannot hide it.
+   */
+  selectedRowIds?: DataTableSelectionState;
+  /**
+   * Receives the next selection as a new array. Luna only ever reports intent —
+   * what a selection means, and how long it lives, stays with the consumer.
+   */
+  onSelectionChange?: (selectedRowIds: string[]) => void;
+  /**
+   * Rows this returns `false` for get a disabled checkbox and are left out of
+   * select-all and of the select-all state.
+   */
+  isRowSelectable?: (row: TData, index: number) => boolean;
+  /**
+   * Names a row's checkbox. Without it the name is built from the row-header
+   * column when there is one, and falls back to the row's position.
+   */
+  getRowSelectionLabel?: (row: TData, index: number) => string;
+  /** Accessible name for the select-all checkbox. */
+  selectAllLabel?: string;
+  /** Leading half of a generated row-checkbox name, e.g. "Select row" + name. */
+  selectRowLabel?: string;
 };
 
 function defaultGetRowId<TData>(row: TData, index: number): React.Key {
@@ -329,12 +386,74 @@ function DataTable<TData>({
   className,
   containerClassName,
   rowClassName,
+  selectedRowIds,
+  onSelectionChange,
+  isRowSelectable,
+  getRowSelectionLabel,
+  selectAllLabel = "Select all rows on this page",
+  selectRowLabel = "Select row",
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
   ...props
 }: DataTableProps<TData>) {
   const captionId = React.useId();
+  const selectRowLabelId = React.useId();
+  const rowHeaderIdPrefix = React.useId();
   const isEmpty = !loading && data.length === 0;
+
+  // Selection needs both halves to work, so a missing callback leaves the
+  // column out entirely rather than rendering checkboxes that do nothing.
+  const selectable =
+    selectedRowIds !== undefined && onSelectionChange !== undefined;
+  const hasRowHeader = columns.some((column) => column.rowHeader);
+  const selectedIds = new Set(selectedRowIds ?? []);
+
+  // Only the rows on screen take part in select-all. Rows a filter or another
+  // page is hiding stay exactly as the consumer left them.
+  const selectableIds =
+    selectable && !loading
+      ? data.flatMap((row, index) =>
+          (isRowSelectable?.(row, index) ?? true)
+            ? [String(getRowId(row, index))]
+            : [],
+        )
+      : [];
+  const selectedVisibleCount = selectableIds.filter((id) =>
+    selectedIds.has(id),
+  ).length;
+  const allVisibleSelected =
+    selectableIds.length > 0 && selectedVisibleCount === selectableIds.length;
+  const someVisibleSelected = selectedVisibleCount > 0 && !allVisibleSelected;
+
+  function toggleRow(id: string, checked: boolean) {
+    const current = selectedRowIds ?? [];
+
+    onSelectionChange?.(
+      checked
+        ? current.includes(id)
+          ? [...current]
+          : [...current, id]
+        : current.filter((value) => value !== id),
+    );
+  }
+
+  function toggleAllVisible(checked: boolean) {
+    const current = selectedRowIds ?? [];
+
+    if (!checked) {
+      const visible = new Set(selectableIds);
+
+      onSelectionChange?.(current.filter((id) => !visible.has(id)));
+      return;
+    }
+
+    // Append only what is missing, so the order the consumer already has is
+    // left alone.
+    onSelectionChange?.([
+      ...current,
+      ...selectableIds.filter((id) => !selectedIds.has(id)),
+    ]);
+  }
 
   // The container needs its own name to be worth exposing as a region. Prefer
   // the caption, which is already the table's name, and otherwise reuse
@@ -357,6 +476,16 @@ function DataTable<TData>({
         {loading ? loadingLabel : ""}
       </div>
 
+      {/*
+       * Rendered once and referenced by every row checkbox, so each one reads
+       * as "Select row, <the row's own heading>" without repeating the text.
+       */}
+      {selectable && !getRowSelectionLabel && hasRowHeader ? (
+        <span id={selectRowLabelId} className="sr-only">
+          {selectRowLabel}
+        </span>
+      ) : null}
+
       <DataTableContainer className={containerClassName} {...containerLabel}>
         <DataTableRoot
           aria-busy={loading || undefined}
@@ -376,10 +505,28 @@ function DataTable<TData>({
 
           <DataTableHeader>
             <DataTableRow className="hover:bg-transparent">
+              {selectable ? (
+                <DataTableHead align="center" className="w-px">
+                  <Checkbox
+                    checked={allVisibleSelected}
+                    indeterminate={someVisibleSelected}
+                    disabled={selectableIds.length === 0}
+                    aria-label={selectAllLabel}
+                    onCheckedChange={toggleAllVisible}
+                  />
+                </DataTableHead>
+              ) : null}
               {columns.map((column) => (
                 <DataTableHead
                   key={column.id}
                   align={column.align}
+                  aria-sort={
+                    column.sortable
+                      ? (column.sortDirection &&
+                          ariaSortValues[column.sortDirection]) ||
+                        "none"
+                      : undefined
+                  }
                   className={column.headerClassName}
                   style={column.width ? { width: column.width } : undefined}
                 >
@@ -396,6 +543,11 @@ function DataTable<TData>({
                     key={`data-table-skeleton-${rowIndex}`}
                     className="hover:bg-transparent"
                   >
+                    {selectable ? (
+                      <DataTableCell align="center" className="w-px">
+                        <Skeleton className="size-4 rounded-sm" />
+                      </DataTableCell>
+                    ) : null}
                     {columns.map((column) => (
                       <DataTableCell key={column.id} align={column.align}>
                         <Skeleton className="h-4 w-full max-w-40" />
@@ -413,43 +565,74 @@ function DataTable<TData>({
                       className="hover:bg-transparent"
                     >
                       <DataTableCell
-                        colSpan={columns.length || 1}
+                        colSpan={columns.length + (selectable ? 1 : 0) || 1}
                         className="h-auto p-0"
                       >
                         {emptyState ?? <DataTableEmptyState />}
                       </DataTableCell>
                     </DataTableRow>,
                   ]
-                : data.map((row, rowIndex) => (
-                    <DataTableRow
-                      key={getRowId(row, rowIndex)}
-                      className={rowClassName?.(row, rowIndex)}
-                    >
-                      {columns.map((column) =>
-                        column.rowHeader ? (
-                          <DataTableHead
-                            key={column.id}
-                            scope="row"
-                            align={column.align}
-                            className={cn(
-                              "font-normal text-foreground",
-                              column.cellClassName,
-                            )}
-                          >
-                            {column.cell(row, rowIndex)}
-                          </DataTableHead>
-                        ) : (
-                          <DataTableCell
-                            key={column.id}
-                            align={column.align}
-                            className={column.cellClassName}
-                          >
-                            {column.cell(row, rowIndex)}
+                : data.map((row, rowIndex) => {
+                    const rowId = String(getRowId(row, rowIndex));
+                    const isSelected = selectable && selectedIds.has(rowId);
+                    const isSelectable =
+                      isRowSelectable?.(row, rowIndex) ?? true;
+                    const explicitLabel = getRowSelectionLabel?.(row, rowIndex);
+                    const rowHeaderId = `${rowHeaderIdPrefix}-${rowIndex}`;
+
+                    return (
+                      <DataTableRow
+                        key={getRowId(row, rowIndex)}
+                        data-selected={isSelected ? "" : undefined}
+                        className={rowClassName?.(row, rowIndex)}
+                      >
+                        {selectable ? (
+                          <DataTableCell align="center" className="w-px">
+                            <Checkbox
+                              checked={isSelected}
+                              disabled={!isSelectable}
+                              onCheckedChange={(checked) => {
+                                toggleRow(rowId, checked);
+                              }}
+                              {...(explicitLabel
+                                ? { "aria-label": explicitLabel }
+                                : hasRowHeader
+                                  ? {
+                                      "aria-labelledby": `${selectRowLabelId} ${rowHeaderId}`,
+                                    }
+                                  : {
+                                      "aria-label": `${selectRowLabel} ${rowIndex + 1}`,
+                                    })}
+                            />
                           </DataTableCell>
-                        ),
-                      )}
-                    </DataTableRow>
-                  ))}
+                        ) : null}
+                        {columns.map((column) =>
+                          column.rowHeader ? (
+                            <DataTableHead
+                              key={column.id}
+                              id={rowHeaderId}
+                              scope="row"
+                              align={column.align}
+                              className={cn(
+                                "font-normal text-foreground",
+                                column.cellClassName,
+                              )}
+                            >
+                              {column.cell(row, rowIndex)}
+                            </DataTableHead>
+                          ) : (
+                            <DataTableCell
+                              key={column.id}
+                              align={column.align}
+                              className={column.cellClassName}
+                            >
+                              {column.cell(row, rowIndex)}
+                            </DataTableCell>
+                          ),
+                        )}
+                      </DataTableRow>
+                    );
+                  })}
           </DataTableBody>
         </DataTableRoot>
       </DataTableContainer>
@@ -477,4 +660,6 @@ export type {
   DataTableEmptyStateProps,
   DataTableHeadProps,
   DataTableProps,
+  DataTableSelectionState,
+  DataTableSortDirection,
 };

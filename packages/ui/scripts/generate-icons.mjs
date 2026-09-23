@@ -20,6 +20,7 @@ const icons = {
   WarningIcon: ["warning", true],
   ChevronRightIcon: ["chevron_right", false],
   CloseIcon: ["close", false],
+  ColumnsIcon: ["view_column", false],
   CancelIcon: ["cancel", true],
   CheckIcon: ["check", false],
   CheckCircleIcon: ["check_circle", true],
@@ -31,7 +32,9 @@ const icons = {
   EyeIcon: ["visibility", false],
   EyeOffIcon: ["visibility_off", false],
   FileIcon: ["description", false],
+  FirstPageIcon: ["first_page", false],
   HomeIcon: ["home", false],
+  LastPageIcon: ["last_page", false],
   InfoIcon: ["info", true],
   LoadingIcon: ["progress_activity", false],
   MenuIcon: ["menu", false],
@@ -39,6 +42,7 @@ const icons = {
   MoreHorizontalIcon: ["more_horiz", false],
   SearchIcon: ["search", false],
   SettingsIcon: ["settings", false],
+  UnfoldMoreIcon: ["unfold_more", false],
   UploadIcon: ["upload_file", false],
 };
 
