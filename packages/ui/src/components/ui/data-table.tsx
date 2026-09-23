@@ -5,6 +5,18 @@ import { Skeleton } from "./skeleton";
 
 type DataTableAlign = "start" | "center" | "end";
 
+/**
+ * The direction a column is currently sorted in. `undefined` is the unsorted
+ * state — Luna never sorts data, so this only describes what the consumer has
+ * already applied upstream.
+ */
+type DataTableSortDirection = "asc" | "desc";
+
+const ariaSortValues = {
+  asc: "ascending",
+  desc: "descending",
+} as const;
+
 const alignClasses: Record<DataTableAlign, string> = {
   start: "text-start",
   center: "text-center",
@@ -31,6 +43,18 @@ type DataTableColumn<TData> = {
    * for the one column that identifies the record.
    */
   rowHeader?: boolean;
+  /**
+   * Announces the column as sortable, which renders `aria-sort` on the header
+   * cell. It is an ARIA hint only: the sorting itself, and the control that
+   * triggers it, stay with the consumer — pair it with `DataTableColumnHeader`
+   * in `header`.
+   */
+  sortable?: boolean;
+  /**
+   * The direction this column is sorted in, mirrored into `aria-sort`. Only
+   * read when `sortable` is true.
+   */
+  sortDirection?: DataTableSortDirection;
   /** Suggested column width, passed through to the header cell. */
   width?: string | number;
   headerClassName?: string;
@@ -380,6 +404,13 @@ function DataTable<TData>({
                 <DataTableHead
                   key={column.id}
                   align={column.align}
+                  aria-sort={
+                    column.sortable
+                      ? (column.sortDirection &&
+                          ariaSortValues[column.sortDirection]) ||
+                        "none"
+                      : undefined
+                  }
                   className={column.headerClassName}
                   style={column.width ? { width: column.width } : undefined}
                 >
@@ -477,4 +508,5 @@ export type {
   DataTableEmptyStateProps,
   DataTableHeadProps,
   DataTableProps,
+  DataTableSortDirection,
 };
