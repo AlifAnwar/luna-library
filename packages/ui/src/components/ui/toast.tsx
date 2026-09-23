@@ -1,6 +1,5 @@
 import { Toast as ToastPrimitive } from "@base-ui/react/toast";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cn";
 
 import {
   CancelIcon,
@@ -9,6 +8,7 @@ import {
   InfoIcon,
   WarningIcon,
 } from "../../icons";
+import { cn } from "../../lib/utils";
 
 const ToastProvider = ToastPrimitive.Provider;
 const useToast = ToastPrimitive.useToastManager;

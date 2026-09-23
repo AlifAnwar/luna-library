@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import type { DateRange } from "@daypicker/react";
-import { cn } from "cn";
 import { CalendarIcon, ChevronDownIcon, CloseIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import {
   Calendar,

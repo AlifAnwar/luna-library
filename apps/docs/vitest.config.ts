@@ -1,28 +1,40 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
 
-import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
-import { playwright } from '@vitest/browser-playwright';
+import { playwright } from "@vitest/browser-playwright";
 
 const dirname =
-  typeof __dirname !== 'undefined' ? __dirname : path.dirname(fileURLToPath(import.meta.url));
+  typeof __dirname !== "undefined"
+    ? __dirname
+    : path.dirname(fileURLToPath(import.meta.url));
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   test: {
     projects: [
       {
+        // Plain unit tests for the library's non-visual surface, exercised
+        // through its public entry point. Component behaviour is tested through
+        // the stories in the `storybook` project below.
+        test: {
+          name: "unit",
+          include: ["tests/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
         extends: true,
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
-          storybookTest({ configDir: path.join(dirname, '.storybook') }),
+          storybookTest({ configDir: path.join(dirname, ".storybook") }),
         ],
         test: {
-          name: 'storybook',
+          name: "storybook",
           browser: {
             enabled: true,
             headless: true,
@@ -39,7 +51,7 @@ export default defineConfig({
             // from a story file breaks that file's module resolution under
             // Storybook's builder.
             viewport: { width: 1280, height: 800 },
-            instances: [{ browser: 'chromium' }],
+            instances: [{ browser: "chromium" }],
           },
         },
       },

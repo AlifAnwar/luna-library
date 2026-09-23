@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "cn";
 import { CloseIcon, FileIcon, UploadIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
 
 type FileUploadRejectionReason =

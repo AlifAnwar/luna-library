@@ -1,7 +1,7 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cn";
 import { LoadingIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 
 const buttonVariants = cva(
   "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding text-body font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:opacity-50 data-loading:disabled:opacity-100 disabled:pointer-events-none aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4.5",
@@ -64,9 +64,7 @@ function Button({
       aria-busy={loading || undefined}
       {...props}
     >
-      {loading && (
-        <LoadingIcon className="animate-spin" aria-hidden="true" />
-      )}
+      {loading && <LoadingIcon className="animate-spin" aria-hidden="true" />}
       {children}
     </ButtonPrimitive>
   );

@@ -1,3 +1,4 @@
+export * from "./lib/utils"
 export * from "./icons"
 export * from "./components/ui/alert"
 export * from "./components/ui/avatar"

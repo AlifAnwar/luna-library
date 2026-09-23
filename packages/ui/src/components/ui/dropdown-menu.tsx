@@ -1,7 +1,7 @@
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
-import { cn } from "cn";
 
 import { CheckIcon, ChevronRightIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 
 const DropdownMenu = MenuPrimitive.Root;
 const DropdownMenuSub = MenuPrimitive.SubmenuRoot;

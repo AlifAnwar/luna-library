@@ -1,18 +1,7 @@
 import * as React from "react";
-import { cn } from "cn";
 
+import { cn } from "../../lib/utils";
 import { Skeleton } from "./skeleton";
-
-/*
- * A note on where the type sizes live.
- *
- * `cn` cannot tell Luna's named text *sizes* (`text-body`, `text-label`, …)
- * apart from text *colors* (`text-muted-foreground`, …), so when both appear in
- * one class string it drops the first and keeps the last. Every element below
- * therefore carries at most one of the two: the size sits on the nearest
- * ancestor that owns no text color — `text-body` on the table, `text-label` on
- * the header — and the cells inherit it while setting their own color.
- */
 
 type DataTableAlign = "start" | "center" | "end";
 
@@ -120,7 +109,10 @@ function DataTableRoot({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <table
       data-slot="data-table"
-      className={cn("w-full caption-top border-collapse text-body", className)}
+      className={cn(
+        "w-full caption-top border-collapse text-body text-foreground",
+        className,
+      )}
       {...props}
     />
   );
@@ -134,7 +126,7 @@ function DataTableCaption({
     <caption
       data-slot="data-table-caption"
       className={cn(
-        "border-b border-border-subtle px-3 py-2 text-start text-muted-foreground",
+        "border-b border-border-subtle px-3 py-2 text-start text-body-sm text-muted-foreground",
         className,
       )}
       {...props}
@@ -149,10 +141,7 @@ function DataTableHeader({
   return (
     <thead
       data-slot="data-table-header"
-      className={cn(
-        "border-b border-border bg-surface-subtle text-label",
-        className,
-      )}
+      className={cn("border-b border-border bg-surface-subtle", className)}
       {...props}
     />
   );
@@ -199,7 +188,7 @@ function DataTableHead({
       data-slot="data-table-head"
       scope={scope}
       className={cn(
-        "h-table-row px-3 align-middle font-medium whitespace-nowrap text-foreground-secondary",
+        "h-table-row px-3 align-middle text-label font-medium whitespace-nowrap text-foreground-secondary",
         alignClasses[align],
         className,
       )}
@@ -221,7 +210,7 @@ function DataTableCell({
     <td
       data-slot="data-table-cell"
       className={cn(
-        "h-table-row px-3 py-2 align-middle",
+        "h-table-row px-3 py-2 align-middle text-body text-foreground",
         alignClasses[align],
         className,
       )}
@@ -266,9 +255,13 @@ function DataTableEmptyState({
           {icon}
         </span>
       ) : null}
-      {title ? <p className="font-medium text-foreground">{title}</p> : null}
+      {title ? (
+        <p className="text-body font-medium text-foreground">{title}</p>
+      ) : null}
       {description ? (
-        <p className="max-w-prose text-muted-foreground">{description}</p>
+        <p className="max-w-prose text-body text-muted-foreground">
+          {description}
+        </p>
       ) : null}
       {children ? <div className="mt-3">{children}</div> : null}
     </div>
