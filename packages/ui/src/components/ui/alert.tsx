@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "cn";
 import { CloseIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 
 const alertVariants = cva(
   "relative flex w-full items-start gap-3 rounded-xl border p-4 text-body [&>svg]:size-4 [&>svg]:shrink-0",

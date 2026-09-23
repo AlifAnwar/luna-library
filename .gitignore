@@ -28,6 +28,9 @@ build
 dist
 storybook-static/
 /documentation
+/.agents
+/.aider-desk
+/.claude
 
 
 # Debug
@@ -38,3 +41,9 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+
+# Local AI tooling
+.agents/
+.aider-desk/
+.claude/
+skills-lock.json

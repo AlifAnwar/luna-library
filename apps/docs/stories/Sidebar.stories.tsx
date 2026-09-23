@@ -1,10 +1,14 @@
+import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 import {
   BellIcon,
   CheckCircleIcon,
   ChevronLeftIcon,
   FileIcon,
   HomeIcon,
+  Input,
+  Label,
   SearchIcon,
   SettingsIcon,
   Sidebar,
@@ -77,20 +81,36 @@ function AppUser() {
   );
 }
 
-function AppContent({ title }: { title: string }) {
+function AppContent({
+  title,
+  children,
+  /**
+   * Keep the trigger visible on desktop too. An `offcanvas` sidebar collapses
+   * to zero width and its own contents become inert, so the control that
+   * reopens it has to live outside the sidebar.
+   */
+  persistentTrigger = false,
+}: {
+  title: string;
+  children?: ReactNode;
+  persistentTrigger?: boolean;
+}) {
   return (
     <>
       <header className="flex h-14 shrink-0 items-center gap-2 border-b border-border px-4">
-        <SidebarTrigger className="md:hidden" />
+        <SidebarTrigger
+          className={persistentTrigger ? undefined : "md:hidden"}
+          label="Toggle sidebar"
+        />
         <span className="text-body font-medium text-foreground">{title}</span>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-6">
         <p className="text-body text-muted-foreground">
           Main application content renders here, alongside the sidebar. On
           mobile, use the trigger button in this header to open the drawer; on
-          desktop, use the collapse control inside the sidebar itself (or
-          Cmd/Ctrl+B).
+          desktop, use the collapse control inside the sidebar itself.
         </p>
+        {children}
       </div>
     </>
   );
@@ -103,10 +123,7 @@ export const Default: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]/sidebar:flex-col">
             <AppLogo />
-            <SidebarTrigger
-              className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex"
-              label="Collapse sidebar"
-            >
+            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>
@@ -163,6 +180,23 @@ export const Default: Story = {
       </SidebarInset>
     </SidebarProvider>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Collapse sidebar" }),
+    );
+    await expect(
+      canvas.getByRole("button", { name: "Expand sidebar" }),
+    ).toBeInTheDocument();
+
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Expand sidebar" }),
+    );
+    await expect(
+      canvas.getByRole("button", { name: "Collapse sidebar" }),
+    ).toBeInTheDocument();
+  },
 };
 
 export const WithNestedItems: Story = {
@@ -173,10 +207,7 @@ export const WithNestedItems: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]/sidebar:flex-col">
             <AppLogo />
-            <SidebarTrigger
-              className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex"
-              label="Collapse sidebar"
-            >
+            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>
@@ -256,10 +287,7 @@ export const TwoTierWithRail: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]/sidebar:flex-col">
             <AppLogo />
-            <SidebarTrigger
-              className="group-data-[collapsible=icon]/sidebar:rotate-180"
-              label="Collapse sidebar"
-            >
+            <SidebarTrigger className="group-data-[collapsible=icon]/sidebar:rotate-180">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>
@@ -297,4 +325,131 @@ export const TwoTierWithRail: Story = {
       </SidebarInset>
     </SidebarProvider>
   ),
+};
+
+export const OffcanvasCollapse: Story = {
+  name: "Off-canvas collapse (focus + opt-in shortcut)",
+  // Requires a viewport above Luna's `md` breakpoint: below it the provider
+  // swaps the desktop sidebar for the mobile Sheet, so there is no collapsed
+  // region to assert on. The Vitest runner's viewport is set in
+  // `vitest.config.ts`.
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "The default `offcanvas` collapse hides the sidebar by animating its " +
+          "width to zero. Collapse it with the header control, then press Tab " +
+          "from the main content: focus moves straight through to the page, " +
+          "because the collapsed region is marked `inert` rather than merely " +
+          'clipped. The active item carries `aria-current="page"`, and the ' +
+          "navigation region is a `<nav>` landmark while the header and footer " +
+          "stay outside it.\n\n" +
+          "This story also opts into the Cmd/Ctrl+B toggle via " +
+          "`keyboardShortcut`. It is off by default so Luna never claims the " +
+          "keystroke from a consuming app, and even when enabled it stands " +
+          "down while you are typing — try it from inside the field below.",
+      },
+    },
+  },
+  render: () => (
+    <SidebarProvider keyboardShortcut>
+      <Sidebar collapsible="offcanvas" mobileTitle="Workspace navigation">
+        <SidebarHeader>
+          <div className="flex items-center justify-between gap-2">
+            <AppLogo />
+            <SidebarTrigger className="hidden md:inline-flex">
+              <ChevronLeftIcon aria-hidden="true" />
+            </SidebarTrigger>
+          </div>
+        </SidebarHeader>
+        <SidebarSeparator />
+        <SidebarContent aria-label="Workspace">
+          <SidebarGroup>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton isActive>
+                    <CheckCircleIcon />
+                    <span>Overview</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <FileIcon />
+                    <span>Reports</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton>
+                    <SettingsIcon />
+                    <span>Team</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+        <SidebarSeparator />
+        <SidebarFooter>
+          <AppUser />
+        </SidebarFooter>
+      </Sidebar>
+      <SidebarInset>
+        <AppContent title="Overview" persistentTrigger>
+          <div className="flex max-w-sm flex-col gap-1.5">
+            <Label htmlFor="shortcut-probe">Shortcut stand-down check</Label>
+            <Input
+              id="shortcut-probe"
+              placeholder="Press Cmd/Ctrl+B while focused here"
+            />
+            <p className="text-body-sm text-muted-foreground">
+              The sidebar must not toggle while this field has focus.
+            </p>
+          </div>
+        </AppContent>
+      </SidebarInset>
+    </SidebarProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // The navigation landmark covers the menus only, and is named.
+    const nav = canvas.getByRole("navigation", { name: "Workspace" });
+    await expect(nav).toBeInTheDocument();
+
+    // The current page is exposed programmatically, not by colour alone.
+    const overview = canvas.getByRole("button", { name: "Overview" });
+    await expect(overview).toHaveAttribute("aria-current", "page");
+    await expect(
+      canvas.getByRole("button", { name: "Reports" }),
+    ).not.toHaveAttribute("aria-current");
+
+    // Collapsing off-canvas takes the whole sidebar out of the focus order.
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Collapse sidebar" }),
+    );
+
+    const wrapper = canvasElement.querySelector(
+      '[data-slot="sidebar-content-wrapper"]',
+    );
+    await waitFor(() => expect(wrapper).toHaveAttribute("inert"));
+
+    // Tabbing from the main content must never land inside the hidden sidebar.
+    const toggle = canvas.getAllByRole("button", { name: "Toggle sidebar" })[0];
+    toggle?.focus();
+    await userEvent.tab();
+    await expect(wrapper?.contains(document.activeElement)).toBe(false);
+
+    // The shortcut is opted into here, but stands down while typing.
+    const field = canvas.getByLabelText("Shortcut stand-down check");
+    await userEvent.click(field);
+    await userEvent.keyboard("{Control>}b{/Control}");
+    await expect(wrapper).toHaveAttribute("inert");
+
+    // Outside an editing context it toggles, reopening the sidebar.
+    toggle?.focus();
+    await userEvent.keyboard("{Control>}b{/Control}");
+    await waitFor(() => expect(wrapper).not.toHaveAttribute("inert"));
+  },
 };

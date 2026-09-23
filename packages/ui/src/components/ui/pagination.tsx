@@ -1,11 +1,11 @@
 import * as React from "react";
-import { cn } from "cn";
 
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "../../icons";
+import { cn } from "../../lib/utils";
 import { buttonVariants, type ButtonProps } from "./button";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
@@ -113,7 +113,6 @@ function PaginationEllipsis({
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
     </span>
   );
 }

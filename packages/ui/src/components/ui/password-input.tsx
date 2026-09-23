@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "cn";
 
 import { EyeIcon, EyeOffIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 import { Input } from "./input";
 
 type PasswordInputProps = Omit<React.ComponentProps<"input">, "type">;

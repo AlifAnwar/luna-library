@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import type { DateRange } from "@daypicker/react";
-import { cn } from "cn";
 import { CalendarIcon, ChevronDownIcon, CloseIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 import { Button } from "./button";
 import {
   Calendar,
@@ -144,7 +144,7 @@ function DateRangePicker({
             {displayValue}
           </span>
           <ChevronDownIcon
-            className="absolute right-2 size-4 shrink-0 text-muted-foreground transition-transform group-aria-expanded/button:rotate-180"
+            className="absolute right-2 size-4 shrink-0 text-muted-foreground transition-transform motion-reduce:transition-none group-aria-expanded/button:rotate-180"
             aria-hidden="true"
           />
         </PopoverTrigger>
@@ -153,7 +153,7 @@ function DateRangePicker({
             type="button"
             aria-label={clearLabel}
             disabled={disabled}
-            className="absolute top-1/2 right-8 z-10 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
+            className="absolute top-1/2 right-8 z-10 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
             onClick={() => {
               onValueChange(undefined);
               setOpen(false);

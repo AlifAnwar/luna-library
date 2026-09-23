@@ -1,7 +1,7 @@
 import * as React from "react";
-import { cn } from "cn";
 
 import { ChevronRightIcon, MoreHorizontalIcon } from "../../icons";
+import { cn } from "../../lib/utils";
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav data-slot="breadcrumb" aria-label="breadcrumb" {...props} />;
@@ -84,7 +84,6 @@ function BreadcrumbEllipsis({
       {...props}
     >
       <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More</span>
     </span>
   );
 }
