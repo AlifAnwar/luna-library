@@ -9,6 +9,7 @@ export * from "./components/ui/checkbox";
 export * from "./components/ui/combobox";
 export * from "./components/ui/command";
 export * from "./components/ui/data-table";
+export * from "./components/ui/data-table-bulk-actions";
 export * from "./components/ui/data-table-column-header";
 export * from "./components/ui/data-table-filter";
 export * from "./components/ui/data-table-pagination";
