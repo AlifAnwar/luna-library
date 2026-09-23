@@ -12,6 +12,7 @@ export { default as ChevronUpIcon } from "./ChevronUpIcon";
 export { default as CloseIcon } from "./CloseIcon";
 export { default as ColumnsIcon } from "./ColumnsIcon";
 export { default as DeleteIcon } from "./DeleteIcon";
+export { default as DownloadIcon } from "./DownloadIcon";
 export { default as EditIcon } from "./EditIcon";
 export { default as EyeIcon } from "./EyeIcon";
 export { default as EyeOffIcon } from "./EyeOffIcon";

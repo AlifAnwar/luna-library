@@ -28,6 +28,7 @@ const icons = {
   ChevronLeftIcon: ["chevron_left", false],
   ChevronUpIcon: ["keyboard_arrow_up", false],
   DeleteIcon: ["delete", false],
+  DownloadIcon: ["download", false],
   EditIcon: ["edit", false],
   EyeIcon: ["visibility", false],
   EyeOffIcon: ["visibility_off", false],
