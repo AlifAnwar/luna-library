@@ -672,6 +672,7 @@ type SidebarRailItemProps = React.ComponentProps<"button"> & {
 };
 
 function SidebarRailItem({
+  "aria-label": ariaLabel,
   className,
   isActive = false,
   tooltip,
@@ -684,6 +685,9 @@ function SidebarRailItem({
       data-slot="sidebar-rail-item"
       data-active={isActive || undefined}
       aria-current={isActive ? "page" : undefined}
+      aria-label={
+        ariaLabel ?? (typeof tooltip === "string" ? tooltip : undefined)
+      }
       className={cn(sidebarRailItemClassName, className)}
       {...props}
     />

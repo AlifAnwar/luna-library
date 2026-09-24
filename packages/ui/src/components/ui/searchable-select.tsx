@@ -78,7 +78,7 @@ function SearchableSelect({
           triggerClassName,
         )}
       >
-        <span className="min-w-0 flex-1 truncate text-left">
+        <span className="min-w-0 flex-1 truncate text-start">
           <ComboboxPrimitive.Value placeholder={placeholder} />
         </span>
         <ComboboxPrimitive.Icon
@@ -121,16 +121,16 @@ function SearchableSelect({
               <ComboboxPrimitive.Empty className="px-2 py-1.5 text-body text-muted-foreground">
                 {emptyText}
               </ComboboxPrimitive.Empty>
-              <ComboboxPrimitive.List>
+              <ComboboxPrimitive.List aria-label={`${ariaLabel} options`}>
                 {(item: SearchableSelectOption) => (
                   <ComboboxPrimitive.Item
                     key={item.value}
                     value={item.value}
                     disabled={item.disabled}
-                    className="relative flex min-h-control-sm w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-body outline-hidden hover:bg-muted data-highlighted:bg-muted data-selected:bg-primary-subtle data-selected:text-primary-active data-disabled:pointer-events-none data-disabled:opacity-50"
+                    className="relative flex min-h-control-sm w-full cursor-default items-center gap-2 rounded-sm py-1.5 pe-8 ps-2 text-body outline-hidden hover:bg-muted data-highlighted:bg-muted data-selected:bg-primary-subtle data-selected:text-primary-active data-disabled:pointer-events-none data-disabled:opacity-50"
                   >
                     <span className="flex-1 truncate">{item.label}</span>
-                    <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
+                    <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute end-2 flex size-4 items-center justify-center">
                       <CheckIcon className="size-4" aria-hidden="true" />
                     </ComboboxPrimitive.ItemIndicator>
                   </ComboboxPrimitive.Item>

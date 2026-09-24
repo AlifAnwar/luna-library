@@ -75,6 +75,9 @@ export const Default: Story = {
     await waitFor(() =>
       expect(trigger).toHaveAttribute("aria-expanded", "false"),
     );
+    await waitFor(() =>
+      expect(page.queryByRole("grid")).not.toBeInTheDocument(),
+    );
     await expect(trigger).toHaveTextContent("15 – 20 Sep 26");
   },
 };

@@ -89,21 +89,6 @@ const statusOptions: DataTableFilterOption[] = [
   { label: "Archived", value: "archived" },
 ];
 
-/**
- * Luna's `destructive` button variant renders #d94d55 on a 10% tint of itself,
- * which measures 3.5:1 — under the 4.5:1 AA floor for text this size, on any
- * background. That is the shared `--danger` token, not something this surface
- * introduces, and re-toning it touches every component that uses it. Until
- * that token is corrected the rule is switched off here, so these stories
- * still guard everything else.
- */
-const destructiveContrastKnownIssue = {
-  a11y: {
-    test: "error",
-    config: { rules: [{ id: "color-contrast", enabled: false }] },
-  },
-} as const;
-
 /** Archived members cannot be acted on in bulk, so they are not selectable. */
 const isRowSelectable = (member: Member) => member.status === "active";
 
@@ -355,7 +340,6 @@ function BulkActionsExample({
 }
 
 export const BulkActionsDefault: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExample />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -372,7 +356,6 @@ export const BulkActionsDefault: Story = {
 };
 
 export const BulkActionsDestructive: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExample initialSelection={["member-3"]} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -393,7 +376,6 @@ export const BulkActionsDestructive: Story = {
 };
 
 export const BulkActionsDisabled: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExample busy />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -408,7 +390,6 @@ export const BulkActionsDisabled: Story = {
 };
 
 export const BulkActionsHiddenWhenEmpty: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExample initialSelection={[]} />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -438,7 +419,6 @@ export const BulkActionsHiddenWhenEmpty: Story = {
 };
 
 export const BulkActionsAlwaysVisible: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExample initialSelection={[]} alwaysVisible />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -462,7 +442,7 @@ export const BulkActionsAlwaysVisible: Story = {
 };
 
 export const BulkActionsResponsive: Story = {
-  parameters: { ...destructiveContrastKnownIssue, layout: "fullscreen" },
+  parameters: { layout: "fullscreen" },
   render: () => (
     <div className="w-[320px] max-w-full p-4">
       <BulkActionsExample />

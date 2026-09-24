@@ -54,6 +54,9 @@ export const Default: Story = {
     await expect(
       page.getByRole("combobox", { name: "Office location" }),
     ).toHaveTextContent("Jakarta");
+    await waitFor(() =>
+      expect(page.queryByRole("listbox")).not.toBeInTheDocument(),
+    );
   },
 };
 

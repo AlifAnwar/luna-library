@@ -90,7 +90,6 @@ function DateRangePicker({
   "aria-describedby": ariaDescribedBy,
   "aria-invalid": ariaInvalid,
   "aria-labelledby": ariaLabelledBy,
-  "aria-required": ariaRequired,
   calendarProps,
   className,
   clearLabel = "Clear date range",
@@ -125,12 +124,11 @@ function DateRangePicker({
               aria-labelledby={ariaLabelledBy}
               aria-describedby={ariaDescribedBy}
               aria-invalid={ariaInvalid}
-              aria-required={ariaRequired ?? required}
               data-placeholder={!hasValue || undefined}
               disabled={disabled}
               className={cn(
-                "relative w-full justify-start px-3 pr-9 font-normal data-placeholder:text-muted-foreground",
-                hasValue && "pr-16",
+                "relative w-full justify-start px-3 pe-9 font-normal data-placeholder:text-muted-foreground",
+                hasValue && "pe-16",
                 className,
               )}
             />
@@ -140,11 +138,11 @@ function DateRangePicker({
             className="size-4 shrink-0 text-muted-foreground"
             aria-hidden="true"
           />
-          <span className="min-w-0 flex-1 truncate text-left">
+          <span className="min-w-0 flex-1 truncate text-start">
             {displayValue}
           </span>
           <ChevronDownIcon
-            className="absolute right-2 size-4 shrink-0 text-muted-foreground transition-transform motion-reduce:transition-none group-aria-expanded/button:rotate-180"
+            className="absolute end-2 size-4 shrink-0 text-muted-foreground transition-transform motion-reduce:transition-none group-aria-expanded/button:rotate-180"
             aria-hidden="true"
           />
         </PopoverTrigger>
@@ -153,7 +151,7 @@ function DateRangePicker({
             type="button"
             aria-label={clearLabel}
             disabled={disabled}
-            className="absolute top-1/2 right-8 z-10 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
+            className="absolute top-1/2 end-8 z-10 inline-flex size-7 -translate-y-1/2 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
             onClick={() => {
               onValueChange(undefined);
               setOpen(false);

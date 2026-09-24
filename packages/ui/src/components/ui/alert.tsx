@@ -68,9 +68,9 @@ function Alert({
           type="button"
           onClick={onClose}
           aria-label="Dismiss"
-          className="shrink-0 text-foreground-secondary transition-colors hover:text-foreground"
+          className="shrink-0 rounded-md p-1.5 text-foreground-secondary outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <CloseIcon className="size-4" />
+          <CloseIcon aria-hidden="true" className="size-4" />
         </button>
       ) : null}
     </div>

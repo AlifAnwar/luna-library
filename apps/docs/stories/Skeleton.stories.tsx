@@ -12,7 +12,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Text: Story = {
   render: () => (
-    <div className="grid w-64 gap-2" aria-label="Loading text">
+    <div className="grid w-64 gap-2" role="status">
+      <span className="sr-only">Loading text</span>
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-4 w-1/2" />
@@ -24,8 +25,9 @@ export const Card: Story = {
   render: () => (
     <div
       className="grid w-64 gap-3 rounded-lg border border-border bg-card p-4"
-      aria-label="Loading card"
+      role="status"
     >
+      <span className="sr-only">Loading card</span>
       <Skeleton className="h-5 w-1/2" />
       <Skeleton className="h-20 w-full" />
       <Skeleton className="h-4 w-3/4" />

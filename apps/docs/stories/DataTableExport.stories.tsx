@@ -6,6 +6,7 @@ import {
   Button,
   DataTable,
   DataTableBulkActions,
+  DataTableColumnHeader,
   DataTableExport,
   DataTableFilter,
   DataTablePagination,
@@ -17,6 +18,7 @@ import {
   type DataTableExportFormat,
   type DataTableExportRequest,
   type DataTableFilterOption,
+  type DataTableSortDirection,
 } from "@withalif/luna";
 
 type Member = {
@@ -514,18 +516,6 @@ export const ExportClassName: Story = {
 /* Composition                                                                */
 /* -------------------------------------------------------------------------- */
 
-/**
- * Luna's `destructive` button variant measures 3.5:1, under the AA floor —
- * the shared `--danger` token, tracked since Phase 3D. Switched off only on
- * the story that renders a destructive bulk action.
- */
-const destructiveContrastKnownIssue = {
-  a11y: {
-    test: "error",
-    config: { rules: [{ id: "color-contrast", enabled: false }] },
-  },
-} as const;
-
 function BulkActionsExportExample() {
   const [selectedIds, setSelectedIds] = React.useState([
     "member-1",
@@ -567,7 +557,6 @@ function BulkActionsExportExample() {
 }
 
 export const ExportInBulkActions: Story = {
-  parameters: destructiveContrastKnownIssue,
   render: () => <BulkActionsExportExample />,
   play: async ({ canvasElement }) => {
     const { canvas, page, open } = openExportMenu(canvasElement);
@@ -599,6 +588,8 @@ function FullExportExample({ pageSize = 4 }: { pageSize?: number }) {
     {},
   );
   const [page, setPage] = React.useState(1);
+  const [sortDirection, setSortDirection] =
+    React.useState<DataTableSortDirection>();
   const [exporting, setExporting] = React.useState(false);
   const [last, setLast] = React.useState<string>("none");
 
@@ -608,15 +599,39 @@ function FullExportExample({ pageSize = 4 }: { pageSize?: number }) {
       (!query || member.name.toLocaleLowerCase().includes(query)) &&
       (!status || member.status === status),
   );
-  const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const sorted = sortDirection
+    ? [...filtered].sort((left, right) => {
+        const result = left.name.localeCompare(right.name);
+        return sortDirection === "asc" ? result : -result;
+      })
+    : filtered;
+  const pageCount = Math.max(1, Math.ceil(sorted.length / pageSize));
   const currentPage = Math.min(page, pageCount);
-  const rows = filtered.slice(
+  const rows = sorted.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize,
   );
-  const columns = allColumns.filter(
-    (column) => visibility[column.id] !== false,
-  );
+  const columns = allColumns
+    .map((column): DataTableColumn<Member> =>
+      column.id === "name"
+        ? {
+            ...column,
+            header: (
+              <DataTableColumnHeader
+                title="Name"
+                sortDirection={sortDirection}
+                onSortChange={(direction) => {
+                  setSortDirection(direction);
+                  setPage(1);
+                }}
+              />
+            ),
+            sortable: true,
+            sortDirection,
+          }
+        : column,
+    )
+    .filter((column) => visibility[column.id] !== false);
 
   // Everything below is the consumer's: it decides that "current view" means
   // every filtered row, resolves the selection and would start the real job.
@@ -761,6 +776,70 @@ export const FullDataTableExport: Story = {
       "nobody",
     );
     await waitFor(() => expect(trigger).toBeDisabled());
+  },
+};
+
+/**
+ * The Phase 3 release path in one story. It deliberately crosses every
+ * controlled state boundary so regressions between otherwise-correct
+ * components are caught by the interaction runner.
+ */
+export const IntegratedFlow: Story = {
+  render: () => <FullExportExample pageSize={2} />,
+  play: async ({ canvasElement }) => {
+    const { canvas, page, open } = openExportMenu(canvasElement);
+
+    // Search → Filter
+    await userEvent.type(
+      canvas.getByRole("searchbox", { name: "Search members" }),
+      "a",
+    );
+    await userEvent.click(canvas.getByRole("button", { name: "Status" }));
+    await userEvent.click(page.getByRole("radio", { name: "Active" }));
+    await expect(
+      canvas.getByRole("button", { name: "Status: Active" }),
+    ).toBeVisible();
+
+    // Sorting → Column visibility
+    await userEvent.click(canvas.getByRole("button", { name: "Name" }));
+    await expect(
+      canvas.getByRole("columnheader", { name: /Name/ }),
+    ).toHaveAttribute("aria-sort", "ascending");
+    await expect(canvas.getAllByRole("row")[1]).toHaveTextContent(
+      "Amara Okafor",
+    );
+
+    await userEvent.click(canvas.getByRole("button", { name: "Columns" }));
+    await userEvent.click(page.getByRole("checkbox", { name: "Email" }));
+    await userEvent.keyboard("{Escape}");
+    await waitFor(() =>
+      expect(page.queryByRole("checkbox", { name: "Email" })).toBeNull(),
+    );
+    await expect(
+      canvas.queryByRole("columnheader", { name: "Email" }),
+    ).toBeNull();
+
+    // Pagination → Selection → Bulk actions
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Go to next page" }),
+    );
+    await expect(canvas.getByText("Page 2 of 2")).toBeVisible();
+    await userEvent.click(
+      canvas.getByRole("checkbox", { name: "Select row Luca Bianchi" }),
+    );
+    await expect(canvas.getByText("1 selected")).toBeVisible();
+
+    // Export the exact selection created after all upstream state changes.
+    await open();
+    await userEvent.click(
+      page.getByRole("menuitem", { name: "Export 1 selected row as Excel" }),
+    );
+    await waitFor(() =>
+      expect(page.queryByRole("menu")).not.toBeInTheDocument(),
+    );
+    await expect(canvas.getByTestId("last-export")).toHaveTextContent(
+      "Last export: excel / selected / 1 rows",
+    );
   },
 };
 

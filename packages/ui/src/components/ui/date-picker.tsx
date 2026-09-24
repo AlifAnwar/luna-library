@@ -37,7 +37,6 @@ function DatePicker({
   "aria-describedby": ariaDescribedBy,
   "aria-invalid": ariaInvalid,
   "aria-labelledby": ariaLabelledBy,
-  "aria-required": ariaRequired,
   calendarProps,
   className,
   contentClassName,
@@ -65,7 +64,6 @@ function DatePicker({
             aria-labelledby={ariaLabelledBy}
             aria-describedby={ariaDescribedBy}
             aria-invalid={ariaInvalid}
-            aria-required={ariaRequired ?? required}
             data-placeholder={!value || undefined}
             disabled={disabled}
             className={cn(
