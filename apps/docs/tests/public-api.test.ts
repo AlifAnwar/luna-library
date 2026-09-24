@@ -22,3 +22,13 @@ describe("Phase 3 public API", () => {
     expect(luna).not.toHaveProperty("cn");
   });
 });
+
+describe("Phase 4A public API", () => {
+  it.each(["KpiCard", "MetricCard", "TrendIndicator", "MetricComparison"])(
+    "exports %s from the package entry point",
+    (name) => {
+      expect(luna).toHaveProperty(name);
+      expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+    },
+  );
+});
