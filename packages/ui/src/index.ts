@@ -11,6 +11,7 @@ export * from "./components/ui/command";
 export * from "./components/ui/data-table";
 export * from "./components/ui/data-table-bulk-actions";
 export * from "./components/ui/data-table-column-header";
+export * from "./components/ui/data-table-export";
 export * from "./components/ui/data-table-filter";
 export * from "./components/ui/data-table-pagination";
 export * from "./components/ui/data-table-search";
