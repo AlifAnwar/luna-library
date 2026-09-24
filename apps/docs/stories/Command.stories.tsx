@@ -125,6 +125,12 @@ export const InDialog: Story = {
     await userEvent.click(
       within(dialog).getByRole("option", { name: /Open settings/ }),
     );
-    await waitFor(() => expect(dialog).not.toBeInTheDocument());
+    await waitFor(
+      () =>
+        expect(
+          page.queryByRole("dialog", { name: "Quick actions" }),
+        ).not.toBeInTheDocument(),
+      { timeout: 2000 },
+    );
   },
 };

@@ -196,8 +196,8 @@ function Command({
 
       <div
         id={listId}
-        role="listbox"
-        aria-label={resultsLabel}
+        role={visibleItems.length > 0 ? "listbox" : undefined}
+        aria-label={visibleItems.length > 0 ? resultsLabel : undefined}
         className={cn("max-h-72 overflow-y-auto p-1.5", listClassName)}
       >
         {visibleItems.length === 0 ? (
@@ -235,7 +235,7 @@ function Command({
                     aria-selected={isActive}
                     disabled={disabled || item.disabled}
                     tabIndex={-1}
-                    className="flex min-h-control-md w-full items-center gap-3 rounded-md px-2.5 py-2 text-left text-body outline-none aria-selected:bg-primary-subtle aria-selected:text-primary-active hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
+                    className="flex min-h-control-md w-full items-center gap-3 rounded-md px-2.5 py-2 text-start text-body outline-none aria-selected:bg-primary-subtle aria-selected:text-primary-active hover:bg-muted disabled:pointer-events-none disabled:opacity-50"
                     onMouseDown={(event) => event.preventDefault()}
                     onMouseMove={() => setActiveValue(item.value)}
                     onClick={() => onSelect(item)}

@@ -236,7 +236,7 @@ function FileUpload({
         data-invalid={isInvalid || undefined}
         className={cn(
           "flex min-h-32 flex-col items-center justify-center gap-2 rounded-lg border border-dashed border-border bg-surface-subtle px-4 py-5 text-center transition-colors data-dragging:border-primary data-dragging:bg-primary-subtle data-invalid:border-destructive data-invalid:bg-danger-subtle",
-          disabled && "cursor-not-allowed opacity-50",
+          disabled && "cursor-not-allowed",
           dropzoneClassName,
         )}
         onDragEnter={(event) => {

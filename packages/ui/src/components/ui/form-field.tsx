@@ -139,10 +139,7 @@ function FormDescription({
     <p
       id={id ?? context.descriptionId}
       data-slot="form-description"
-      className={cn(
-        "text-body-sm text-muted-foreground group-data-disabled/form-field:opacity-50",
-        className,
-      )}
+      className={cn("text-body-sm text-muted-foreground", className)}
       {...props}
     />
   );
@@ -171,10 +168,7 @@ function FormMessage({
       id={id ?? context.messageId}
       role={role}
       data-slot="form-message"
-      className={cn(
-        "text-body-sm font-medium text-destructive group-data-disabled/form-field:opacity-50",
-        className,
-      )}
+      className={cn("text-body-sm font-medium text-destructive", className)}
       {...props}
     >
       {children}

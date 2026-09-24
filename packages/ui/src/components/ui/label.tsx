@@ -20,7 +20,7 @@ function Label({
       data-slot="label"
       data-disabled={disabled || undefined}
       className={cn(
-        "inline-flex w-fit items-center gap-1 text-label font-medium text-foreground peer-disabled:cursor-not-allowed peer-disabled:opacity-50 data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        "inline-flex w-fit items-center gap-1 text-label font-medium text-foreground peer-disabled:cursor-not-allowed data-disabled:cursor-not-allowed",
         className,
       )}
       {...props}
