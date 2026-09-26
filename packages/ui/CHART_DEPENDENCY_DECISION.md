@@ -1,6 +1,6 @@
 # Phase 4B Chart Dependency Decision
 
-Status: accepted for Phase 4B  
+Status: accepted in Phase 4B; adoption gate passed in Phase 4C
 Date: 2026-09-24
 
 ## Decision
@@ -60,6 +60,46 @@ Before Recharts is installed, Phase 4C must:
 3. Verify React 19 compatibility in Luna's build and Storybook.
 4. Verify keyboard access, chart title and description, tooltip output, text alternatives, reduced motion, and non-color series identification.
 5. Keep renderer-specific types and props out of Luna's public API.
+
+## Phase 4C adoption result
+
+Date verified: 2026-09-26
+
+Recharts `3.10.1` is adopted as Luna's only chart engine. `react-is`
+`19.2.8` is installed alongside it to match Luna's React `19.2.8`
+runtime exactly, as required by Recharts' peer dependency guidance.
+
+The public API remains renderer-agnostic. Consumers receive Luna-owned
+`LineChart`, `BarChart`, `AreaChart`, `CartesianChartDatum`, and
+`CartesianChartSeries` contracts; no Recharts props or types are re-exported.
+
+### Compatibility and accessibility verification
+
+- Recharts `3.10.1` declares React and React DOM `19.x` support.
+- Luna's TypeScript checks pass against React `19.2.8` and TypeScript `7.0.2`.
+- The Storybook browser suite passes with the accessibility layer enabled.
+- The rendered SVG has a visible `2px` focus indicator, an accessible title and
+  description, and keyboard navigation that exposes the active tooltip.
+- Line and area series use distinct dash patterns; bar series use distinct fill
+  patterns. Every series also retains a visible text label.
+- Chart animation is disabled for the initial release, so reduced-motion users
+  receive the same static presentation.
+
+### Production bundle comparison
+
+Both measurements use Storybook's production Vite build from the same commit
+base and sum all emitted JavaScript assets.
+
+| Build                               | Modules |  Raw JavaScript | Gzip JavaScript |
+| ----------------------------------- | ------: | --------------: | --------------: |
+| Phase 4B baseline                   |   1,833 | 4,084,715 bytes | 1,185,551 bytes |
+| Phase 4C with Line/Bar/Area stories |   2,405 | 4,520,007 bytes | 1,309,611 bytes |
+| Delta                               |    +572 |  +435,292 bytes |  +124,060 bytes |
+
+The shared source chunk increased by approximately `419.24 kB` minified and
+`120.32 kB` gzip. The remaining delta is primarily the three new Storybook
+story chunks. This is accepted for Phase 4C because a single engine covers all
+three Cartesian chart targets and is tree-shakeable (`sideEffects: false`).
 
 ## Sources
 

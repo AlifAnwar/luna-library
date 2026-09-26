@@ -7,13 +7,24 @@ const styles = readFileSync(
 );
 
 function token(name: string): string {
-  const match = styles.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6});`));
+  const match = styles.match(new RegExp(`--${name}:\\s*([^;]+);`));
 
   if (!match?.[1]) {
+    throw new Error(`Expected --${name} to be declared`);
+  }
+
+  const value = match[1].trim();
+  const reference = value.match(/^var\(--([a-z0-9-]+)\)$/i)?.[1];
+
+  if (reference) {
+    return token(reference);
+  }
+
+  if (!/^#[0-9a-fA-F]{6}$/.test(value)) {
     throw new Error(`Expected --${name} to resolve to a six-digit hex color`);
   }
 
-  return match[1];
+  return value;
 }
 
 function rgb(hex: string): [number, number, number] {
@@ -100,4 +111,13 @@ describe("chart legend marker contrast", () => {
       contrast(token("foreground-secondary"), token("surface")),
     ).toBeGreaterThanOrEqual(3);
   });
+
+  it.each(["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"])(
+    "keeps %s graphical marks distinguishable on the chart surface",
+    (chartToken) => {
+      expect(
+        contrast(token(chartToken), token("surface")),
+      ).toBeGreaterThanOrEqual(3);
+    },
+  );
 });

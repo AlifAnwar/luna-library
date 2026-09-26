@@ -56,6 +56,18 @@ describe("ChartContainer", () => {
       markup.indexOf('data-slot="chart-legend-region"'),
     );
   });
+
+  it("supports a compact spark plot size", () => {
+    const markup = render(
+      createElement(ChartContainer, {
+        size: "spark",
+        children: "Renderer",
+      }),
+    );
+
+    expect(markup).toContain('data-size="spark"');
+    expect(markup).toContain("h-16 min-h-16");
+  });
 });
 
 describe("ChartHeader", () => {

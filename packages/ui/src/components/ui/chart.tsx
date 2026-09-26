@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "../../lib/utils";
 import { Skeleton } from "./skeleton";
 
-type ChartSize = "sm" | "default" | "lg";
+type ChartSize = "spark" | "sm" | "default" | "lg";
 type ChartLegendPosition = "top" | "bottom";
 type ChartColor = "chart-1" | "chart-2" | "chart-3" | "chart-4" | "chart-5";
 type ChartMarker = "line" | "dash" | "dot" | "square" | "diamond";
@@ -12,6 +12,8 @@ type ChartContainerProps = Omit<React.ComponentProps<"figure">, "children"> & {
   header?: React.ReactNode;
   legend?: React.ReactNode;
   legendPosition?: ChartLegendPosition;
+  /** Extra classes for the plot region, e.g. a height that fits the chart form. */
+  plotClassName?: string;
   size?: ChartSize;
 };
 
@@ -72,6 +74,7 @@ type ChartLoadingStateProps = Omit<
 };
 
 const chartSizeClasses: Record<ChartSize, string> = {
+  spark: "h-16 min-h-16",
   sm: "min-h-48",
   default: "min-h-64",
   lg: "min-h-80",
@@ -131,6 +134,7 @@ function ChartContainer({
   header,
   legend,
   legendPosition = "top",
+  plotClassName,
   size = "default",
   ...props
 }: ChartContainerProps) {
@@ -156,6 +160,7 @@ function ChartContainer({
         className={cn(
           "relative grid min-w-0 overflow-hidden",
           chartSizeClasses[size],
+          plotClassName,
         )}
       >
         {children}
@@ -255,6 +260,8 @@ function ChartTooltip({
       {...props}
       data-slot="chart-tooltip"
       role="tooltip"
+      aria-live="polite"
+      aria-atomic="true"
       className={cn(
         "grid min-w-40 max-w-[min(20rem,calc(100vw-2rem))] gap-2 rounded-md bg-popover p-3 text-body-sm text-popover-foreground shadow-md",
         className,
