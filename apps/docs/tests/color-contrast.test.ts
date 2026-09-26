@@ -93,3 +93,11 @@ describe("danger semantic contrast", () => {
     },
   );
 });
+
+describe("chart legend marker contrast", () => {
+  it("keeps the shape outline distinguishable on Luna surfaces", () => {
+    expect(
+      contrast(token("foreground-secondary"), token("surface")),
+    ).toBeGreaterThanOrEqual(3);
+  });
+});

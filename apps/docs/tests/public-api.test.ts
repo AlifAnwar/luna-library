@@ -32,3 +32,17 @@ describe("Phase 4A public API", () => {
     },
   );
 });
+
+describe("Phase 4B public API", () => {
+  it.each([
+    "ChartContainer",
+    "ChartEmptyState",
+    "ChartHeader",
+    "ChartLegend",
+    "ChartLoadingState",
+    "ChartTooltip",
+  ])("exports %s from the package entry point", (name) => {
+    expect(luna).toHaveProperty(name);
+    expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+  });
+});
