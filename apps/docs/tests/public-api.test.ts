@@ -46,3 +46,13 @@ describe("Phase 4B public API", () => {
     expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
   });
 });
+
+describe("Phase 4C public API", () => {
+  it.each(["LineChart", "BarChart", "AreaChart"])(
+    "exports %s from the package entry point",
+    (name) => {
+      expect(luna).toHaveProperty(name);
+      expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+    },
+  );
+});

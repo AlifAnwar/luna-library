@@ -180,6 +180,12 @@
   --luna-blue-800: #003b8f;
   --luna-blue-900: #002f70;
 
+  /* Categorical chart primitives */
+  --luna-teal-700: #0f766e;
+  --luna-purple-600: #7c3aed;
+  --luna-orange-700: #b45309;
+  --luna-rose-700: #be123c;
+
   /* Brand */
   --primary: var(--luna-blue-500);
   --primary-hover: var(--luna-blue-600);
@@ -237,10 +243,10 @@
 
   /* Charts */
   --chart-1: var(--luna-blue-500);
-  --chart-2: var(--luna-blue-400);
-  --chart-3: var(--luna-blue-300);
-  --chart-4: var(--luna-blue-200);
-  --chart-5: var(--luna-blue-100);
+  --chart-2: var(--luna-teal-700);
+  --chart-3: var(--luna-purple-600);
+  --chart-4: var(--luna-orange-700);
+  --chart-5: var(--luna-rose-700);
 }
 
 @layer base {
