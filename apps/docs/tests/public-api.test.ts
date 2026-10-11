@@ -66,3 +66,13 @@ describe("Phase 4D public API", () => {
     },
   );
 });
+
+describe("Phase 4E public API", () => {
+  it.each(["DashboardWidget", "DashboardGrid", "DashboardGridItem"])(
+    "exports %s from the package entry point",
+    (name) => {
+      expect(luna).toHaveProperty(name);
+      expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+    },
+  );
+});
