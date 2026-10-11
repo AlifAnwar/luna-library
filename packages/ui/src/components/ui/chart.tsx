@@ -3,7 +3,8 @@ import { cn } from "../../lib/utils";
 import { Skeleton } from "./skeleton";
 
 type ChartSize = "spark" | "sm" | "default" | "lg";
-type ChartLegendPosition = "top" | "bottom";
+/** `end` places the legend beside the plot, wrapping below it when the container is narrow. */
+type ChartLegendPosition = "top" | "bottom" | "end";
 type ChartColor = "chart-1" | "chart-2" | "chart-3" | "chart-4" | "chart-5";
 type ChartMarker = "line" | "dash" | "dot" | "square" | "diamond";
 
@@ -28,12 +29,18 @@ type ChartLegendItem = {
   label: React.ReactNode;
   color: ChartColor;
   marker?: ChartMarker;
+  /** Optional reading shown at the end of the row, e.g. a formatted value. */
+  value?: React.ReactNode;
 };
 
 type ChartLegendProps = Omit<React.ComponentProps<"ul">, "children"> & {
   items: readonly ChartLegendItem[];
   label?: string;
   orientation?: "horizontal" | "vertical";
+  /** Highlights the matching item and dims the rest, e.g. while a mark is hovered. */
+  activeId?: string | null;
+  /** Called on pointer enter/leave so the chart can highlight the matching mark. */
+  onActiveIdChange?: (id: string | null) => void;
 };
 
 type ChartTooltipItem = {
@@ -138,6 +145,29 @@ function ChartContainer({
   size = "default",
   ...props
 }: ChartContainerProps) {
+  const isEnd = legendPosition === "end";
+  const legendRegion = legend ? (
+    <div
+      data-slot="chart-legend-region"
+      className={cn("min-w-0", isEnd && "max-w-md flex-[1_1_12rem]")}
+    >
+      {legend}
+    </div>
+  ) : null;
+  const plot = (
+    <div
+      data-slot="chart-plot"
+      className={cn(
+        "relative grid min-w-0 overflow-hidden",
+        isEnd && "flex-[1_1_16rem]",
+        chartSizeClasses[size],
+        plotClassName,
+      )}
+    >
+      {children}
+    </div>
+  );
+
   return (
     <figure
       data-slot="chart-container"
@@ -150,26 +180,19 @@ function ChartContainer({
       {...props}
     >
       {header}
-      {legend && legendPosition === "top" ? (
-        <div data-slot="chart-legend-region" className="min-w-0">
-          {legend}
+      {legendPosition === "top" ? legendRegion : null}
+      {isEnd ? (
+        <div
+          data-slot="chart-body"
+          className="flex min-w-0 flex-wrap items-center justify-center gap-x-8 gap-y-4"
+        >
+          {plot}
+          {legendRegion}
         </div>
-      ) : null}
-      <div
-        data-slot="chart-plot"
-        className={cn(
-          "relative grid min-w-0 overflow-hidden",
-          chartSizeClasses[size],
-          plotClassName,
-        )}
-      >
-        {children}
-      </div>
-      {legend && legendPosition === "bottom" ? (
-        <div data-slot="chart-legend-region" className="min-w-0">
-          {legend}
-        </div>
-      ) : null}
+      ) : (
+        plot
+      )}
+      {legendPosition === "bottom" ? legendRegion : null}
     </figure>
   );
 }
@@ -210,12 +233,16 @@ function ChartHeader({
 }
 
 function ChartLegend({
+  activeId = null,
   className,
   items,
   label = "Chart legend",
+  onActiveIdChange,
   orientation = "horizontal",
   ...props
 }: ChartLegendProps) {
+  const hasValues = items.some((item) => item.value !== undefined);
+
   return (
     <ul
       data-slot="chart-legend"
@@ -225,7 +252,10 @@ function ChartLegend({
         "min-w-0 gap-x-4 gap-y-2 text-body-sm text-foreground-secondary",
         orientation === "horizontal"
           ? "flex flex-wrap items-center"
-          : "grid justify-items-start",
+          : cn(
+              "grid",
+              hasValues ? "justify-items-stretch" : "justify-items-start",
+            ),
         className,
       )}
       {...props}
@@ -233,10 +263,30 @@ function ChartLegend({
       {items.map((item) => (
         <li
           key={item.id}
-          className="flex min-w-0 items-center gap-2 break-words"
+          data-active={activeId === item.id ? "" : undefined}
+          data-dimmed={
+            activeId !== null && activeId !== item.id ? "" : undefined
+          }
+          className="flex min-w-0 items-center gap-2 break-words transition-opacity duration-150 ease-out data-dimmed:opacity-50 motion-reduce:transition-none"
+          onPointerEnter={
+            onActiveIdChange ? () => onActiveIdChange(item.id) : undefined
+          }
+          onPointerLeave={
+            onActiveIdChange ? () => onActiveIdChange(null) : undefined
+          }
         >
           <ChartMarkerSwatch color={item.color} marker={item.marker} />
-          <span className="min-w-0">{item.label}</span>
+          <span className={cn("min-w-0", item.value !== undefined && "flex-1")}>
+            {item.label}
+          </span>
+          {item.value !== undefined ? (
+            <span
+              data-slot="chart-legend-value"
+              className="ms-auto shrink-0 ps-2 text-end font-medium tabular-nums text-foreground"
+            >
+              {item.value}
+            </span>
+          ) : null}
         </li>
       ))}
     </ul>

@@ -108,6 +108,22 @@ describe.each([
   });
 });
 
+describe("Cartesian chart sizing", () => {
+  it("applies a consumer plot class", () => {
+    const markup = render(
+      createElement(LineChart, {
+        title: "Processed records",
+        description: "Monthly completed records.",
+        data,
+        series,
+        plotClassName: "h-96",
+      }),
+    );
+
+    expect(markup).toMatch(/data-slot="chart-plot" class="[^"]*\bh-96\b/);
+  });
+});
+
 describe("Area chart fills", () => {
   it.each(["solid", "gradient"] as const)(
     "supports the %s fill treatment",

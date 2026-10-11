@@ -57,6 +57,27 @@ describe("ChartContainer", () => {
     );
   });
 
+  it("places an end legend beside the plot in a wrapping body", () => {
+    const markup = render(
+      createElement(ChartContainer, {
+        legendPosition: "end",
+        legend: createElement(ChartLegend, {
+          items: [{ id: "current", label: "Current", color: "chart-1" }],
+        }),
+        children: "Renderer",
+      }),
+    );
+
+    expect(markup).toContain('data-legend-position="end"');
+    expect(markup).toContain('data-slot="chart-body"');
+    expect(markup.indexOf('data-slot="chart-body"')).toBeLessThan(
+      markup.indexOf('data-slot="chart-plot"'),
+    );
+    expect(markup.indexOf('data-slot="chart-plot"')).toBeLessThan(
+      markup.indexOf('data-slot="chart-legend-region"'),
+    );
+  });
+
   it("supports a compact spark plot size", () => {
     const markup = render(
       createElement(ChartContainer, {
@@ -120,6 +141,25 @@ describe("ChartLegend", () => {
     expect(markup).toContain("var(--chart-1)");
     expect(markup).toContain("var(--chart-2)");
     expect(markup).toMatch(/class="[^"]*\bcustom-legend\b/);
+  });
+
+  it("shows item values and highlights the active item", () => {
+    const markup = render(
+      createElement(ChartLegend, {
+        orientation: "vertical",
+        activeId: "open",
+        items: [
+          { id: "open", label: "Open", color: "chart-1", value: "1,280" },
+          { id: "closed", label: "Closed", color: "chart-2", value: "940" },
+        ],
+      }),
+    );
+
+    expect(markup).toContain('data-slot="chart-legend-value"');
+    expect(markup).toContain("1,280");
+    expect(markup).toContain("justify-items-stretch");
+    expect(markup).toMatch(/<li data-active=""/);
+    expect(markup).toMatch(/<li data-dimmed=""/);
   });
 });
 

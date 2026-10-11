@@ -121,3 +121,14 @@ describe("chart legend marker contrast", () => {
     },
   );
 });
+
+describe("chart slice label contrast", () => {
+  it.each(["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"])(
+    "keeps slice labels readable on %s with its paired foreground",
+    (chartToken) => {
+      expect(
+        contrast(token(`${chartToken}-foreground`), token(chartToken)),
+      ).toBeGreaterThanOrEqual(4.5);
+    },
+  );
+});

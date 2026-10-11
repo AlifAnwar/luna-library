@@ -1099,6 +1099,7 @@ function CartesianChart({
   loading = false,
   loadingLabel = "Loading chart",
   missingValueLabel = "No value",
+  plotClassName,
   series,
   showGrid = true,
   showHeader = true,
@@ -1186,13 +1187,12 @@ function CartesianChart({
       }
       data-show-header={showHeader}
       data-variant={variant}
-      plotClassName={
+      plotClassName={cn(
         isSegmentList || meterSeries
           ? "h-auto min-h-0"
-          : segmentSeries
-            ? segmentedPlotClasses[size]
-            : undefined
-      }
+          : segmentSeries && segmentedPlotClasses[size],
+        plotClassName,
+      )}
       size={size}
       header={
         <ChartHeader
