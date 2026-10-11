@@ -113,6 +113,11 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-1-foreground: var(--chart-1-foreground);
+  --color-chart-2-foreground: var(--chart-2-foreground);
+  --color-chart-3-foreground: var(--chart-3-foreground);
+  --color-chart-4-foreground: var(--chart-4-foreground);
+  --color-chart-5-foreground: var(--chart-5-foreground);
 }
 
 :root {
@@ -181,10 +186,10 @@
   --luna-blue-900: #002f70;
 
   /* Categorical chart primitives */
-  --luna-teal-700: #0f766e;
-  --luna-purple-600: #7c3aed;
-  --luna-orange-700: #b45309;
-  --luna-rose-700: #be123c;
+  --luna-teal-600: #0d9488;
+  --luna-violet-500: #7f56f2;
+  --luna-orange-600: #ea580c;
+  --luna-pink-500: #ec4899;
 
   /* Brand */
   --primary: var(--luna-blue-500);
@@ -243,10 +248,17 @@
 
   /* Charts */
   --chart-1: var(--luna-blue-500);
-  --chart-2: var(--luna-teal-700);
-  --chart-3: var(--luna-purple-600);
-  --chart-4: var(--luna-orange-700);
-  --chart-5: var(--luna-rose-700);
+  --chart-2: var(--luna-teal-600);
+  --chart-3: var(--luna-violet-500);
+  --chart-4: var(--luna-orange-600);
+  --chart-5: var(--luna-pink-500);
+
+  /* Text placed on a chart fill, e.g. slice labels. Override with the fill. */
+  --chart-1-foreground: #ffffff;
+  --chart-2-foreground: var(--foreground);
+  --chart-3-foreground: #ffffff;
+  --chart-4-foreground: var(--foreground);
+  --chart-5-foreground: var(--foreground);
 }
 
 @layer base {
