@@ -266,7 +266,7 @@ function GaugeChart({
           className={cn(!showHeader && "sr-only")}
           title={<span id={titleId}>{title}</span>}
           description={<span id={descriptionId}>{description}</span>}
-          action={headerAction}
+          action={showHeader ? headerAction : undefined}
         />
       }
     >

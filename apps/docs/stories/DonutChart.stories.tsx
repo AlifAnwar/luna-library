@@ -299,7 +299,7 @@ export const Responsive: Story = {
   args: { size: "sm" },
   decorators: [
     (Story) => (
-      <div className="w-72">
+      <div className="w-full max-w-72">
         <Story />
       </div>
     ),

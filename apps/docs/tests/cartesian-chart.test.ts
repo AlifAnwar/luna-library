@@ -214,6 +214,23 @@ describe("Bar chart layouts", () => {
     expect(markup).toContain("Cost movement during the last 24 hours.");
     expect(markup).toContain("sr-only");
   });
+
+  it("does not leave a hidden header action in the keyboard order", () => {
+    const markup = render(
+      createElement(BarChart, {
+        title: "Cost trend",
+        description: "Cost movement during the last 24 hours.",
+        data,
+        series: [series[0]!],
+        showHeader: false,
+        headerAction: createElement("button", null, "Export chart"),
+      }),
+    );
+
+    expect(markup).toContain("Cost trend");
+    expect(markup).not.toContain("Export chart");
+    expect(markup).not.toContain("<button");
+  });
 });
 
 describe("Segmented bar chart", () => {
