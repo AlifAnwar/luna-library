@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { MenuIcon } from "../../icons";
@@ -291,7 +292,8 @@ function SidebarTrigger({
   children,
   ...props
 }: SidebarTriggerProps) {
-  const { isMobile, state, toggleSidebar } = useSidebar("SidebarTrigger");
+  const { isMobile, openMobile, state, toggleSidebar } =
+    useSidebar("SidebarTrigger");
   const accessibleLabel =
     label ??
     (isMobile
@@ -305,6 +307,7 @@ function SidebarTrigger({
       type="button"
       data-slot="sidebar-trigger"
       aria-label={accessibleLabel}
+      aria-expanded={isMobile ? openMobile : state === "expanded"}
       className={cn(
         buttonVariants({ variant: "ghost", size: "icon" }),
         className,
@@ -541,6 +544,89 @@ function SidebarMenuButton({
   );
 }
 
+type SidebarMenuLinkProps = Omit<
+  useRender.ComponentProps<"a">,
+  "aria-current" | "aria-label" | "href"
+> &
+  VariantProps<typeof sidebarMenuButtonVariants> & {
+    /** Supplied by the application; Luna does not infer the current route. */
+    href: string;
+    /** Also names the link when its visible text is hidden by icon collapse. */
+    label: string;
+    isActive?: boolean;
+  };
+
+/** A native navigation link; `render` can supply an application router link. */
+function SidebarMenuLink({
+  className,
+  href,
+  isActive = false,
+  label,
+  onClick,
+  ref,
+  render,
+  size = "default",
+  variant = "default",
+  ...props
+}: SidebarMenuLinkProps) {
+  const { state, isMobile, collapsible, setOpenMobile } =
+    useSidebar("SidebarMenuLink");
+  const showTooltip =
+    collapsible === "icon" && state === "collapsed" && !isMobile;
+  const link = useRender({
+    defaultTagName: "a",
+    render,
+    ref,
+    props: {
+      ...props,
+      href,
+      "data-slot": "sidebar-menu-link",
+      "data-active": isActive || undefined,
+      "data-size": size,
+      "aria-current": isActive ? "page" : undefined,
+      "aria-label": label,
+      onClick: (event: React.MouseEvent<HTMLAnchorElement>) => {
+        onClick?.(event);
+
+        if (
+          isMobile &&
+          !event.defaultPrevented &&
+          event.button === 0 &&
+          !event.metaKey &&
+          !event.ctrlKey &&
+          !event.shiftKey &&
+          !event.altKey
+        ) {
+          setOpenMobile(false);
+        }
+      },
+      className: cn(
+        sidebarMenuButtonVariants({ variant, size }),
+        "h-auto! py-2 [&>span:last-child]:overflow-visible [&>span:last-child]:break-words [&>span:last-child]:text-clip [&>span:last-child]:whitespace-normal",
+        size === "sm"
+          ? "min-h-control-sm"
+          : size === "lg"
+            ? "min-h-control-lg"
+            : "min-h-control-md",
+        className,
+      ),
+    },
+  });
+
+  if (!showTooltip) {
+    return link;
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={link} />
+      <TooltipContent side="right" align="center">
+        {label}
+      </TooltipContent>
+    </Tooltip>
+  );
+}
+
 function SidebarMenuAction({
   className,
   ...props
@@ -719,6 +805,7 @@ export {
   SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuLink,
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
@@ -730,6 +817,7 @@ export {
   sidebarMenuButtonVariants,
   type SidebarCollapsible,
   type SidebarMenuButtonProps,
+  type SidebarMenuLinkProps,
   type SidebarProps,
   type SidebarProviderProps,
   type SidebarRailItemProps,

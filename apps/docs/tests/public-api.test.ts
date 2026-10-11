@@ -76,3 +76,9 @@ describe("Phase 4E public API", () => {
     },
   );
 });
+
+describe("Phase 5A public API", () => {
+  it("exports the router-neutral sidebar navigation link", () => {
+    expect(luna.SidebarMenuLink).toBeTypeOf("function");
+  });
+});
