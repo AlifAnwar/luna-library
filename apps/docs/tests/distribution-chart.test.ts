@@ -61,6 +61,22 @@ describe.each([
     expect(markup).not.toMatch(/>[\d.]+%</);
   });
 
+  it("does not render a visually hidden, focusable header action", () => {
+    const markup = render(
+      createElement(Chart, {
+        title: "Requests by status",
+        description: "Requests in the current period.",
+        data,
+        showHeader: false,
+        headerAction: createElement("button", null, "Export chart"),
+      }),
+    );
+
+    expect(markup).toContain("Requests by status");
+    expect(markup).not.toContain("Export chart");
+    expect(markup).not.toContain("<button");
+  });
+
   it("drops negative and non-finite values", () => {
     const markup = render(
       createElement(Chart, {

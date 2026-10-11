@@ -352,7 +352,7 @@ export const LongLabels: Story = {
 export const Responsive: Story = {
   decorators: [
     (Story) => (
-      <div className="w-72">
+      <div className="w-full max-w-72">
         <Story />
       </div>
     ),

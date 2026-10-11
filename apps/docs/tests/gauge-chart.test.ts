@@ -69,6 +69,21 @@ describe("GaugeChart", () => {
     expect(markup).toContain("<bdi>132</bdi>");
   });
 
+  it("does not render a visually hidden, focusable header action", () => {
+    const markup = render(
+      createElement(GaugeChart, {
+        ...base,
+        value: 70,
+        showHeader: false,
+        headerAction: createElement("button", null, "Export chart"),
+      }),
+    );
+
+    expect(markup).toContain("Target completion");
+    expect(markup).not.toContain("Export chart");
+    expect(markup).not.toContain("<button");
+  });
+
   it("omits the value arc at zero", () => {
     const markup = render(createElement(GaugeChart, { ...base, value: 0 }));
 
