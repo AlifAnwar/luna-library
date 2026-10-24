@@ -258,7 +258,7 @@
   flex: 1;
   min-width: 8px;
   border-radius: 5px 5px 2px 2px;
-  background: linear-gradient(180deg, var(--chart-1), var(--chart-3));
+  background: var(--chart-1);
   opacity: 0.9;
 }
 

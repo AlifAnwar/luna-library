@@ -95,6 +95,8 @@ const chartColorValues: Record<ChartColor, string> = {
   "chart-5": "var(--chart-5)",
 };
 
+const chartOutlineValue = "var(--chart-outline)";
+
 function ChartMarkerSwatch({
   color,
   marker = "square",
@@ -110,12 +112,23 @@ function ChartMarkerSwatch({
         data-slot="chart-marker"
         data-marker={marker}
         aria-hidden="true"
-        className={cn(
-          "w-4 shrink-0 border-t-2",
-          marker === "dash" && "border-dashed",
-        )}
-        style={{ borderColor: colorValue }}
-      />
+        className="relative h-1 w-4 shrink-0"
+      >
+        <span
+          className={cn(
+            "absolute inset-x-0 top-1/2 border-t-4",
+            marker === "dash" && "border-dashed",
+          )}
+          style={{ borderColor: chartOutlineValue }}
+        />
+        <span
+          className={cn(
+            "absolute inset-x-0 top-1/2 border-t-2",
+            marker === "dash" && "border-dashed",
+          )}
+          style={{ borderColor: colorValue }}
+        />
+      </span>
     );
   }
 

@@ -167,7 +167,7 @@ const sliceGeometry: Record<
       outerRadius: outerRadiusRatio,
       cornerRadius: 4,
       paddingAngle: 2,
-      strokeWidth: 0,
+      strokeWidth: 1,
     },
   },
 };
@@ -575,9 +575,8 @@ function DistributionRenderer({
                   endAngle={props.endAngle}
                   cornerRadius={geometry.cornerRadius}
                   fill={entry ? colorValue(entry.color) : undefined}
-                  stroke="var(--surface)"
-                  // A lone slice is a full ring; a separator would draw a seam.
-                  strokeWidth={slices.length > 1 ? geometry.strokeWidth : 0}
+                  stroke="var(--chart-outline)"
+                  strokeWidth={geometry.strokeWidth}
                   strokeLinejoin="round"
                   opacity={activeIndex !== null && !isActive ? 0.45 : 1}
                   data-slot="chart-slice"

@@ -39,11 +39,11 @@ const statusColors = [
 ];
 
 const chartColors = [
-  { label: "Chart 1", token: "--chart-1", value: "#0065F4" },
-  { label: "Chart 2", token: "--chart-2", value: "#2B83F7" },
-  { label: "Chart 3", token: "--chart-3", value: "#63A2FA" },
-  { label: "Chart 4", token: "--chart-4", value: "#9BC4FC" },
-  { label: "Chart 5", token: "--chart-5", value: "#D3E5FE" },
+  { label: "Chart 1", token: "--chart-1", value: "#0077FF" },
+  { label: "Chart 2", token: "--chart-2", value: "#009DFF" },
+  { label: "Chart 3", token: "--chart-3", value: "#00BFFF" },
+  { label: "Chart 4", token: "--chart-4", value: "#66D9FF" },
+  { label: "Chart 5", token: "--chart-5", value: "#EAF7FF" },
 ];
 
 const typeScale = [
