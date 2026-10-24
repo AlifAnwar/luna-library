@@ -131,6 +131,8 @@ const chartMarkers: readonly ChartMarker[] = [
   "diamond",
 ];
 
+const chartOutlineValue = "var(--chart-outline)";
+
 const lineDashPatterns: readonly (string | undefined)[] = [
   undefined,
   "8 4",
@@ -320,7 +322,12 @@ function SegmentList({
             onPointerLeave={() => onActiveIndexChange(null)}
           >
             <span className="flex min-w-0 items-center gap-2.5">
-              <span className="size-2 shrink-0 rounded-full bg-(--chart-segment-color) transition-[background-color] duration-150 ease-out" />
+              <span
+                className="size-2 shrink-0 rounded-full bg-(--chart-segment-color) transition-[background-color] duration-150 ease-out"
+                style={{
+                  boxShadow: `inset 0 0 0 1px ${chartOutlineValue}`,
+                }}
+              />
               <span className="truncate text-body-sm text-foreground-secondary">
                 {category}
               </span>
@@ -426,6 +433,9 @@ function SegmentedBar({
                   "h-3 shrink-0 bg-(--chart-segment-color) transition-[background-color] duration-150 ease-out",
                   showLabels ? "rounded-e-xs rounded-es-xs" : "rounded-xs",
                 )}
+                style={{
+                  boxShadow: `inset 0 0 0 1px ${chartOutlineValue}`,
+                }}
               />
             </TooltipPrimitive.Trigger>
             {/* Portaled so narrow segments and the clipped plot never cut it off. */}
@@ -550,6 +560,13 @@ function MeterList({
                   key={tick}
                   data-filled={tick < filled ? "" : undefined}
                   className="min-w-0 flex-1 rounded-[2px] bg-border data-filled:bg-(--chart-meter-color)"
+                  style={
+                    tick < filled
+                      ? {
+                          boxShadow: `inset 0 0 0 1px ${chartOutlineValue}`,
+                        }
+                      : undefined
+                  }
                 />
               ))}
             </span>
@@ -978,8 +995,8 @@ function CartesianRenderer({
                   ? color
                   : `url(#${patternPrefix}-${index})`
               }
-              stroke={color}
-              strokeWidth={variant === "modern" ? 0 : 1}
+              stroke={chartOutlineValue}
+              strokeWidth={1}
               radius={
                 variant !== "modern"
                   ? 2
@@ -1010,33 +1027,59 @@ function CartesianRenderer({
         {tooltip}
         {series.map((item, index) => {
           const color = colorValue(getSeriesColor(item, index));
+          const strokeWidth = variant === "modern" ? 2.5 : 2;
 
           return (
-            <Area
-              key={item.dataKey}
-              dataKey={item.dataKey}
-              name={item.label}
-              type={variant === "modern" ? "monotone" : "linear"}
-              fill={
-                areaFill === "gradient"
-                  ? `url(#${patternPrefix}-${index})`
-                  : color
-              }
-              fillOpacity={
-                areaFill === "gradient" ? 1 : variant === "modern" ? 0.16 : 0.12
-              }
-              stroke={color}
-              strokeLinecap={variant === "modern" ? "round" : "butt"}
-              strokeLinejoin={variant === "modern" ? "round" : "miter"}
-              strokeDasharray={
-                lineDashPatterns[index % lineDashPatterns.length]
-              }
-              strokeWidth={variant === "modern" ? 2.5 : 2}
-              dot={getSeriesMarker(item, index) === "dot" ? { r: 3 } : false}
-              activeDot={{ r: 4, strokeWidth: 2 }}
-              connectNulls={false}
-              isAnimationActive={false}
-            />
+            <React.Fragment key={item.dataKey}>
+              <Area
+                dataKey={item.dataKey}
+                name={item.label}
+                type={variant === "modern" ? "monotone" : "linear"}
+                fill="transparent"
+                fillOpacity={0}
+                stroke={chartOutlineValue}
+                strokeLinecap={variant === "modern" ? "round" : "butt"}
+                strokeLinejoin={variant === "modern" ? "round" : "miter"}
+                strokeDasharray={
+                  lineDashPatterns[index % lineDashPatterns.length]
+                }
+                strokeWidth={strokeWidth + 2}
+                dot={false}
+                activeDot={false}
+                connectNulls={false}
+                isAnimationActive={false}
+                legendType="none"
+                tooltipType="none"
+              />
+              <Area
+                dataKey={item.dataKey}
+                name={item.label}
+                type={variant === "modern" ? "monotone" : "linear"}
+                fill={
+                  areaFill === "gradient"
+                    ? `url(#${patternPrefix}-${index})`
+                    : color
+                }
+                fillOpacity={
+                  areaFill === "gradient"
+                    ? 1
+                    : variant === "modern"
+                      ? 0.16
+                      : 0.12
+                }
+                stroke={color}
+                strokeLinecap={variant === "modern" ? "round" : "butt"}
+                strokeLinejoin={variant === "modern" ? "round" : "miter"}
+                strokeDasharray={
+                  lineDashPatterns[index % lineDashPatterns.length]
+                }
+                strokeWidth={strokeWidth}
+                dot={getSeriesMarker(item, index) === "dot" ? { r: 3 } : false}
+                activeDot={{ r: 4, strokeWidth: 2 }}
+                connectNulls={false}
+                isAnimationActive={false}
+              />
+            </React.Fragment>
           );
         })}
       </RechartsAreaChart>
@@ -1052,23 +1095,45 @@ function CartesianRenderer({
       {tooltip}
       {series.map((item, index) => {
         const color = colorValue(getSeriesColor(item, index));
+        const strokeWidth = variant === "modern" ? 2.5 : 2;
 
         return (
-          <Line
-            key={item.dataKey}
-            dataKey={item.dataKey}
-            name={item.label}
-            type={variant === "modern" ? "monotone" : "linear"}
-            stroke={color}
-            strokeLinecap={variant === "modern" ? "round" : "butt"}
-            strokeLinejoin={variant === "modern" ? "round" : "miter"}
-            strokeDasharray={lineDashPatterns[index % lineDashPatterns.length]}
-            strokeWidth={variant === "modern" ? 2.5 : 2}
-            dot={getSeriesMarker(item, index) === "dot" ? { r: 3 } : false}
-            activeDot={{ r: 4, strokeWidth: 2 }}
-            connectNulls={false}
-            isAnimationActive={false}
-          />
+          <React.Fragment key={item.dataKey}>
+            <Line
+              dataKey={item.dataKey}
+              name={item.label}
+              type={variant === "modern" ? "monotone" : "linear"}
+              stroke={chartOutlineValue}
+              strokeLinecap={variant === "modern" ? "round" : "butt"}
+              strokeLinejoin={variant === "modern" ? "round" : "miter"}
+              strokeDasharray={
+                lineDashPatterns[index % lineDashPatterns.length]
+              }
+              strokeWidth={strokeWidth + 2}
+              dot={false}
+              activeDot={false}
+              connectNulls={false}
+              isAnimationActive={false}
+              legendType="none"
+              tooltipType="none"
+            />
+            <Line
+              dataKey={item.dataKey}
+              name={item.label}
+              type={variant === "modern" ? "monotone" : "linear"}
+              stroke={color}
+              strokeLinecap={variant === "modern" ? "round" : "butt"}
+              strokeLinejoin={variant === "modern" ? "round" : "miter"}
+              strokeDasharray={
+                lineDashPatterns[index % lineDashPatterns.length]
+              }
+              strokeWidth={strokeWidth}
+              dot={getSeriesMarker(item, index) === "dot" ? { r: 3 } : false}
+              activeDot={{ r: 4, strokeWidth: 2 }}
+              connectNulls={false}
+              isAnimationActive={false}
+            />
+          </React.Fragment>
         );
       })}
     </RechartsLineChart>

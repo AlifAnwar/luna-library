@@ -135,14 +135,23 @@ function ContinuousArc({ color, ratio }: { color: string; ratio: number }) {
         strokeWidth={arcStroke}
       />
       {ratio > 0 ? (
-        <path
-          data-slot="gauge-value"
-          d={arcPath(arcRadius, 180, 180 - ratio * 180, cy)}
-          fill="none"
-          stroke={color}
-          strokeLinecap="round"
-          strokeWidth={arcStroke}
-        />
+        <>
+          <path
+            d={arcPath(arcRadius, 180, 180 - ratio * 180, cy)}
+            fill="none"
+            stroke="var(--chart-outline)"
+            strokeLinecap="round"
+            strokeWidth={arcStroke + 2}
+          />
+          <path
+            data-slot="gauge-value"
+            d={arcPath(arcRadius, 180, 180 - ratio * 180, cy)}
+            fill="none"
+            stroke={color}
+            strokeLinecap="round"
+            strokeWidth={arcStroke}
+          />
+        </>
       ) : null}
     </svg>
   );
@@ -187,7 +196,7 @@ function SegmentedArc({
             data-filled={reach >= 1 ? "" : undefined}
             d={blockPath(from, from - sweep, cy)}
             fill={fill}
-            stroke={fill}
+            stroke="var(--chart-outline)"
             strokeLinejoin="round"
             strokeWidth={blockCornerStroke}
           />

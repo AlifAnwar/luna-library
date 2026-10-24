@@ -108,18 +108,19 @@ describe("danger semantic contrast", () => {
 describe("chart legend marker contrast", () => {
   it("keeps the shape outline distinguishable on Luna surfaces", () => {
     expect(
-      contrast(token("foreground-secondary"), token("surface")),
+      contrast(token("chart-outline"), token("surface")),
     ).toBeGreaterThanOrEqual(3);
   });
 
-  it.each(["chart-1", "chart-2", "chart-3", "chart-4", "chart-5"])(
-    "keeps %s graphical marks distinguishable on the chart surface",
-    (chartToken) => {
-      expect(
-        contrast(token(chartToken), token("surface")),
-      ).toBeGreaterThanOrEqual(3);
-    },
-  );
+  it.each([
+    ["chart-1", "#0077ff"],
+    ["chart-2", "#009dff"],
+    ["chart-3", "#00bfff"],
+    ["chart-4", "#66d9ff"],
+    ["chart-5", "#eaf7ff"],
+  ])("keeps %s aligned with the sky palette", (chartToken, expected) => {
+    expect(token(chartToken)).toBe(expected);
+  });
 });
 
 describe("chart slice label contrast", () => {

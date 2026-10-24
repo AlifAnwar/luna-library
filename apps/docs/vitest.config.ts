@@ -14,6 +14,11 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  optimizeDeps: {
+    // SidebarMenuLink uses this existing Base UI subpath. Pre-optimize it so
+    // Storybook browser tests do not reload midway through a fresh run.
+    include: ["@withalif/luna > @base-ui/react/use-render"],
+  },
   test: {
     projects: [
       {

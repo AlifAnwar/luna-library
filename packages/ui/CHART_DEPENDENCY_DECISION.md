@@ -161,42 +161,33 @@ interact with. It is exposed as `role="meter"` with `aria-valuenow`,
 beyond the scale are clamped for the meter but shown as given, and a partly
 reached segment is tinted in proportion rather than rounded up.
 
-### Categorical palette update
+### Sky chart palette update
 
-Every segment of a pie is adjacent to its neighbours, including last to first,
-so Phase 4D re-validated the categorical palette. The previous order failed:
-`--chart-4` (`#b45309`) against `--chart-5` (`#be123c`) measured ΔE 11.5 for
-normal vision and 5.7 for deuteranopia, and `--chart-2` (`#0f766e`) sat below
-the chroma floor.
+The chart system uses a sequential sky-blue palette instead of the previous
+multi-hue categorical set:
 
-`--chart-1` stays on the primary blue. The other slots move to fresher steps:
+| Token       | Primitive             | Value     | Label foreground |
+| ----------- | --------------------- | --------- | ---------------- |
+| `--chart-1` | `--luna-ultra-sky`    | `#0077ff` | `#000000`        |
+| `--chart-2` | `--luna-signal-azure` | `#009dff` | `--foreground`   |
+| `--chart-3` | `--luna-cyan-rush`    | `#00bfff` | `--foreground`   |
+| `--chart-4` | `--luna-air-glow`     | `#66d9ff` | `--foreground`   |
+| `--chart-5` | `--luna-cloud-flash`  | `#eaf7ff` | `--foreground`   |
 
-| Token       | Before    | After     | Label foreground |
-| ----------- | --------- | --------- | ---------------- |
-| `--chart-1` | `#0065f4` | `#0065f4` | `#ffffff`        |
-| `--chart-2` | `#0f766e` | `#0d9488` | `--foreground`   |
-| `--chart-3` | `#7c3aed` | `#7f56f2` | `#ffffff`        |
-| `--chart-4` | `#b45309` | `#ea580c` | `--foreground`   |
-| `--chart-5` | `#be123c` | `#ec4899` | `--foreground`   |
-
-The palette passes every validator check with wraparound adjacency: worst
-adjacent pair ΔE 16.2 for normal vision and 14.1 for deuteranopia, chroma at
-least 0.1, and every mark at least 3:1 against the surface. The lighter fills no
-longer carry white text at 4.5:1, so each slot pairs with a
-`--chart-N-foreground` token for text drawn on it; consumers who override a
-chart color override its foreground with it.
+The lightest fills do not reach 3:1 against the white chart surface by
+themselves. Chart shapes therefore pair the requested fill with
+`--chart-outline`, which resolves to `--foreground-secondary` and measures
+4.97:1 against `--surface`. Text drawn on a fill uses the paired
+`--chart-N-foreground` token and remains at least 4.5:1.
 
 #### Consumer impact
 
-- `LineChart`, `BarChart`, and `AreaChart` read the same `--chart-2` to
-  `--chart-5` tokens, so Phase 4C series 2 to 5 change color too. Their dash
-  and fill patterns are unchanged, so series stay identifiable without color.
-- The primitive tokens `--luna-teal-700`, `--luna-purple-600`,
-  `--luna-orange-700`, and `--luna-rose-700` are removed, replaced by
-  `--luna-teal-600`, `--luna-violet-500`, `--luna-orange-600`, and
-  `--luna-pink-500`. Nothing in Luna referenced the old names, and the package
-  is not yet published, so no alias is kept. The release notes must list the
-  rename for anyone who referenced the primitives directly.
+- `LineChart` and `AreaChart` draw a neutral casing behind each colored line.
+  `BarChart`, distribution charts, and gauges outline their colored shapes.
+- Existing dash, marker, fill-pattern, label, and accessible-table cues remain,
+  so color is not the only way to identify a series.
+- The former teal, violet, orange, and pink chart primitives are removed. The
+  package is not yet published, so no compatibility aliases are kept.
 
 ## Sources
 
