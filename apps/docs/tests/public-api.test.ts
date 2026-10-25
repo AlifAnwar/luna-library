@@ -82,3 +82,13 @@ describe("Phase 5A public API", () => {
     expect(luna.SidebarMenuLink).toBeTypeOf("function");
   });
 });
+
+describe("Phase 5C public API", () => {
+  it.each(["DetailList", "DetailField"])(
+    "exports %s from the package entry point",
+    (name) => {
+      expect(luna).toHaveProperty(name);
+      expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+    },
+  );
+});
