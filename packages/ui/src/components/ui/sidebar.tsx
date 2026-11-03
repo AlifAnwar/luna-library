@@ -214,7 +214,7 @@ function Sidebar({
         data-side={side}
         data-collapsible="none"
         className={cn(
-          "flex h-svh w-(--sidebar-width) shrink-0 flex-col border-border bg-surface text-foreground",
+          "sticky top-0 flex h-svh w-(--sidebar-width) shrink-0 self-start flex-col border-border bg-surface text-foreground",
           side === "left" ? "border-r" : "border-l",
           className,
         )}
@@ -251,7 +251,7 @@ function Sidebar({
       data-collapsible={state === "collapsed" ? collapsible : undefined}
       data-side={side}
       className={cn(
-        "group/sidebar hidden h-svh shrink-0 flex-col border-border bg-surface text-foreground transition-[width] duration-200 ease-linear motion-reduce:transition-none md:flex",
+        "group/sidebar sticky top-0 hidden h-svh shrink-0 self-start flex-col border-border bg-surface text-foreground transition-[width] duration-200 ease-linear motion-reduce:transition-none md:flex",
         side === "right" && "order-1",
         side === "left" ? "border-r" : "border-l",
         state === "expanded" && "w-(--sidebar-width)",
@@ -742,7 +742,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"nav">) {
       data-slot="sidebar-rail"
       aria-label="Primary"
       className={cn(
-        "hidden h-svh w-14 shrink-0 flex-col items-center gap-1 border-r border-border bg-muted py-3 md:flex",
+        "sticky top-0 hidden h-svh w-14 shrink-0 self-start flex-col items-center gap-1 border-r border-border bg-muted py-3 md:flex",
         className,
       )}
       {...props}
