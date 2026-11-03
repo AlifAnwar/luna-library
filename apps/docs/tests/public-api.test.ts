@@ -92,3 +92,15 @@ describe("Phase 5C public API", () => {
     },
   );
 });
+
+describe("Phase 5D public API", () => {
+  it.each([
+    "ActivityLog",
+    "ActivityLogItem",
+    "ApprovalTimeline",
+    "ApprovalTimelineItem",
+  ])("exports %s from the package entry point", (name) => {
+    expect(luna).toHaveProperty(name);
+    expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
+  });
+});

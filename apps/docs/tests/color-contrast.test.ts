@@ -105,6 +105,26 @@ describe("danger semantic contrast", () => {
   );
 });
 
+describe("workflow timeline contrast", () => {
+  it.each([
+    ["neutral", token("surface-muted")],
+    ["info", token("info-subtle")],
+    ["success", token("success-subtle")],
+    ["warning", token("warning-subtle")],
+    ["danger", token("danger-subtle")],
+  ])("keeps workflow status text AA on the %s surface", (_, background) => {
+    expect(contrast(token("foreground"), background)).toBeGreaterThanOrEqual(
+      4.5,
+    );
+  });
+
+  it("keeps timeline supporting copy AA on the card surface", () => {
+    expect(
+      contrast(token("foreground-secondary"), token("surface")),
+    ).toBeGreaterThanOrEqual(4.5);
+  });
+});
+
 describe("chart legend marker contrast", () => {
   it("keeps the shape outline distinguishable on Luna surfaces", () => {
     expect(
