@@ -199,6 +199,57 @@ export const Default: Story = {
   },
 };
 
+export const StickyDuringDocumentScroll: Story = {
+  name: "Sticky during document scroll",
+  render: () => (
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader>
+          <AppLogo />
+        </SidebarHeader>
+        <SidebarSeparator />
+        <SidebarContent aria-label="Workspace">
+          <SidebarGroup>
+            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton isActive>
+                    <CheckCircleIcon />
+                    <span>Overview</span>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <AppContent title="Long workspace">
+          <div className="min-h-[200svh] text-body text-muted-foreground">
+            Long application content keeps the document scrollable while the
+            desktop sidebar remains pinned to the viewport.
+          </div>
+        </AppContent>
+      </SidebarInset>
+    </SidebarProvider>
+  ),
+  play: async ({ canvasElement }) => {
+    const sidebar = canvasElement.querySelector<HTMLElement>(
+      '[data-slot="sidebar"]',
+    );
+
+    await expect(sidebar).not.toBeNull();
+    await expect(getComputedStyle(sidebar!).position).toBe("sticky");
+
+    window.scrollTo({ top: document.documentElement.scrollHeight });
+    await waitFor(() =>
+      expect(Math.round(sidebar!.getBoundingClientRect().top)).toBe(0),
+    );
+    window.scrollTo({ top: 0 });
+  },
+};
+
 export const WithNestedItems: Story = {
   name: "With nested menu items",
   render: () => (
