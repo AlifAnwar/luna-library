@@ -21,6 +21,7 @@ export * from "./components/ui/data-table-toolbar";
 export * from "./components/ui/data-table-view-options";
 export * from "./components/ui/dashboard-grid";
 export * from "./components/ui/dashboard-widget";
+export * from "./components/ui/detail-list";
 export * from "./components/ui/date-picker";
 export * from "./components/ui/date-range-picker";
 export * from "./components/ui/distribution-chart";
