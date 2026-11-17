@@ -1,7 +1,23 @@
 {
   "name": "@withalif/luna",
-  "version": "0.0.0",
+  "version": "0.5.0",
+  "description": "Internal React design system for accessible enterprise applications",
   "private": true,
+  "keywords": [
+    "design-system",
+    "react",
+    "typescript",
+    "ui-components"
+  ],
+  "homepage": "https://github.com/AlifAnwar/luna-library#readme",
+  "bugs": {
+    "url": "https://github.com/AlifAnwar/luna-library/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlifAnwar/luna-library.git",
+    "directory": "packages/ui"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles/globals.css"

@@ -1,159 +1,109 @@
-# Turborepo starter
+# Luna UI
 
-This Turborepo starter is maintained by the Turborepo core team.
+Luna UI is an internal React design system for accessible, information-rich
+enterprise applications. It combines reusable components, data visualization,
+workflow patterns, and Storybook recipes in one TypeScript monorepo.
 
-## Using this example
+The current milestone is **v0.5.0**. The package remains private and is consumed
+through this workspace; it is not published to npm.
 
-Run the following command:
+## What is included
 
-```sh
-npx create-turbo@latest
-```
+- Accessible controls and navigation primitives built on React and Base UI.
+- Data tables with search, filters, sorting, pagination, selection, bulk
+  actions, and export controls.
+- Metric, cartesian, distribution, comparison, and gauge chart primitives.
+- Dashboard, application shell, detail, form, activity, and approval patterns.
+- Cross-pattern Storybook recipes covering loading, empty, error, validation,
+  long-content, and narrow-screen states.
+- Automated unit, interaction, accessibility, and public API coverage.
 
-## What's inside?
+## Requirements
 
-This Turborepo includes the following packages/apps:
+- Node.js 24 or newer
+- pnpm 12.4.2 through Corepack
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@withalif/luna`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `@next/eslint-plugin-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+## Get started
 
 ```sh
-cd my-turborepo
-turbo build
+corepack enable
+pnpm install --frozen-lockfile
+pnpm storybook
 ```
 
-Without global `turbo`, use your package manager:
+Storybook runs at `http://localhost:6006`.
+
+To run the two Next.js applications instead:
 
 ```sh
-cd my-turborepo
-npx turbo build
-npm exec turbo build
-npm exec turbo build
+pnpm dev
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+- `web` runs at `http://localhost:3000`.
+- `docs` runs at `http://localhost:3001`.
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Use Luna in this workspace
 
-```sh
-turbo build --filter=docs
+Add the workspace dependency to an application package:
+
+```json
+{
+  "dependencies": {
+    "@withalif/luna": "workspace:*"
+  }
+}
 ```
 
-Without global `turbo`:
+Import the global styles once near the application root, then import components
+from the public package entry point:
 
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
+```tsx
+import "@withalif/luna/styles.css";
+import { Button, Card, CardContent } from "@withalif/luna";
 ```
 
-### Develop
+The package currently exports TypeScript source for workspace consumption. See
+the [UI package guide](packages/ui/README.md) for ownership boundaries and usage
+notes.
 
-To develop all apps and packages, run the following command:
+## Commands
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+| Command                | Purpose                                        |
+| ---------------------- | ---------------------------------------------- |
+| `pnpm storybook`       | Start the component and pattern documentation. |
+| `pnpm build-storybook` | Create a static Storybook build.               |
+| `pnpm dev`             | Start all development applications.            |
+| `pnpm lint`            | Run ESLint across the monorepo.                |
+| `pnpm check-types`     | Run TypeScript checks across the monorepo.     |
+| `pnpm test`            | Run unit and Storybook browser tests.          |
+| `pnpm build`           | Build the Next.js applications.                |
+| `pnpm release:check`   | Run the complete local release gate.           |
 
-```sh
-cd my-turborepo
-turbo dev
+## Repository structure
+
+```text
+apps/
+  docs/       Storybook stories, browser tests, and the docs application
+  web/        Luna foundation reference application
+packages/
+  ui/         @withalif/luna components, icons, styles, and phase decisions
+  eslint-config/
+  typescript-config/
 ```
 
-Without global `turbo`, use your package manager:
+## Product boundaries
 
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
+Luna owns semantic presentation, controlled interaction contracts, responsive
+component behavior, accessible field relationships, and generic visual states.
+Applications continue to own routing, data fetching, business validation,
+persistence, authorization, localization, and workflow execution.
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+The complete integration boundary is documented in
+[Phase 5E](packages/ui/PHASE_5E_CROSS_PATTERN_INTEGRATION.md).
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+## Releases and documentation
 
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- Read [CHANGELOG.md](CHANGELOG.md) for milestone changes.
+- Follow [RELEASING.md](RELEASING.md) to validate and tag an internal release.
+- Storybook is built and deployed to GitHub Pages after changes reach `main`.
+  The repository must use **GitHub Actions** as its Pages publishing source.

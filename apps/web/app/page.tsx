@@ -99,7 +99,7 @@ export default function Home() {
           <a href="#data-visualization">Data visualization</a>
         </nav>
 
-        <span className={styles.version}>v1.0</span>
+        <span className={styles.version}>v0.5</span>
       </header>
 
       <main id="top" className={styles.shell}>
@@ -107,7 +107,7 @@ export default function Home() {
           <div className={styles.heroCopy}>
             <div className={styles.eyebrow}>
               <span aria-hidden="true" />
-              Foundations · v1
+              Foundations · v0.5
             </div>
             <h1>Luna Foundations</h1>
             <p>
