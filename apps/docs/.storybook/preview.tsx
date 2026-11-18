@@ -1,4 +1,4 @@
-import "@withalif/luna/styles.css";
+import "./preview.css";
 import type { Preview } from "@storybook/nextjs-vite";
 
 const preview: Preview = {

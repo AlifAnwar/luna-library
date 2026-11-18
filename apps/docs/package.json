@@ -20,7 +20,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "latest",
+    "@chromatic-com/storybook": "5.3.1",
     "@hugeicons/core-free-icons": "^4.3.3",
     "@hugeicons/react": "^1.1.10",
     "@repo/eslint-config": "workspace:*",
@@ -34,16 +34,16 @@
     "@types/node": "26.4.1",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
-    "@vitest/browser-playwright": "latest",
-    "@vitest/coverage-v8": "latest",
+    "@vitest/browser-playwright": "5.0.1",
+    "@vitest/coverage-v8": "5.0.1",
     "eslint": "10.9.1",
     "eslint-plugin-storybook": "^10.6.0",
-    "playwright": "latest",
+    "playwright": "1.63.0",
     "postcss": "^8.5.28",
     "storybook": "^10.6.0",
     "tailwindcss": "^4.3.3",
     "typescript": "7.0.2",
-    "vite": "latest",
-    "vitest": "latest"
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
   }
 }

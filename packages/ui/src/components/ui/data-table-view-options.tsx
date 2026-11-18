@@ -2,18 +2,18 @@
 
 import * as React from "react";
 
-import { ChevronDownIcon, ColumnsIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Badge } from "./badge";
-import { Button } from "./button";
-import { Checkbox } from "./checkbox";
+import { ChevronDownIcon, ColumnsIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Badge } from "./badge.js";
+import { Button } from "./button.js";
+import { Checkbox } from "./checkbox.js";
 import {
   Popover,
   PopoverContent,
   PopoverTitle,
   PopoverTrigger,
-} from "./popover";
-import { Separator } from "./separator";
+} from "./popover.js";
+import { Separator } from "./separator.js";
 
 /** One switchable column in the view menu. */
 type DataTableViewOption = {

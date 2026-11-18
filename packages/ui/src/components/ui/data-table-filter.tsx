@@ -2,19 +2,19 @@
 
 import * as React from "react";
 
-import { ChevronDownIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Badge } from "./badge";
-import { Button } from "./button";
-import { Checkbox } from "./checkbox";
+import { ChevronDownIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Badge } from "./badge.js";
+import { Button } from "./button.js";
+import { Checkbox } from "./checkbox.js";
 import {
   Popover,
   PopoverContent,
   PopoverTitle,
   PopoverTrigger,
-} from "./popover";
-import { RadioGroup, RadioGroupItem } from "./radio-group";
-import { Separator } from "./separator";
+} from "./popover.js";
+import { RadioGroup, RadioGroupItem } from "./radio-group.js";
+import { Separator } from "./separator.js";
 
 type DataTableFilterOption = {
   label: string;

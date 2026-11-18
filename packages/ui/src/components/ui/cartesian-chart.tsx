@@ -15,8 +15,12 @@ import {
   YAxis,
   type TooltipContentProps,
 } from "recharts";
-import { ChevronDownIcon, ChevronUpIcon, MinusIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  MinusIcon,
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 import {
   ChartContainer,
   ChartEmptyState,
@@ -30,8 +34,8 @@ import {
   type ChartMarker,
   type ChartSize,
   type ChartTooltipItem,
-} from "./chart";
-import { trendIndicatorVariants } from "./trend-indicator";
+} from "./chart.js";
+import { trendIndicatorVariants } from "./trend-indicator.js";
 
 type CartesianChartDatum = Record<string, string | number | null | undefined>;
 

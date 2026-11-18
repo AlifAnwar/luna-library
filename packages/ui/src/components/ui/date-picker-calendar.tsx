@@ -6,8 +6,8 @@ import {
   type ChevronProps,
   type DayPickerProps,
 } from "@daypicker/react";
-import { ChevronRightIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { ChevronRightIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 function CalendarChevron({
   className,

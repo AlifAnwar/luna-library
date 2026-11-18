@@ -1,15 +1,15 @@
 "use client";
 
 import * as React from "react";
-import { SearchIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { SearchIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "./dialog";
+} from "./dialog.js";
 
 type CommandItem = {
   value: string;

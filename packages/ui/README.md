@@ -4,7 +4,7 @@
 provides React components, icons, styles, chart primitives, and enterprise
 workflow presentation patterns.
 
-## Workspace usage
+## Usage
 
 ```tsx
 import "@withalif/luna/styles.css";
@@ -23,6 +23,10 @@ relationships.
 Consuming applications own routing, data access, formatting, localization,
 validation rules, persistence, permissions, and workflow execution.
 
+Luna is consumed through compiled files in `dist/`; consumers never compile the
+package source. The package remains private and is installed through
+`workspace:*` inside this monorepo until the Phase 6D publication decision.
+
 ## Development
 
 Run package checks from the repository root:
@@ -30,6 +34,9 @@ Run package checks from the repository root:
 ```sh
 pnpm --filter @withalif/luna lint
 pnpm --filter @withalif/luna check-types
+pnpm --filter @withalif/luna run build
+pnpm --filter @withalif/luna run pack:check
+pnpm --filter @withalif/luna run test:package
 ```
 
 Use Storybook for component behavior, accessibility, and responsive examples:
@@ -38,6 +45,14 @@ Use Storybook for component behavior, accessibility, and responsive examples:
 pnpm storybook
 ```
 
-The package exports TypeScript source and remains private. A future npm release
-requires a compiled distribution, peer dependency review, package-content
-validation, a license decision, and a dedicated publishing pipeline.
+The package exports compiled ESM, declarations, declaration maps, JavaScript
+source maps, and a compiled stylesheet. Read
+[Phase 6A — Package Distribution](PHASE_6A_PACKAGE_DISTRIBUTION.md) for the
+artifact contract, dependency boundaries, and isolated consumer gate.
+
+## Roadmap
+
+Read [Phase 6 — Production Readiness](PHASE_6_PRODUCTION_READINESS.md) before
+changing package exports, dependencies, themes, compatibility claims, or the
+release pipeline. It defines the required 6A–6D order and acceptance gates for
+agents working on the next milestone.

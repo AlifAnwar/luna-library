@@ -5,7 +5,20 @@ tags for milestone releases and is not published to npm.
 
 ## [Unreleased]
 
-No changes yet.
+### Added
+
+- Phase 6 production-readiness roadmap covering package distribution, themes,
+  compatibility, accessibility, and release automation.
+- Compiled ESM, declarations, declaration maps, source maps, and a processed
+  stylesheet for the private `@withalif/luna` package.
+- Package archive inspection and an isolated client/SSR consumer smoke test.
+
+### Changed
+
+- Package exports now resolve only to built `dist/` artifacts, and React plus
+  React DOM are exact tested peer dependencies.
+- Workspace applications now validate the built package contract instead of
+  transpiling Luna source directly.
 
 ## [0.5.0] - 2026-11-17
 

@@ -2,16 +2,16 @@
 
 import * as React from "react";
 import type { DateRange } from "@daypicker/react";
-import { CalendarIcon, ChevronDownIcon, CloseIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
+import { CalendarIcon, ChevronDownIcon, CloseIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
 import {
   Calendar,
   formatDate,
   toDateInputValue,
   type DatePickerCalendarProps,
-} from "./date-picker-calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+} from "./date-picker-calendar.js";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover.js";
 
 type DateRangePickerProps = {
   "aria-label": string;

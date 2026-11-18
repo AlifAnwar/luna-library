@@ -11,7 +11,10 @@
     "check-types": "turbo run check-types",
     "test": "turbo run test",
     "storybook": "pnpm --filter docs storybook",
-    "release:check": "pnpm lint && pnpm check-types && pnpm test && pnpm build && pnpm build-storybook"
+    "predev": "pnpm --filter @withalif/luna run build",
+    "prestorybook": "pnpm --filter @withalif/luna run build",
+    "prebuild-storybook": "pnpm --filter @withalif/luna run build",
+    "release:check": "pnpm lint && pnpm check-types && pnpm test && pnpm build && pnpm --filter @withalif/luna run test:package && pnpm build-storybook"
   },
   "devDependencies": {
     "prettier": "3.9.6",

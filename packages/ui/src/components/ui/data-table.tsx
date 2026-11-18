@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { cn } from "../../lib/utils";
-import { Checkbox } from "./checkbox";
-import { Skeleton } from "./skeleton";
+import { cn } from "../../lib/utils.js";
+import { Checkbox } from "./checkbox.js";
+import { Skeleton } from "./skeleton.js";
 
 type DataTableAlign = "start" | "center" | "end";
 

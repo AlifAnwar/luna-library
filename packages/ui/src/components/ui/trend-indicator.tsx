@@ -1,7 +1,11 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ChevronDownIcon, ChevronUpIcon, MinusIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  MinusIcon,
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 const trendIndicatorVariants = cva(
   "inline-flex min-w-0 w-fit items-center gap-1 rounded-full border px-2 py-0.5 text-caption font-medium text-foreground",

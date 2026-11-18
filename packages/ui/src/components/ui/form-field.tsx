@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import { Label, type LabelProps } from "./label";
+import { cn } from "../../lib/utils.js";
+import { Label, type LabelProps } from "./label.js";
 
 type FormFieldContextValue = {
   controlId: string;

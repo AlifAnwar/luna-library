@@ -4,9 +4,9 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
-} from "../../icons";
-import { cn } from "../../lib/utils";
-import { buttonVariants, type ButtonProps } from "./button";
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { buttonVariants, type ButtonProps } from "./button.js";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (

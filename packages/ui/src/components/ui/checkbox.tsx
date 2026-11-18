@@ -1,6 +1,6 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
-import { CheckIcon, MinusIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { CheckIcon, MinusIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
   return (

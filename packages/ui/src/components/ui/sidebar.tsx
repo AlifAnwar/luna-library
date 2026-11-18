@@ -3,13 +3,13 @@ import * as React from "react";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { MenuIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Badge } from "./badge";
-import { buttonVariants } from "./button";
-import { Separator } from "./separator";
-import { Sheet, SheetContent, SheetTitle } from "./sheet";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip";
+import { MenuIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Badge } from "./badge.js";
+import { buttonVariants } from "./button.js";
+import { Separator } from "./separator.js";
+import { Sheet, SheetContent, SheetTitle } from "./sheet.js";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip.js";
 
 const MOBILE_BREAKPOINT = 768;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils.js";
 import {
   ChartContainer,
   ChartEmptyState,
@@ -10,7 +10,7 @@ import {
   type ChartColor,
   type ChartContainerProps,
   type ChartSize,
-} from "./chart";
+} from "./chart.js";
 
 type GaugeChartVariant = "default" | "segmented";
 

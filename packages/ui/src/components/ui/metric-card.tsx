@@ -1,8 +1,8 @@
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import { Card, CardContent } from "./card";
-import { Skeleton } from "./skeleton";
-import { TrendIndicator, type MetricTrend } from "./trend-indicator";
+import { cn } from "../../lib/utils.js";
+import { Card, CardContent } from "./card.js";
+import { Skeleton } from "./skeleton.js";
+import { TrendIndicator, type MetricTrend } from "./trend-indicator.js";
 
 type MetricStatus = "default" | "loading" | "empty" | "unavailable";
 

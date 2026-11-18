@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { CloseIcon, FileIcon, UploadIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
+import { CloseIcon, FileIcon, UploadIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
 
 type FileUploadRejectionReason =
   "file-too-large" | "file-type-not-accepted" | "too-many-files";

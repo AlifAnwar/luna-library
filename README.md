@@ -62,9 +62,12 @@ import "@withalif/luna/styles.css";
 import { Button, Card, CardContent } from "@withalif/luna";
 ```
 
-The package currently exports TypeScript source for workspace consumption. See
-the [UI package guide](packages/ui/README.md) for ownership boundaries and usage
-notes.
+The private package exports compiled ESM, TypeScript declarations, and a
+compiled stylesheet from `dist/`. See the
+[UI package guide](packages/ui/README.md) for ownership boundaries and usage
+notes, and the
+[Phase 6A distribution decision](packages/ui/PHASE_6A_PACKAGE_DISTRIBUTION.md)
+for the artifact contract and isolated consumer gate.
 
 ## Commands
 
@@ -76,7 +79,7 @@ notes.
 | `pnpm lint`            | Run ESLint across the monorepo.                |
 | `pnpm check-types`     | Run TypeScript checks across the monorepo.     |
 | `pnpm test`            | Run unit and Storybook browser tests.          |
-| `pnpm build`           | Build the Next.js applications.                |
+| `pnpm build`           | Build Luna and the Next.js applications.       |
 | `pnpm release:check`   | Run the complete local release gate.           |
 
 ## Repository structure
@@ -105,5 +108,7 @@ The complete integration boundary is documented in
 
 - Read [CHANGELOG.md](CHANGELOG.md) for milestone changes.
 - Follow [RELEASING.md](RELEASING.md) to validate and tag an internal release.
+- Follow the [Phase 6 production-readiness roadmap](packages/ui/PHASE_6_PRODUCTION_READINESS.md)
+  for package distribution, themes, compatibility, and release automation.
 - Storybook is built and deployed to GitHub Pages after changes reach `main`.
   The repository must use **GitHub Actions** as its Pages publishing source.
