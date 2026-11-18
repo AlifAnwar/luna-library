@@ -15,7 +15,7 @@ export default defineConfig({
   minify: false,
   sourcemap: true,
   dts: false,
-  onSuccess: "tsc -p tsconfig.build.json",
+  onSuccess: "tsc -p tsconfig.build.json && node scripts/copy-theme.mjs",
   deps: {
     neverBundle: true,
     onlyImport: [

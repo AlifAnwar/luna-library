@@ -1,6 +1,6 @@
 # Phase 6 — Production Readiness
 
-Status: Phase 6A implementation complete; Phase 6B not started.
+Status: Phase 6A implementation complete; Phase 6B implementation in progress.
 
 ## Purpose
 
@@ -89,7 +89,7 @@ Recommended branch names:
 | Subphase | Primary outcome                                           | Status      | Depends on          |
 | -------- | --------------------------------------------------------- | ----------- | ------------------- |
 | 6A       | Compiled and installable package distribution             | Implemented | `v0.5.0` baseline   |
-| 6B       | Stable theme, dark-mode, and RTL contracts                | Not started | 6A package contract |
+| 6B       | Stable theme, dark-mode, and RTL contracts                | In progress | 6A package contract |
 | 6C       | Verified compatibility and accessibility matrix           | Not started | 6A and 6B           |
 | 6D       | Repeatable release pipeline and publication decision gate | Not started | 6A–6C               |
 
@@ -172,6 +172,9 @@ The smoke test must:
 ---
 
 ## Phase 6B — Theme, dark-mode, and RTL contract
+
+The audit, selected contracts, findings, and implementation order are recorded
+in [Phase 6B — Theme, Dark Mode, and RTL](PHASE_6B_THEME_RTL.md).
 
 ### Scope
 

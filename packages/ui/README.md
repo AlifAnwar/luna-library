@@ -11,8 +11,21 @@ import "@withalif/luna/styles.css";
 import { Button, DataTable, DetailField, DetailList } from "@withalif/luna";
 ```
 
-Import only from `@withalif/luna` and `@withalif/luna/styles.css`. Files below
-`src/` are implementation details and are not supported package entry points.
+Use `@withalif/luna` and `@withalif/luna/styles.css` for runtime imports. Files
+below `src/` are implementation details and are not supported package entry
+points.
+
+Applications that compile Tailwind utilities against Luna's public token
+names can reference the authoring-only theme contract:
+
+```css
+@import "@withalif/luna/styles.css";
+@reference "@withalif/luna/theme.css";
+```
+
+`styles.css` is the runtime stylesheet. `theme.css` only exposes Tailwind
+namespace mappings such as `bg-surface` and must not replace the runtime import
+or be loaded as a second browser stylesheet.
 
 ## Ownership boundary
 
