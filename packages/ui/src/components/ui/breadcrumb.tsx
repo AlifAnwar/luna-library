@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { ChevronRightIcon, MoreHorizontalIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { ChevronRightIcon, MoreHorizontalIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 function Breadcrumb({ ...props }: React.ComponentProps<"nav">) {
   return <nav data-slot="breadcrumb" aria-label="breadcrumb" {...props} />;

@@ -1,16 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDownIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
+import { ChevronDownIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
 import {
   Calendar,
   formatDate,
   toDateInputValue,
   type DatePickerCalendarProps,
-} from "./date-picker-calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+} from "./date-picker-calendar.js";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover.js";
 
 type DatePickerProps = {
   "aria-label": string;

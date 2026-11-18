@@ -7,17 +7,17 @@ import {
   ChevronRightIcon,
   FirstPageIcon,
   LastPageIcon,
-} from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
-import { Pagination, PaginationContent, PaginationItem } from "./pagination";
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
+import { Pagination, PaginationContent, PaginationItem } from "./pagination.js";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./select";
+} from "./select.js";
 
 type DataTablePaginationProps = Omit<
   React.ComponentProps<"nav">,

@@ -7,8 +7,8 @@ import {
   CloseIcon,
   InfoIcon,
   WarningIcon,
-} from "../../icons";
-import { cn } from "../../lib/utils";
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 const ToastProvider = ToastPrimitive.Provider;
 const useToast = ToastPrimitive.useToastManager;

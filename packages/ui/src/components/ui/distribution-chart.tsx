@@ -8,7 +8,7 @@ import {
   Sector,
   type PieSectorShapeProps,
 } from "recharts";
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils.js";
 import {
   ChartContainer,
   ChartEmptyState,
@@ -21,7 +21,7 @@ import {
   type ChartLegendItem,
   type ChartSize,
   type ChartTooltipItem,
-} from "./chart";
+} from "./chart.js";
 
 type DistributionChartDatum = {
   /** Stable identity for the slice. Defaults to `category`. */

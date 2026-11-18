@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
-import { CheckIcon, ChevronDownIcon, CloseIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { CheckIcon, ChevronDownIcon, CloseIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 type MultiSelectOption = {
   value: string;

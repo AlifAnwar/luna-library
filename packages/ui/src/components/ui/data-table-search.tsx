@@ -2,10 +2,10 @@
 
 import * as React from "react";
 
-import { CloseIcon, SearchIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
-import { Input } from "./input";
+import { CloseIcon, SearchIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
+import { Input } from "./input.js";
 
 type DataTableSearchProps = Omit<
   React.ComponentProps<"input">,

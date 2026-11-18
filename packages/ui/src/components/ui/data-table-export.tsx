@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { ChevronDownIcon, DownloadIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Button } from "./button";
+import { ChevronDownIcon, DownloadIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Button } from "./button.js";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "./dropdown-menu";
+} from "./dropdown-menu.js";
 
 type DataTableExportFormat = "csv" | "excel";
 

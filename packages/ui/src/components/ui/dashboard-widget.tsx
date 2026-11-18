@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "../../lib/utils";
+import { cn } from "../../lib/utils.js";
 import {
   Card,
   CardAction,
@@ -7,8 +7,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./card";
-import { Skeleton } from "./skeleton";
+} from "./card.js";
+import { Skeleton } from "./skeleton.js";
 
 type DashboardWidgetStatus = "default" | "loading" | "empty";
 

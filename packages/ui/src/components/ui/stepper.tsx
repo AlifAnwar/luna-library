@@ -1,8 +1,8 @@
 "use client";
 import * as React from "react";
 
-import { CheckIcon } from "../../icons";
-import { cn } from "../../lib/utils";
+import { CheckIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
 
 type StepperOrientation = "horizontal" | "vertical";
 

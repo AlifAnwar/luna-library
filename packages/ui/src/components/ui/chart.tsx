@@ -1,6 +1,6 @@
 import * as React from "react";
-import { cn } from "../../lib/utils";
-import { Skeleton } from "./skeleton";
+import { cn } from "../../lib/utils.js";
+import { Skeleton } from "./skeleton.js";
 
 type ChartSize = "spark" | "sm" | "default" | "lg";
 /** `end` places the legend beside the plot, wrapping below it when the container is narrow. */

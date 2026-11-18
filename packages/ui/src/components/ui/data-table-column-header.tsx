@@ -2,9 +2,13 @@
 
 import * as React from "react";
 
-import { ChevronDownIcon, ChevronUpIcon, UnfoldMoreIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import type { DataTableSortDirection } from "./data-table";
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  UnfoldMoreIcon,
+} from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import type { DataTableSortDirection } from "./data-table.js";
 
 /**
  * The cycle a sortable header walks on each activation. Unsorted leads to

@@ -39,7 +39,14 @@ export default defineConfig({
           browser: {
             enabled: true,
             headless: true,
-            provider: playwright({}),
+            provider: playwright({
+              // Vitest 5 does not currently forward `browser.viewport` to the
+              // Playwright context, so set the desktop-first story viewport
+              // at the provider boundary where Playwright consumes it.
+              contextOptions: {
+                viewport: { width: 1280, height: 800 },
+              },
+            }),
             // Vitest's browser default is a phone-sized 414x896 viewport, which
             // puts every story below Luna's `md` breakpoint. Luna is an
             // enterprise UI library and its stories are authored desktop-first,

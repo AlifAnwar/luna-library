@@ -2,9 +2,9 @@
 
 import * as React from "react";
 
-import { EyeIcon, EyeOffIcon } from "../../icons";
-import { cn } from "../../lib/utils";
-import { Input } from "./input";
+import { EyeIcon, EyeOffIcon } from "../../icons/index.js";
+import { cn } from "../../lib/utils.js";
+import { Input } from "./input.js";
 
 type PasswordInputProps = Omit<React.ComponentProps<"input">, "type">;
 
