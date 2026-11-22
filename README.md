@@ -129,3 +129,7 @@ The complete integration boundary is documented in
   publication policy.
 - Storybook is built and deployed to GitHub Pages after changes reach `main`.
   The repository must use **GitHub Actions** as its Pages publishing source.
+
+## License
+
+[MIT](LICENSE) © 2026 Alif Anwar

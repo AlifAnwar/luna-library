@@ -172,6 +172,7 @@ async function validateArchive(tarballPath) {
     (entry) =>
       entry !== "package.json" &&
       entry !== "README.md" &&
+      entry !== "LICENSE" &&
       !entry.startsWith("dist/"),
   );
   assert.deepEqual(
@@ -183,6 +184,7 @@ async function validateArchive(tarballPath) {
   const requiredEntries = [
     "package.json",
     "README.md",
+    "LICENSE",
     "dist/index.js",
     "dist/index.d.ts",
     "dist/index.d.ts.map",

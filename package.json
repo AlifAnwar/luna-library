@@ -2,6 +2,7 @@
   "name": "luna-library",
   "version": "0.5.0",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "build": "turbo run build",
     "build-storybook": "pnpm --filter docs build-storybook",

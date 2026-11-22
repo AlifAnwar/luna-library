@@ -166,3 +166,7 @@ Read [Phase 6 — Production Readiness](PHASE_6_PRODUCTION_READINESS.md) before
 changing package exports, dependencies, themes, compatibility claims, or the
 release pipeline. It defines the required 6A–6D order and acceptance gates for
 agents working on the next milestone.
+
+## License
+
+[MIT](LICENSE) © 2026 Alif Anwar
