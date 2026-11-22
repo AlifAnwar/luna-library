@@ -48,3 +48,29 @@ test("package validation and Storybook deployment remain separate workflows", ()
   assert.match(storybookWorkflow, /deploy-pages/);
   assert.doesNotMatch(storybookWorkflow, /release:check|release-artifacts/);
 });
+
+test("WebKit compatibility runs on macOS while Linux covers Chromium and Firefox", () => {
+  assert.match(
+    releaseWorkflow,
+    /PHASE6C_ENGINES: chromium,firefox\n\s+run: pnpm release:check/,
+  );
+  assert.match(
+    releaseWorkflow,
+    /playwright install --with-deps chromium firefox$/m,
+  );
+  assert.match(
+    releaseWorkflow,
+    /^  webkit:\n    name: Validate WebKit compatibility \(macOS\)\n    runs-on: macos-latest$/m,
+  );
+  assert.match(releaseWorkflow, /^      PHASE6C_ENGINES: webkit$/m);
+  for (const script of [
+    "test:phase6c:browser",
+    "test:phase6c:narrow",
+    "test:phase6c:fixture",
+  ]) {
+    assert.match(
+      releaseWorkflow,
+      new RegExp(`run: pnpm --filter docs run ${script}$`, "m"),
+    );
+  }
+});

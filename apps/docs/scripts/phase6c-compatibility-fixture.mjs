@@ -18,6 +18,25 @@ import { gzipSync } from "node:zlib";
 
 import { chromium, firefox, webkit } from "playwright";
 
+// Mirrors apps/docs/phase6c-engines.ts. CI runs WebKit on a macOS runner and
+// Chromium/Firefox on Linux, so each job exercises only its own engines.
+const browserEngines = { chromium, firefox, webkit };
+const engineLabels = {
+  chromium: "Chromium",
+  firefox: "Firefox",
+  webkit: "WebKit",
+};
+const selectedEngines = process.env.PHASE6C_ENGINES?.trim()
+  ? [...new Set(process.env.PHASE6C_ENGINES.split(",").map((e) => e.trim()))]
+  : Object.keys(browserEngines);
+for (const engine of selectedEngines) {
+  assert(
+    engine in browserEngines,
+    `Unsupported PHASE6C_ENGINES entry "${engine}"`,
+  );
+}
+const includesChromium = selectedEngines.includes("chromium");
+
 const docsRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
@@ -566,15 +585,12 @@ try {
   assert(serverMarkup.includes("Server-rendered Luna card"));
   assert(serverMarkup.includes("Initial value"));
 
-  for (const [name, browserType] of [
-    ["Chromium", chromium],
-    ["Firefox", firefox],
-    ["WebKit", webkit],
-  ]) {
-    await exerciseEngine(name, browserType, url);
+  for (const engine of selectedEngines) {
+    await exerciseEngine(engineLabels[engine], browserEngines[engine], url);
   }
 
-  await exerciseMediaPreferences(url);
+  // Preference emulation and the Vite client mount are Chromium checks.
+  if (includesChromium) await exerciseMediaPreferences(url);
 
   await stopServer(serverProcess);
   serverProcess = undefined;
@@ -603,7 +619,7 @@ try {
   serverProcess.stdout.on("data", (chunk) => viteLogs.push(chunk.toString()));
   serverProcess.stderr.on("data", (chunk) => viteLogs.push(chunk.toString()));
   await waitForServer(viteUrl, viteLogs);
-  await exerciseViteClient(viteUrl);
+  if (includesChromium) await exerciseViteClient(viteUrl);
 
   console.log("Phase 6C packed Next.js SSR/hydration fixture passed");
 } finally {

@@ -4,7 +4,9 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
-const engines = ["chromium", "firefox", "webkit"] as const;
+import { resolvePhase6cEngines } from "./phase6c-engines";
+
+const engines = resolvePhase6cEngines();
 const failureEvidenceDir = path.join(
   import.meta.dirname,
   "test-results/phase6c/narrow",
@@ -22,8 +24,6 @@ export default defineConfig({
   ],
   test: {
     name: "phase6c-narrow",
-    // See vitest.phase6c.config.ts: concurrent pages make CI WebKit unreliable.
-    fileParallelism: false,
     browser: {
       enabled: true,
       headless: true,

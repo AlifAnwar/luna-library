@@ -138,6 +138,10 @@ is not a support statement.
 | Firefox  | Firefox `155.0`, revision `1543`                    | Reference set, packed hydration fixture, and 320 px suite              | Supported |
 | WebKit   | WebKit `26.6`, revision `2359`                      | Reference set, packed hydration fixture, and 320 px suite              | Supported |
 
+WebKit evidence is recorded on macOS, the WebKit port Safari ships. CI runs the
+WebKit suites on a macOS runner; the Linux GTK/WPE port leaves Base UI overlays
+mounted after their exit animation and is not part of the support claim.
+
 The full catalog does not need to run three times when a smaller reference set
 covers the shared primitives and highest-risk integrations. The reference set
 must be documented and must include at least:

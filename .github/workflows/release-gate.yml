@@ -37,10 +37,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # WebKit runs in the macOS job below. The Linux GTK/WPE WebKit port is not
+      # the engine Safari ships, and it stalls Base UI exit animations.
       - name: Install Playwright browsers
-        run: pnpm --filter docs exec playwright install --with-deps chromium firefox webkit
+        run: pnpm --filter docs exec playwright install --with-deps chromium firefox
 
       - name: Run release gate
+        env:
+          PHASE6C_ENGINES: chromium,firefox
         run: pnpm release:check
 
       - name: Upload browser failure evidence
@@ -59,3 +63,41 @@ jobs:
           path: release-artifacts/
           if-no-files-found: error
           retention-days: ${{ github.event_name == 'pull_request' && 14 || 90 }}
+
+  webkit:
+    name: Validate WebKit compatibility (macOS)
+    runs-on: macos-latest
+    timeout-minutes: 45
+    env:
+      CI: "1"
+      PHASE6C_ENGINES: webkit
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.22.3
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright WebKit
+        run: pnpm --filter docs exec playwright install webkit
+
+      - name: Build Luna
+        run: pnpm --filter @withalif/luna run build
+
+      - name: Run WebKit reference suite
+        run: pnpm --filter docs run test:phase6c:browser
+
+      - name: Run WebKit 320 px suite
+        run: pnpm --filter docs run test:phase6c:narrow
+
+      - name: Run WebKit packed hydration fixture
+        run: pnpm --filter docs run test:phase6c:fixture

@@ -76,14 +76,22 @@ The `Release Gate` workflow runs for pull requests targeting `main`, pushes to
 pnpm version, frozen dependency installation, and the complete non-publishing
 `pnpm release:check` command.
 
+The Linux job runs the Phase 6C browser suites in Chromium and Firefox
+(`PHASE6C_ENGINES=chromium,firefox`). A separate macOS job runs the WebKit
+reference, 320 px, and packed hydration suites (`PHASE6C_ENGINES=webkit`)
+because Safari ships Apple's WebKit port; the Linux GTK/WPE port does not
+complete Base UI exit animations and is not part of the support claim. Local
+runs without `PHASE6C_ENGINES` exercise all three engines. Set
+`PHASE6C_TRACE=1` to keep Playwright traces for failed browser tests.
+
 The workflow has only `contents: read`; it cannot publish packages, write
 releases, create tags, or deploy Storybook. After a successful gate it uploads
 the validated `release-artifacts/` directory for 14 days on pull requests and
 90 days for `main` or manual runs. Storybook continues to use its independent
 `Deploy Storybook` workflow.
 
-Repository administrators must require the `Validate private package archive`
-check on `main`, require review for workflow/release metadata changes, disable
+Repository administrators must require both the `Validate private package archive`
+and `Validate WebKit compatibility (macOS)` checks on `main`, require review for workflow/release metadata changes, disable
 force-pushes to `main`, and protect release tags from deletion. These settings
 must be verified in GitHub; repository files cannot enforce them by themselves.
 
