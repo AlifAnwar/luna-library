@@ -22,6 +22,8 @@ export default defineConfig({
   ],
   test: {
     name: "phase6c-narrow",
+    // See vitest.phase6c.config.ts: concurrent pages make CI WebKit unreliable.
+    fileParallelism: false,
     browser: {
       enabled: true,
       headless: true,
@@ -33,7 +35,7 @@ export default defineConfig({
       viewport: { width: 320, height: 800 },
       screenshotDirectory: path.join(failureEvidenceDir, "screenshots"),
       trace: {
-        mode: "retain-on-failure",
+        mode: process.env.PHASE6C_TRACE === "1" ? "retain-on-failure" : "off",
         tracesDir: path.join(failureEvidenceDir, "traces"),
       },
       instances: engines.map((browser) => ({ browser })),

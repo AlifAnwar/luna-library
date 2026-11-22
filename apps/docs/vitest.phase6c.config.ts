@@ -23,6 +23,10 @@ export default defineConfig({
   ],
   test: {
     name: "phase6c-reference",
+    // Run one story file at a time per engine. Concurrent pages starve the
+    // small CI runners, and Linux WebKit then stalls exit animations, focus
+    // restoration, and story preparation in the heaviest reference stories.
+    fileParallelism: false,
     browser: {
       enabled: true,
       headless: true,
@@ -32,12 +36,12 @@ export default defineConfig({
         },
       }),
       viewport: { width: 1280, height: 800 },
-      // Keep Playwright traces and screenshots only for failed tests so CI
-      // failures in engines that cannot run locally (Linux WebKit) can be
-      // inspected from the uploaded workflow artifact.
+      // Failure screenshots are always kept for the CI artifact. Playwright
+      // traces are opt-in (PHASE6C_TRACE=1) because recording every test
+      // slows the browsers enough to make the reference suite flaky.
       screenshotDirectory: path.join(failureEvidenceDir, "screenshots"),
       trace: {
-        mode: "retain-on-failure",
+        mode: process.env.PHASE6C_TRACE === "1" ? "retain-on-failure" : "off",
         tracesDir: path.join(failureEvidenceDir, "traces"),
       },
       instances: engines.map((browser) => ({ browser })),
