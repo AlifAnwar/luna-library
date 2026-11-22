@@ -153,16 +153,37 @@ async function waitForServer(url, processLogs) {
   throw new Error(`Next.js fixture did not start:\n${processLogs.join("")}`);
 }
 
+// Servers are spawned through pnpm in their own process group. Signal the
+// whole group: pnpm does not reliably forward signals to the server it starts
+// on Linux, and a surviving server keeps the stdio pipes (and this script)
+// alive until the CI job times out.
+function signalServer(child, signal) {
+  try {
+    process.kill(-child.pid, signal);
+  } catch (error) {
+    if (error.code !== "ESRCH") throw error;
+  }
+}
+
 async function stopServer(child) {
-  if (child.exitCode !== null) return;
-  child.kill("SIGTERM");
+  if (child.exitCode === null && child.signalCode === null) {
+    const exited = new Promise((resolve) => child.once("exit", resolve));
+    signalServer(child, "SIGTERM");
+    let timeout;
+    await Promise.race([
+      exited,
+      new Promise((resolve) => {
+        timeout = setTimeout(resolve, 5_000);
+      }),
+    ]);
+    clearTimeout(timeout);
+  }
 
-  await Promise.race([
-    new Promise((resolve) => child.once("exit", resolve)),
-    new Promise((resolve) => setTimeout(resolve, 5_000)),
-  ]);
-
-  if (child.exitCode === null) child.kill("SIGKILL");
+  // The pnpm wrapper may exit before the server it started; always clear the
+  // rest of the group and release the pipes.
+  signalServer(child, "SIGKILL");
+  child.stdout?.destroy();
+  child.stderr?.destroy();
 }
 
 async function createFixture(tarballPath) {
@@ -570,6 +591,7 @@ try {
         NEXT_TELEMETRY_DISABLED: "1",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: true,
     },
   );
   serverProcess.stdout.on("data", (chunk) =>
@@ -614,6 +636,7 @@ try {
       cwd: fixtureRoot,
       env: { ...process.env, CI: "1" },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: true,
     },
   );
   serverProcess.stdout.on("data", (chunk) => viteLogs.push(chunk.toString()));
