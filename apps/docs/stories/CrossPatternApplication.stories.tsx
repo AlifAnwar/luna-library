@@ -1647,9 +1647,13 @@ export const OverviewDetailEditFlow: Story = {
         }),
       ).toBeInTheDocument(),
     );
-    await expect(
-      canvas.getByText("Changes saved. Record details opened."),
-    ).toBeInTheDocument();
+    // announce() clears the live region and sets the message in the next
+    // animation frame, so the message can land after the heading renders.
+    await waitFor(() =>
+      expect(
+        canvas.getByText("Changes saved. Record details opened."),
+      ).toBeInTheDocument(),
+    );
   },
 };
 
@@ -1719,9 +1723,10 @@ export const UnavailableOverview: Story = {
         canvas.getByRole("rowheader", { name: /REQ-2042/ }),
       ).toBeInTheDocument(),
     );
-    await expect(
-      canvas.getByText("Workspace data loaded."),
-    ).toBeInTheDocument();
+    // The announcement is set in the next animation frame (see announce()).
+    await waitFor(() =>
+      expect(canvas.getByText("Workspace data loaded.")).toBeInTheDocument(),
+    );
   },
 };
 
