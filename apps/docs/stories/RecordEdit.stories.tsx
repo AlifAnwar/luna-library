@@ -63,8 +63,8 @@ function FormCard({
   title: string;
 }) {
   return (
-    <section aria-labelledby={id}>
-      <Card>
+    <section aria-labelledby={id} className="min-w-0">
+      <Card className="min-w-0">
         <CardHeader>
           <CardTitle>
             <h2 id={id} className="break-words text-balance">
@@ -152,8 +152,8 @@ function RecordEdit({
   }
 
   const fieldGridClass = constrained
-    ? "grid min-w-0 gap-5"
-    : "grid min-w-0 gap-5 sm:grid-cols-2";
+    ? "grid min-w-0 gap-5 [&>*]:min-w-0"
+    : "grid min-w-0 gap-5 [&>*]:min-w-0 sm:grid-cols-2";
 
   return (
     <main
@@ -165,8 +165,8 @@ function RecordEdit({
     >
       <PageHeader className="min-w-0 pb-0">
         <PageHeaderContent className="min-w-0">
-          <Breadcrumb>
-            <BreadcrumbList>
+          <Breadcrumb className="min-w-0">
+            <BreadcrumbList className="min-w-0">
               <BreadcrumbItem>
                 <BreadcrumbLink href="#organizations">
                   Organizations
@@ -381,7 +381,7 @@ function RecordEdit({
                 <FormControl>
                   <Checkbox defaultChecked />
                 </FormControl>
-                <div className="grid gap-1">
+                <div className="grid min-w-0 gap-1">
                   <FormLabel>Send record updates</FormLabel>
                   <FormDescription>
                     Notify this contact when profile information changes.
