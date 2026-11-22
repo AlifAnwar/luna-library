@@ -25,7 +25,7 @@ function PasswordInput({
         id={id}
         type={visible ? "text" : "password"}
         disabled={disabled}
-        className={cn("pr-11", className)}
+        className={cn("pe-11", className)}
       />
       <button
         type="button"
@@ -34,7 +34,7 @@ function PasswordInput({
         aria-pressed={visible}
         disabled={disabled}
         onClick={() => setVisible((current) => !current)}
-        className="absolute inset-y-0 right-1 my-auto flex size-control-xs items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+        className="absolute inset-y-0 end-1 my-auto flex size-control-xs items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
       >
         {visible ? (
           <EyeOffIcon className="size-4.5" aria-hidden="true" />

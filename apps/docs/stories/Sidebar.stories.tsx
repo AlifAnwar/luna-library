@@ -123,7 +123,7 @@ export const Default: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]/sidebar:flex-col">
             <AppLogo />
-            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex">
+            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:flex">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>
@@ -258,7 +258,7 @@ export const WithNestedItems: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2 group-data-[collapsible=icon]/sidebar:flex-col">
             <AppLogo />
-            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:inline-flex">
+            <SidebarTrigger className="hidden group-data-[collapsible=icon]/sidebar:rotate-180 md:flex">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>
@@ -408,7 +408,7 @@ export const OffcanvasCollapse: Story = {
         <SidebarHeader>
           <div className="flex items-center justify-between gap-2">
             <AppLogo />
-            <SidebarTrigger className="hidden md:inline-flex">
+            <SidebarTrigger className="hidden md:flex">
               <ChevronLeftIcon aria-hidden="true" />
             </SidebarTrigger>
           </div>

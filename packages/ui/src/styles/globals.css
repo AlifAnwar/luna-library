@@ -4,7 +4,10 @@
 @reference "./theme.css";
 @source "../components";
 
-:root {
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
   /* Typography */
   --luna-font-sans:
     "Inter", system-ui, -apple-system, blinkmacsystemfont, "Segoe UI",
@@ -109,8 +112,8 @@
   /* Borders and focus */
   --border: #e6e9ef;
   --border-subtle: #eef0f3;
-  --input: var(--border);
-  --ring: var(--luna-blue-300);
+  --input: #667085;
+  --ring: #002a40;
 
   /* Semantic status */
   --success: #168a6b;
@@ -145,6 +148,85 @@
   --chart-3-foreground: var(--foreground);
   --chart-4-foreground: var(--foreground);
   --chart-5-foreground: var(--foreground);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Brand */
+  --primary: #69aaff;
+  --primary-hover: #8bbeff;
+  --primary-active: #bdd9ff;
+  --primary-subtle: #162b48;
+  --primary-foreground: #111318;
+
+  /* Background and surfaces */
+  --background: #0b1220;
+  --surface: #111827;
+  --surface-subtle: #151e2d;
+  --surface-muted: #1e293b;
+
+  /* Text */
+  --foreground: #f8fafc;
+  --foreground-secondary: #b8c2d1;
+  --foreground-muted: #7f8ba0;
+
+  /* shadcn surface aliases */
+  --card: var(--surface);
+  --card-foreground: var(--foreground);
+  --popover: var(--surface);
+  --popover-foreground: var(--foreground);
+  --secondary: var(--surface-muted);
+  --secondary-foreground: #e2e8f0;
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--foreground-secondary);
+  --accent: var(--primary-subtle);
+  --accent-foreground: var(--primary-active);
+
+  /* Borders and focus */
+  --border: #334155;
+  --border-subtle: #243044;
+  --input: #687892;
+  --ring: #8bbeff;
+
+  /* Semantic status */
+  --success: #56d6b1;
+  --success-subtle: #12352d;
+  --success-border: #3a8d75;
+  --success-foreground: #071c16;
+  --warning: #f2b84b;
+  --warning-subtle: #3a2b10;
+  --warning-border: #a67d28;
+  --danger: #ff8b94;
+  --danger-subtle: #3d1d23;
+  --danger-border: #b34f5c;
+  --info: #69aaff;
+  --info-subtle: #162b48;
+  --info-border: #407ab9;
+
+  /* shadcn destructive aliases */
+  --destructive: var(--danger);
+  --destructive-foreground: #111318;
+
+  /* Charts */
+  --chart-1: var(--luna-ultra-sky);
+  --chart-2: var(--luna-signal-azure);
+  --chart-3: var(--luna-cyan-rush);
+  --chart-4: var(--luna-air-glow);
+  --chart-5: var(--luna-cloud-flash);
+  --chart-outline: var(--foreground-secondary);
+  --chart-1-foreground: #000000;
+  --chart-2-foreground: #111318;
+  --chart-3-foreground: #111318;
+  --chart-4-foreground: #111318;
+  --chart-5-foreground: #111318;
+
+  /* Elevation */
+  --luna-shadow-xs: 0 0 0 1px rgb(255 255 255 / 8%);
+  --luna-shadow-sm:
+    0 0 0 1px rgb(255 255 255 / 10%), 0 2px 4px rgb(0 0 0 / 24%);
+  --luna-shadow-md:
+    0 0 0 1px rgb(255 255 255 / 12%), 0 8px 24px rgb(0 0 0 / 32%);
 }
 
 @layer base {

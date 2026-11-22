@@ -77,11 +77,11 @@ function Calendar({
         disabled:
           "pointer-events-none text-muted-foreground opacity-40 line-through",
         range_start:
-          "rounded-l-md bg-primary-subtle [&>button]:rounded-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary-hover",
+          "rounded-s-md bg-primary-subtle [&>button]:rounded-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary-hover",
         range_middle:
           "bg-primary-subtle [&>button]:rounded-none [&>button]:bg-transparent [&>button]:text-primary-active",
         range_end:
-          "rounded-r-md bg-primary-subtle [&>button]:rounded-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary-hover",
+          "rounded-e-md bg-primary-subtle [&>button]:rounded-md [&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary-hover",
         hidden: "invisible",
         ...classNames,
       }}

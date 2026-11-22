@@ -1,6 +1,6 @@
 # Phase 6 — Production Readiness
 
-Status: Phase 6A implementation complete; Phase 6B implementation in progress.
+Status: Phase 6A and Phase 6B implementation complete; Phase 6C not started.
 
 ## Purpose
 
@@ -89,7 +89,7 @@ Recommended branch names:
 | Subphase | Primary outcome                                           | Status      | Depends on          |
 | -------- | --------------------------------------------------------- | ----------- | ------------------- |
 | 6A       | Compiled and installable package distribution             | Implemented | `v0.5.0` baseline   |
-| 6B       | Stable theme, dark-mode, and RTL contracts                | In progress | 6A package contract |
+| 6B       | Stable theme, dark-mode, and RTL contracts                | Implemented | 6A package contract |
 | 6C       | Verified compatibility and accessibility matrix           | Not started | 6A and 6B           |
 | 6D       | Repeatable release pipeline and publication decision gate | Not started | 6A–6C               |
 

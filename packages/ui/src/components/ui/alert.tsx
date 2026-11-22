@@ -20,7 +20,7 @@ const alertVariants = cva(
 );
 
 const alertIconVariants = cva(
-  "flex size-8 shrink-0 items-center justify-center rounded-full bg-white [&>svg]:size-5",
+  "flex size-8 shrink-0 items-center justify-center rounded-full bg-surface [&>svg]:size-5",
   {
     variants: {
       variant: {

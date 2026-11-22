@@ -40,7 +40,21 @@ describe("Tailwind theme authoring contract", () => {
   });
 
   it("keeps Storybook on public package paths", () => {
+    expect(storybookStyles).toContain('@reference "tailwindcss/theme.css"');
     expect(storybookStyles).toContain('@reference "@withalif/luna/theme.css"');
+    expect(storybookStyles).toContain(
+      '@source "../node_modules/@withalif/luna/dist/components"',
+    );
     expect(storybookStyles).not.toContain("packages/ui/src");
+  });
+
+  it("keeps default breakpoints available to Storybook-authored utilities", () => {
+    expect(storybookStyles).toContain(
+      '@import "tailwindcss/utilities.css" layer(utilities) source(none)',
+    );
+    expect(storybookStyles).toContain('@source "../stories"');
+    expect(
+      storybookStyles.indexOf('@reference "tailwindcss/theme.css"'),
+    ).toBeLessThan(storybookStyles.indexOf('@source "../stories"'));
   });
 });

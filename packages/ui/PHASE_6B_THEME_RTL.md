@@ -1,29 +1,25 @@
 # Phase 6B — Theme, Dark Mode, and RTL
 
-Status: audit and implementation contract completed on 2026-11-18;
-implementation in progress. The packaged Tailwind authoring contract is
-implemented; theme values, component hardening, RTL behavior, and rendered
-review remain open.
+Status: implementation and rendered verification completed on 2026-11-21.
 
-Gate: **blocked until the implementation and rendered review in this document
-pass**.
+Gate: **passed**. Phase 6C may begin as a separate subphase.
 
 ## Implementation progress
 
 | Step                                          | Status                    |
 | --------------------------------------------- | ------------------------- |
 | 1. Package `theme.css` authoring contract     | Implemented and validated |
-| 2. Light/dark selectors and contrast tests    | Not started               |
-| 3. Component color and focus hardening        | Not started               |
-| 4. Direction provider and Storybook decorator | Not started               |
-| 5. Logical layout and directional glyphs      | Not started               |
-| 6. Four-way Storybook and interaction matrix  | Not started               |
-| 7. Automated and manual gates                 | Not started               |
-| 8. Final consumer documentation and status    | Not started               |
+| 2. Light/dark selectors and contrast tests    | Implemented and validated |
+| 3. Component color and focus hardening        | Implemented and validated |
+| 4. Direction provider and Storybook decorator | Implemented and validated |
+| 5. Logical layout and directional glyphs      | Implemented and validated |
+| 6. Four-way Storybook and interaction matrix  | Implemented and validated |
+| 7. Automated and manual gates                 | Implemented and validated |
+| 8. Final consumer documentation and status    | Completed                 |
 
-Step 1 validation passed the package build, strict `publint`, archive
-allowlist and export checks, isolated client/SSR consumer, React-singleton and
-private-import checks, focused unit tests, and the production Storybook build.
+The completed gate passed the package build and strict `publint`, UI and docs
+lint/type checks, 293 unit tests, 399 Storybook browser tests, and the
+production Storybook build. The rendered verification record is below.
 
 ## Purpose
 
@@ -392,8 +388,57 @@ The implementation is not complete until a rendered browser review records:
 - no theme flash or component remount caused by an in-page theme change; and
 - no stale theme or direction attributes after Storybook changes globals.
 
-The current audit did not run this browser matrix. All rendered items above are
-**Not verified** until implementation exists.
+### Rendered gate record — 2026-11-21
+
+The four pinned matrix stories were rendered in Chromium through Playwright
+1.63 and Storybook 10.6, then inspected at a 320 CSS-pixel viewport. A second
+dark/RTL capture used a 2× rendering scale with the same effective 320
+CSS-pixel layout viewport to review the 200% reflow result.
+
+- Light/LTR, light/RTL, dark/LTR, and dark/RTL all rendered with the expected
+  document attributes and computed `color-scheme`.
+- Default, hover, active, selected, invalid, disabled, and loading treatments
+  were exercised. Focus indicators were visible on the reviewed controls, and
+  the interaction run restored focus after each portaled surface closed.
+- Every 320 px run measured `document.scrollWidth === document.clientWidth ===
+320`; positive and negative page-scroll probes both remained at zero. The
+  dense table remained independently scrollable (`699` px content inside a
+  `286` px labelled region with `overflow-x: auto`).
+- The 2× rendered dark/RTL capture kept the effective document width at 320 CSS
+  pixels with no clipping. Text, controls, charts, table content, alerts, toast,
+  and navigation remained readable.
+- Select, searchable combobox, date picker, menu and submenu, popover, tooltip,
+  dialog, sheet, and toast portals were opened through the matrix interaction
+  run. Menu, dialog, sheet, toast, and focus-state screenshots were also
+  inspected in dark/RTL.
+- Browser-managed native control and autofill appearance followed the document
+  selector: computed `color-scheme` was `light` for both light matrices and
+  `dark` for both dark matrices.
+- Chart fills, outlines, labels, dashed/solid non-color cues, status surfaces,
+  and mixed-direction values were legible in both themes and directions.
+- An in-page Storybook global switch from light/LTR to dark/RTL and back kept
+  the same mounted control node on both updates. The restored document ended at
+  exactly `data-theme="light"` and `dir="ltr"`, with no stale attributes.
+
+A responsive-pattern follow-up re-rendered `AnalyticsDashboard`, the
+cross-pattern analytics reference, `OperationsWorkspace` docs, and `Record
+Detail` docs after correcting the Storybook authoring cascade. Desktop headers
+retained readable heading width, compact action groups, and the visible
+cross-pattern sidebar. At 375 px and 320 px the layouts stayed stacked, chart
+plots stayed at their declared `192`/`256` px heights, and the document had no
+horizontal overflow. The cross-pattern table kept its `699` px content inside
+the independently scrollable `341` px and `286` px table regions.
+
+Final automated evidence:
+
+| Gate                               | Result                     |
+| ---------------------------------- | -------------------------- |
+| UI lint and TypeScript             | Passed                     |
+| Docs lint and TypeScript           | Passed                     |
+| Unit suite                         | 19 files, 293 tests passed |
+| Storybook browser suite            | 67 files, 399 tests passed |
+| Package build and strict `publint` | Passed                     |
+| Production Storybook build         | Passed                     |
 
 ## Reuse, replacement, and deferral summary
 

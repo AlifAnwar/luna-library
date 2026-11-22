@@ -76,7 +76,7 @@ function PaginationPrevious({
       className={cn("gap-1 px-2.5", className)}
       {...props}
     >
-      <ChevronLeftIcon />
+      <ChevronLeftIcon className="rtl:-scale-x-100" aria-hidden="true" />
       <span>{children ?? "Previous"}</span>
     </PaginationLink>
   );
@@ -95,7 +95,7 @@ function PaginationNext({
       {...props}
     >
       <span>{children ?? "Next"}</span>
-      <ChevronRightIcon />
+      <ChevronRightIcon className="rtl:-scale-x-100" aria-hidden="true" />
     </PaginationLink>
   );
 }

@@ -112,7 +112,7 @@ function StepperItem({ className, step, ...props }: StepperItemProps) {
           "group/stepper-item flex flex-1",
           orientation === "horizontal"
             ? "flex-col items-center gap-2 text-center"
-            : "flex-row items-start gap-3 text-left",
+            : "flex-row items-start gap-3 text-start",
           className,
         )}
         {...props}
@@ -236,7 +236,7 @@ function StepperSeparator({
         completed ? "bg-success" : "bg-border",
         orientation === "horizontal"
           ? "mt-6 h-0.5 flex-1 self-start"
-          : "ml-6 my-1 min-h-8 w-0.5 flex-1",
+          : "ms-6 my-1 min-h-8 w-0.5 flex-1",
         className,
       )}
       {...props}

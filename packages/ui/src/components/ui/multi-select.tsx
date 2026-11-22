@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
+import { useDirection } from "@base-ui/react/direction-provider";
 import { CheckIcon, ChevronDownIcon, CloseIcon } from "../../icons/index.js";
 import { cn } from "../../lib/utils.js";
 
@@ -49,10 +50,7 @@ function MultiSelect({
   emptyText = "No options found.",
   getRemoveLabel = (item) => `Remove ${item.label}`,
   id,
-  inputDescription = (count) =>
-    count > 0
-      ? `${count} selected. From the start of the input, press Left Arrow to focus selected items.`
-      : undefined,
+  inputDescription,
   placeholder = "Select options",
   removeDescription = "Press Backspace or Delete to remove",
   required,
@@ -62,6 +60,13 @@ function MultiSelect({
   onOpenChange,
   ...props
 }: MultiSelectProps) {
+  const direction = useDirection();
+  const describeInput =
+    inputDescription ??
+    ((count: number) =>
+      count > 0
+        ? `${count} selected. From the start of the input, press ${direction === "rtl" ? "Right" : "Left"} Arrow to focus selected items.`
+        : undefined);
   const collection = React.useMemo(
     () =>
       ComboboxPrimitive.createItems(items, {
@@ -116,7 +121,7 @@ function MultiSelect({
                     <span className="truncate">{item.label}</span>
                     <ComboboxPrimitive.ChipRemove
                       aria-label={getRemoveLabel(item)}
-                      className="-mr-1 inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-surface hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+                      className="-me-1 inline-flex size-5 shrink-0 items-center justify-center rounded-sm border border-transparent text-muted-foreground outline-none hover:bg-surface hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
                     >
                       <CloseIcon className="size-3.5" aria-hidden="true" />
                     </ComboboxPrimitive.ChipRemove>
@@ -128,7 +133,7 @@ function MultiSelect({
                   aria-label={ariaLabel || searchLabel}
                   aria-labelledby={ariaLabelledBy}
                   aria-describedby={ariaDescribedBy}
-                  aria-description={inputDescription(selectedItems.length)}
+                  aria-description={describeInput(selectedItems.length)}
                   aria-invalid={ariaInvalid}
                   aria-required={ariaRequired ?? required}
                   disabled={disabled}
@@ -180,10 +185,10 @@ function MultiSelect({
                     key={item.value}
                     value={item.value}
                     disabled={item.disabled}
-                    className="relative flex min-h-control-sm w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-body outline-hidden hover:bg-muted data-highlighted:bg-muted data-selected:bg-primary-subtle data-selected:text-primary-active data-disabled:pointer-events-none data-disabled:opacity-50"
+                    className="relative flex min-h-control-sm w-full cursor-default items-center gap-2 rounded-sm py-1.5 pe-8 ps-2 text-body outline-hidden hover:bg-muted data-highlighted:bg-muted data-selected:bg-primary-subtle data-selected:text-primary-active data-disabled:pointer-events-none data-disabled:opacity-50"
                   >
                     <span className="flex-1 truncate">{item.label}</span>
-                    <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
+                    <ComboboxPrimitive.ItemIndicator className="pointer-events-none absolute end-2 flex size-4 items-center justify-center">
                       <CheckIcon className="size-4" aria-hidden="true" />
                     </ComboboxPrimitive.ItemIndicator>
                   </ComboboxPrimitive.Item>
