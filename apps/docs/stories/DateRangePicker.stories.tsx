@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   DateRangePicker,
   FormControl,
@@ -53,6 +54,7 @@ function ControlledDateRangePicker({
 export const Default: Story = {
   render: () => <ControlledDateRangePicker />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
     const trigger = page.getByRole("button", { name: "Select date range" });
 
@@ -92,6 +94,7 @@ export const Selected: Story = {
     />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
     const trigger = page.getByRole("button", { name: "Select date range" });
 

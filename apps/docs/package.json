@@ -11,7 +11,11 @@
     "check-types": "next typegen && tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:phase6c:browser": "vitest run --config vitest.phase6c.config.ts",
+    "test:phase6c:narrow": "vitest run --config vitest.phase6c.narrow.config.ts",
+    "test:phase6c:preferences": "vitest run --config vitest.phase6c.preferences.config.ts",
+    "test:phase6c:fixture": "pnpm --filter @withalif/luna run build && node scripts/phase6c-compatibility-fixture.mjs"
   },
   "dependencies": {
     "@withalif/luna": "workspace:*",

@@ -7,23 +7,25 @@ import {
   applyDocumentPreferences,
   resolveDirection,
   resolveTheme,
+  shouldApplyDocumentPreferences,
 } from "./theme-direction";
 
 function ThemeDirectionDecorator(
   Story: React.ComponentType,
-  context: { globals: Record<string, unknown> },
+  context: { globals: Record<string, unknown>; viewMode?: string },
 ) {
   const theme = resolveTheme(context.globals.theme);
   const direction = resolveDirection(context.globals.direction);
+  const applyToDocument = shouldApplyDocumentPreferences(context.viewMode);
 
-  React.useLayoutEffect(
-    () =>
-      applyDocumentPreferences(document.documentElement, {
-        theme,
-        direction,
-      }),
-    [direction, theme],
-  );
+  React.useLayoutEffect(() => {
+    if (!applyToDocument) return;
+
+    return applyDocumentPreferences(document.documentElement, {
+      theme,
+      direction,
+    });
+  }, [applyToDocument, direction, theme]);
 
   return (
     <DirectionProvider direction={direction}>

@@ -4,6 +4,7 @@ import {
   applyDocumentPreferences,
   resolveDirection,
   resolveTheme,
+  shouldApplyDocumentPreferences,
 } from "../.storybook/theme-direction";
 
 function createAttributeRoot(initial: Record<string, string> = {}) {
@@ -28,6 +29,12 @@ describe("Storybook theme and direction globals", () => {
     expect(resolveTheme("sepia")).toBe("light");
     expect(resolveDirection("rtl")).toBe("rtl");
     expect(resolveDirection("auto")).toBe("ltr");
+  });
+
+  it("keeps Docs neutral while allowing isolated story previews to own the document root", () => {
+    expect(shouldApplyDocumentPreferences("docs")).toBe(false);
+    expect(shouldApplyDocumentPreferences("story")).toBe(true);
+    expect(shouldApplyDocumentPreferences(undefined)).toBe(true);
   });
 
   it("applies the selected values and removes attributes absent before mount", () => {

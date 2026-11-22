@@ -1,6 +1,7 @@
 import type { ReactNode, SVGProps } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   BellIcon,
   Breadcrumb,
@@ -226,13 +227,13 @@ export const CollapsedSidebar: Story = {
     </ShellRecipe>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole("button", { name: "Expand sidebar" });
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
-    await expect(canvas.getByRole("link", { name: "Overview" })).toHaveAttribute(
-      "aria-current",
-      "page",
-    );
+    await expect(
+      canvas.getByRole("link", { name: "Overview" }),
+    ).toHaveAttribute("aria-current", "page");
     await userEvent.click(trigger);
     await expect(
       canvas.getByRole("button", { name: "Collapse sidebar" }),
@@ -292,6 +293,7 @@ export const LongNavigationLabels: Story = {
     </ShellRecipe>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     for (const link of canvasElement.querySelectorAll<HTMLElement>(
       '[data-slot="sidebar-menu-link"]',
     )) {
@@ -343,6 +345,7 @@ export const TwoTierApplication: Story = {
     </ShellRecipe>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await expect(
       canvas.getByRole("navigation", { name: "Quick actions" }),
@@ -356,6 +359,7 @@ export const TwoTierApplication: Story = {
 };
 
 export const NarrowViewport: Story = {
+  tags: ["phase6c-reference", "phase6c-narrow"],
   parameters: {
     docs: {
       description: {
@@ -375,6 +379,7 @@ export const NarrowViewport: Story = {
 };
 
 export const KeyboardNavigation: Story = {
+  tags: ["phase6c-reference"],
   render: () => (
     <ShellRecipe
       title="Luna Workspace"
@@ -384,6 +389,7 @@ export const KeyboardNavigation: Story = {
     </ShellRecipe>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const skipLink = canvas.getByRole("link", { name: "Skip to content" });
     await expect(skipLink).toHaveAttribute("href", "#app-main");

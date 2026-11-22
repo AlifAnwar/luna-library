@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "baselineDate": "2026-11-22",
+  "headroomPercent": 10,
+  "baselines": {
+    "archiveBytes": 215288,
+    "distRawBytes": 1024952,
+    "stylesRawBytes": 89905,
+    "stylesGzipBytes": 14420,
+    "publicIndexRawBytes": 11262,
+    "publicIndexGzipBytes": 2089,
+    "javascriptRawBytes": 280453,
+    "javascriptGzipBytes": 96360,
+    "declarationsRawBytes": 93460,
+    "declarationsGzipBytes": 38593,
+    "declarationMapsRawBytes": 77969,
+    "declarationMapsGzipBytes": 31674
+  },
+  "budgets": {
+    "archiveBytes": 236817,
+    "distRawBytes": 1127448,
+    "stylesRawBytes": 98896,
+    "stylesGzipBytes": 15863,
+    "publicIndexRawBytes": 12389,
+    "publicIndexGzipBytes": 2298,
+    "javascriptRawBytes": 308499,
+    "javascriptGzipBytes": 105997,
+    "declarationsRawBytes": 102807,
+    "declarationsGzipBytes": 42453,
+    "declarationMapsRawBytes": 85766,
+    "declarationMapsGzipBytes": 34842
+  }
+}

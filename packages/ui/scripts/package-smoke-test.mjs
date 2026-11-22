@@ -287,6 +287,33 @@ async function createConsumer(tarballPath) {
     include: ["src"],
   });
 
+  const declarationCompilerOptions = {
+    target: "ES2022",
+    lib: ["ES2022", "DOM", "DOM.Iterable"],
+    jsx: "react-jsx",
+    strict: true,
+    noEmit: true,
+    skipLibCheck: false,
+  };
+
+  await writeJson(path.join(consumerDirectory, "tsconfig.bundler.json"), {
+    compilerOptions: {
+      ...declarationCompilerOptions,
+      module: "ESNext",
+      moduleResolution: "Bundler",
+    },
+    include: ["src/declarations.tsx"],
+  });
+
+  await writeJson(path.join(consumerDirectory, "tsconfig.nodenext.json"), {
+    compilerOptions: {
+      ...declarationCompilerOptions,
+      module: "NodeNext",
+      moduleResolution: "NodeNext",
+    },
+    include: ["src/declarations.tsx"],
+  });
+
   await writeFile(
     path.join(consumerDirectory, "index.html"),
     '<div id="root"></div>\n<script type="module" src="/src/client.tsx"></script>\n',
@@ -319,6 +346,29 @@ createRoot(root).render(
     </Card>
   </StrictMode>,
 );
+`,
+    "utf8",
+  );
+
+  await writeFile(
+    path.join(sourceDirectory, "declarations.tsx"),
+    `import {
+  Button,
+  DirectionProvider,
+  type ButtonProps,
+  type Direction,
+} from "@withalif/luna";
+
+const direction: Direction = "rtl";
+const buttonProps = { variant: "outline" } satisfies ButtonProps;
+
+export function DeclarationConsumer() {
+  return (
+    <DirectionProvider direction={direction}>
+      <Button {...buttonProps}>Typed action</Button>
+    </DirectionProvider>
+  );
+}
 `,
     "utf8",
   );
@@ -411,6 +461,16 @@ try {
       consumerDirectory,
     );
     run("pnpm", ["exec", "tsc", "-p", "tsconfig.json"], consumerDirectory);
+    run(
+      "pnpm",
+      ["exec", "tsc", "-p", "tsconfig.bundler.json"],
+      consumerDirectory,
+    );
+    run(
+      "pnpm",
+      ["exec", "tsc", "-p", "tsconfig.nodenext.json"],
+      consumerDirectory,
+    );
     run("pnpm", ["exec", "vite", "build"], consumerDirectory);
     run(
       "pnpm",

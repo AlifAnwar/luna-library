@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Button,
   Drawer,
@@ -63,8 +64,10 @@ function SheetExample({ side = "right" }: { side?: SheetSide }) {
 }
 
 export const Right: Story = {
+  tags: ["phase6c-reference"],
   render: () => <SheetExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
 
     await userEvent.click(

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 
 import {
   ActivityLog,
@@ -114,6 +115,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const list = canvas.getByRole("list", { name: "Recent activity" });
 
@@ -126,6 +128,7 @@ export const Default: Story = {
 export const LongEventMessage: Story = {
   args: { longMessage: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     await expect(
       within(canvasElement).getByText(/OPERATIONS-REVIEW-2026/),
     ).toBeVisible();
@@ -135,6 +138,7 @@ export const LongEventMessage: Story = {
 export const EmptyHistory: Story = {
   args: { empty: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getByText("No activity yet")).toBeVisible();
@@ -145,6 +149,7 @@ export const EmptyHistory: Story = {
 export const NarrowViewport: Story = {
   args: { constrained: true, longMessage: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const section = canvasElement.querySelector("section");
 
     await expect(section).not.toBeNull();

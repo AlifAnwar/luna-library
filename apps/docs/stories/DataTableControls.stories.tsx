@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Button,
@@ -190,6 +191,7 @@ function SortingExample({ initialSort }: { initialSort?: SortState }) {
 export const SortableColumns: Story = {
   render: () => <SortingExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const header = canvas.getByRole("button", { name: "Name" });
     const cell = header.closest("th")!;
@@ -218,6 +220,7 @@ export const AscendingSort: Story = {
     <SortingExample initialSort={{ columnId: "name", direction: "asc" }} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const cell = canvas.getByRole("button", { name: "Name" }).closest("th")!;
 
@@ -235,6 +238,7 @@ export const DescendingSort: Story = {
     />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -248,6 +252,7 @@ export const ResetSort: Story = {
     <SortingExample initialSort={{ columnId: "role", direction: "desc" }} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const header = canvas.getByRole("button", { name: "Role" });
 
@@ -267,6 +272,7 @@ export const ResetSort: Story = {
 export const NonSortableColumn: Story = {
   render: () => <SortingExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const emailHeader = canvas.getByRole("columnheader", { name: "Email" });
 
@@ -313,6 +319,7 @@ export const LongHeaderLabels: Story = {
     return <LongLabelsExample />;
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const header = canvas.getByRole("button", {
       name: "Last Administrative Modification Date",
@@ -389,6 +396,7 @@ function VisibilityExample({
 export const ColumnVisibility: Story = {
   render: () => <VisibilityExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -420,6 +428,7 @@ export const HiddenColumns: Story = {
     <VisibilityExample initialVisibility={{ email: false, createdAt: false }} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -446,6 +455,7 @@ export const HiddenColumns: Story = {
 export const MandatoryColumn: Story = {
   render: () => <VisibilityExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -497,6 +507,7 @@ export const ManyColumns: Story = {
     return <ManyColumnsExample />;
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -561,6 +572,7 @@ function PaginationExample({
 export const PaginationFirstPage: Story = {
   render: () => <PaginationExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -581,6 +593,7 @@ export const PaginationFirstPage: Story = {
 export const PaginationMiddlePage: Story = {
   render: () => <PaginationExample initialPage={3} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const nav = canvas.getByRole("navigation", { name: "Pagination" });
 
@@ -605,6 +618,7 @@ export const PaginationMiddlePage: Story = {
 export const PaginationLastPage: Story = {
   render: () => <PaginationExample initialPage={5} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const nav = canvas.getByRole("navigation", { name: "Pagination" });
 
@@ -630,6 +644,7 @@ export const PaginationLastPage: Story = {
 export const PaginationWithPageSize: Story = {
   render: () => <PaginationExample initialPage={2} pageSizeEnabled />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
     const nav = canvas.getByRole("navigation", { name: "Pagination" });
@@ -655,6 +670,7 @@ export const PaginationWithPageSize: Story = {
 export const PaginationWithoutFirstLast: Story = {
   render: () => <PaginationExample initialPage={2} showFirstLast={false} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -671,6 +687,7 @@ export const PaginationSinglePage: Story = {
     <DataTablePagination page={1} pageCount={1} onPageChange={() => {}} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -809,6 +826,7 @@ function FullExample({ initialSearch = "" }: { initialSearch?: string }) {
 export const SearchFilterSortCombined: Story = {
   render: () => <FullExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -835,8 +853,10 @@ export const SearchFilterSortCombined: Story = {
 };
 
 export const FullTableControls: Story = {
+  tags: ["phase6c-reference"],
   render: () => <FullExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
     const nav = canvas.getByRole("navigation", { name: "Pagination" });
@@ -876,6 +896,7 @@ export const FullTableControls: Story = {
 };
 
 export const ResponsiveTableControls: Story = {
+  tags: ["phase6c-reference", "phase6c-narrow"],
   parameters: { layout: "fullscreen" },
   render: () => (
     <div className="w-[320px] max-w-full p-4">
@@ -883,6 +904,7 @@ export const ResponsiveTableControls: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const nav = canvas.getByRole("navigation", { name: "Pagination" });
     const toolbar = canvasElement.querySelector<HTMLElement>(

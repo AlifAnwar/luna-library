@@ -114,6 +114,7 @@ export const RadioItems: Story = {
 };
 
 export const Submenu: Story = {
+  tags: ["phase6c-reference"],
   render: () => (
     <DropdownMenu>
       <DropdownMenuTrigger render={<Button variant="outline" />}>

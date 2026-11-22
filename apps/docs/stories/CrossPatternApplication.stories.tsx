@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 
 import {
   ActivityLog,
@@ -1568,8 +1569,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const AnalyticsOperationsReference: Story = {
+  tags: ["phase6c-reference"],
   render: () => <CrossPatternApplication />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -1605,8 +1608,10 @@ export const AnalyticsOperationsReference: Story = {
 };
 
 export const OverviewDetailEditFlow: Story = {
+  tags: ["phase6c-reference"],
   render: () => <CrossPatternApplication />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const main = canvas.getByRole("main");
 
@@ -1647,6 +1652,7 @@ export const OverviewDetailEditFlow: Story = {
 export const ValidationErrors: Story = {
   render: () => <CrossPatternApplication initialView="edit" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const name = canvas.getByRole("textbox", { name: /Organization name/ });
     const email = canvas.getByRole("textbox", { name: /Email address/ });
@@ -1668,6 +1674,7 @@ export const ValidationErrors: Story = {
 export const LoadingOverview: Story = {
   render: () => <CrossPatternApplication initialStatus="loading" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(
@@ -1685,6 +1692,7 @@ export const LoadingOverview: Story = {
 export const EmptyOverview: Story = {
   render: () => <CrossPatternApplication initialStatus="empty" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getByText("No review volume")).toBeInTheDocument();
@@ -1695,6 +1703,7 @@ export const EmptyOverview: Story = {
 export const UnavailableOverview: Story = {
   render: () => <CrossPatternApplication initialStatus="unavailable" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getByRole("alert")).toHaveTextContent(
@@ -1713,6 +1722,7 @@ export const UnavailableOverview: Story = {
 };
 
 export const NarrowViewport: Story = {
+  tags: ["phase6c-reference", "phase6c-narrow"],
   render: () => <CrossPatternApplication constrained />,
   parameters: {
     docs: {
@@ -1723,6 +1733,7 @@ export const NarrowViewport: Story = {
     },
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const root = canvasElement.querySelector<HTMLElement>(
       '[data-slot="cross-pattern-application"]',
@@ -1756,6 +1767,7 @@ const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
   canvasElement,
   globals,
 }) => {
+  if (!shouldRunStoryPlay()) return;
   const canvas = within(canvasElement);
   const page = within(canvasElement.ownerDocument.body);
   const documentRoot = canvasElement.ownerDocument.documentElement;
@@ -1859,9 +1871,7 @@ const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
   });
   await userEvent.click(popoverTrigger);
   await waitFor(() =>
-    expect(
-      page.getByRole("heading", { name: "Review context" }),
-    ).toBeVisible(),
+    expect(page.getByRole("heading", { name: "Review context" })).toBeVisible(),
   );
   await userEvent.keyboard("{Escape}");
   await waitFor(() =>
@@ -1874,9 +1884,7 @@ const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
   });
   await userEvent.click(dialogTrigger);
   await waitFor(() =>
-    expect(
-      page.getByRole("dialog", { name: "Confirm review" }),
-    ).toBeVisible(),
+    expect(page.getByRole("dialog", { name: "Confirm review" })).toBeVisible(),
   );
   await userEvent.keyboard("{Escape}");
   await waitFor(() =>
@@ -1889,9 +1897,7 @@ const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
   });
   await userEvent.click(sheetTrigger);
   await waitFor(() =>
-    expect(
-      page.getByRole("dialog", { name: "Review details" }),
-    ).toBeVisible(),
+    expect(page.getByRole("dialog", { name: "Review details" })).toBeVisible(),
   );
   await userEvent.keyboard("{Escape}");
   await waitFor(() =>
@@ -1909,6 +1915,7 @@ const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
 };
 
 export const LightLtrMatrix: Story = {
+  tags: ["phase6c-reference"],
   name: "Matrix · Light · LTR",
   globals: { theme: "light", direction: "ltr" },
   render: () => <ThemeDirectionReview />,
@@ -1916,6 +1923,7 @@ export const LightLtrMatrix: Story = {
 };
 
 export const LightRtlMatrix: Story = {
+  tags: ["phase6c-reference"],
   name: "Matrix · Light · RTL",
   globals: { theme: "light", direction: "rtl" },
   render: () => <ThemeDirectionReview />,
@@ -1923,6 +1931,7 @@ export const LightRtlMatrix: Story = {
 };
 
 export const DarkLtrMatrix: Story = {
+  tags: ["phase6c-reference"],
   name: "Matrix · Dark · LTR",
   globals: { theme: "dark", direction: "ltr" },
   render: () => <ThemeDirectionReview />,
@@ -1930,6 +1939,7 @@ export const DarkLtrMatrix: Story = {
 };
 
 export const DarkRtlMatrix: Story = {
+  tags: ["phase6c-reference"],
   name: "Matrix · Dark · RTL",
   globals: { theme: "dark", direction: "rtl" },
   render: () => <ThemeDirectionReview />,

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   BellIcon,
   CheckCircleIcon,
@@ -181,6 +182,7 @@ export const Default: Story = {
     </SidebarProvider>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await userEvent.click(
@@ -235,6 +237,7 @@ export const StickyDuringDocumentScroll: Story = {
     </SidebarProvider>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const sidebar = canvasElement.querySelector<HTMLElement>(
       '[data-slot="sidebar"]',
     );
@@ -463,6 +466,7 @@ export const OffcanvasCollapse: Story = {
     </SidebarProvider>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     // The navigation landmark covers the menus only, and is named.

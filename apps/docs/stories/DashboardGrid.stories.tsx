@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Button,
   DashboardGrid,
@@ -181,6 +182,7 @@ export const ResponsiveLayout: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const wrapper = canvas.getByTestId("responsive-dashboard");
     const layout = wrapper.querySelector('[data-slot="dashboard-grid-layout"]');
@@ -234,6 +236,7 @@ export const NarrowViewport: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const wrapper = canvas.getByTestId("narrow-dashboard");
     const layout = wrapper.querySelector('[data-slot="dashboard-grid-layout"]');

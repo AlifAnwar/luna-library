@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Button,
@@ -109,6 +110,7 @@ export const Default: Story = {
     caption: "Workspace members",
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
 
@@ -139,6 +141,7 @@ export const HiddenCaption: Story = {
     hideCaption: true,
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     // Still named, still reachable — just not painted.
     expect(
@@ -169,6 +172,7 @@ export const LargeDataset: Story = {
     caption: "Workspace members",
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
 
@@ -185,6 +189,7 @@ export const Loading: Story = {
     loadingRowCount: 4,
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
 
@@ -204,6 +209,7 @@ export const Empty: Story = {
     caption: "Workspace members",
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(canvas.getByText("No data")).toBeInTheDocument();
@@ -232,6 +238,7 @@ export const EmptyWithAction: Story = {
     ),
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(canvas.getByText("No members yet")).toBeInTheDocument();
@@ -281,6 +288,7 @@ export const HorizontalOverflow: Story = {
     containerClassName: "max-w-2xl",
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     const region = await waitFor(() =>
@@ -305,6 +313,7 @@ export const NoOverflowHasNoTabStop: Story = {
     caption: "Workspace members",
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
     const container = table.parentElement!;
@@ -332,6 +341,7 @@ export const RowIdentity: Story = {
       user.status === "suspended" ? "bg-danger-subtle" : undefined,
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
     const rows = within(table).getAllByRole("row").slice(1);
@@ -359,6 +369,7 @@ export const NarrowViewport: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const table = canvas.getByRole("table", { name: "Workspace members" });
     const container = table.parentElement!;

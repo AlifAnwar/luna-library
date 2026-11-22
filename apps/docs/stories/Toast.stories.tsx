@@ -81,6 +81,7 @@ function ToastDemo() {
 }
 
 export const Default: Story = {
+  tags: ["phase6c-reference"],
   render: () => (
     <ToastProvider>
       <ToastDemo />

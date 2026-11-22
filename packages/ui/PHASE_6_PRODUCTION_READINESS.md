@@ -1,6 +1,7 @@
 # Phase 6 — Production Readiness
 
-Status: Phase 6A and Phase 6B implementation complete; Phase 6C not started.
+Status: Phase 6A and Phase 6B implementation complete; Phase 6C automated
+matrix complete with manual and final validation gates pending.
 
 ## Purpose
 
@@ -86,12 +87,12 @@ Recommended branch names:
 
 ## Phase map
 
-| Subphase | Primary outcome                                           | Status      | Depends on          |
-| -------- | --------------------------------------------------------- | ----------- | ------------------- |
-| 6A       | Compiled and installable package distribution             | Implemented | `v0.5.0` baseline   |
-| 6B       | Stable theme, dark-mode, and RTL contracts                | Implemented | 6A package contract |
-| 6C       | Verified compatibility and accessibility matrix           | Not started | 6A and 6B           |
-| 6D       | Repeatable release pipeline and publication decision gate | Not started | 6A–6C               |
+| Subphase | Primary outcome                                           | Status              | Depends on          |
+| -------- | --------------------------------------------------------- | ------------------- | ------------------- |
+| 6A       | Compiled and installable package distribution             | Implemented         | `v0.5.0` baseline   |
+| 6B       | Stable theme, dark-mode, and RTL contracts                | Implemented         | 6A package contract |
+| 6C       | Verified compatibility and accessibility matrix           | Manual gate pending | 6A and 6B           |
+| 6D       | Repeatable release pipeline and publication decision gate | Not started         | 6A–6C               |
 
 ---
 
@@ -235,6 +236,10 @@ behavior, and whether theme names are public API.
 ---
 
 ## Phase 6C — Compatibility and accessibility matrix
+
+The audit, candidate matrix, evidence rules, and implementation order are
+recorded in
+[Phase 6C — Compatibility and Accessibility Matrix](PHASE_6C_COMPATIBILITY_ACCESSIBILITY.md).
 
 ### Scope
 

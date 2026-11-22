@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   BarChart,
   Button,
@@ -310,6 +311,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: () => <AnalyticsDashboard />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getAllByRole("main")).toHaveLength(1);
@@ -329,6 +331,7 @@ export const Default: Story = {
 export const Loading: Story = {
   render: () => <AnalyticsDashboard status="loading" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(
@@ -348,6 +351,7 @@ export const Loading: Story = {
 export const Empty: Story = {
   render: () => <AnalyticsDashboard status="empty" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getByText("No completed orders")).toBeInTheDocument();
@@ -369,6 +373,7 @@ export const NarrowViewport: Story = {
     },
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const main = within(canvasElement).getByRole("main");
 
     await expect(main.scrollWidth).toBeLessThanOrEqual(main.clientWidth);
