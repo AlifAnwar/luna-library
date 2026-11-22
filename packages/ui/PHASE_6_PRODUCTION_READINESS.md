@@ -1,7 +1,8 @@
 # Phase 6 — Production Readiness
 
 Status: Phase 6A and Phase 6B implementation complete; Phase 6C automated
-matrix complete with manual and final validation gates pending.
+matrix complete with manual and final validation gates pending; Phase 6D
+implementation in progress with publication approval still gated.
 
 ## Purpose
 
@@ -92,7 +93,7 @@ Recommended branch names:
 | 6A       | Compiled and installable package distribution             | Implemented         | `v0.5.0` baseline   |
 | 6B       | Stable theme, dark-mode, and RTL contracts                | Implemented         | 6A package contract |
 | 6C       | Verified compatibility and accessibility matrix           | Manual gate pending | 6A and 6B           |
-| 6D       | Repeatable release pipeline and publication decision gate | Not started         | 6A–6C               |
+| 6D       | Repeatable release pipeline and publication decision gate | In progress         | 6A–6C               |
 
 ---
 
@@ -301,6 +302,10 @@ based only on dependency peer ranges.
 ---
 
 ## Phase 6D — Release automation and publication gate
+
+The implementation audit, decisions, execution plan, and evidence record are
+maintained in
+[Phase 6D — Release Automation and Publication Gate](PHASE_6D_RELEASE_AUTOMATION.md).
 
 ### Scope
 

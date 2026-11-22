@@ -16,6 +16,14 @@ tags for milestone releases and is not published to npm.
   and a Luna `DirectionProvider` facade for direction-aware interactions.
 - Four pinned Storybook review stories covering light/dark and LTR/RTL
   combinations at a narrow application boundary.
+- Phase 6D release metadata and clean-tree validation for synchronized package
+  versions, changelog sections, comparison links, optional CI tags, and
+  untracked release artifacts.
+- A read-only CI release gate that validates one private package archive,
+  records its SHA-256 digest and size report, and retains it for review without
+  enabling package publication.
+- Private release, rollback, deprecation, emergency patch, and security-report
+  procedures.
 
 ### Changed
 

@@ -21,6 +21,14 @@ const packageRoot = path.resolve(
 );
 const distDirectory = path.join(packageRoot, "dist");
 const inspectOnly = process.argv.includes("--inspect-only");
+const archiveArgumentIndex = process.argv.indexOf("--archive");
+const providedArchive =
+  archiveArgumentIndex === -1
+    ? null
+    : path.resolve(process.argv[archiveArgumentIndex + 1] ?? "");
+if (archiveArgumentIndex !== -1 && !process.argv[archiveArgumentIndex + 1]) {
+  throw new Error("--archive requires a package archive path");
+}
 const temporaryPrefix = path.join(os.tmpdir(), "luna-package-smoke-");
 const resolvedTemporaryPrefix = path.join(
   await realpath(os.tmpdir()),
@@ -439,17 +447,24 @@ console.log("Public exports, runtime CSS, theme CSS, React peer, and private imp
 try {
   await validateDist();
 
-  const archiveDirectory = path.join(temporaryRoot, "archive");
-  await mkdir(archiveDirectory);
-  run("pnpm", ["pack", "--pack-destination", archiveDirectory], packageRoot, {
-    capture: true,
-  });
+  let tarballPath = providedArchive;
+  if (tarballPath) {
+    const archiveStats = await stat(tarballPath);
+    assert(archiveStats.isFile(), "Provided package archive must be a file");
+    assert(tarballPath.endsWith(".tgz"), "Provided archive must end in .tgz");
+  } else {
+    const archiveDirectory = path.join(temporaryRoot, "archive");
+    await mkdir(archiveDirectory);
+    run("pnpm", ["pack", "--pack-destination", archiveDirectory], packageRoot, {
+      capture: true,
+    });
 
-  const tarballs = (await readdir(archiveDirectory)).filter((file) =>
-    file.endsWith(".tgz"),
-  );
-  assert.equal(tarballs.length, 1, "Expected exactly one package archive");
-  const tarballPath = path.join(archiveDirectory, tarballs[0]);
+    const tarballs = (await readdir(archiveDirectory)).filter((file) =>
+      file.endsWith(".tgz"),
+    );
+    assert.equal(tarballs.length, 1, "Expected exactly one package archive");
+    tarballPath = path.join(archiveDirectory, tarballs[0]);
+  }
 
   await validateArchive(tarballPath);
 

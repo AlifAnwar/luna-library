@@ -155,6 +155,10 @@ Read
 [Phase 6C — Compatibility and Accessibility](PHASE_6C_COMPATIBILITY_ACCESSIBILITY.md)
 for the exact support matrix, fixture budgets, automated evidence, and manual
 review gate.
+Read
+[Phase 6D — Release Automation and Publication Gate](PHASE_6D_RELEASE_AUTOMATION.md)
+for the private archive decision, planned CI release gate, versioning rules,
+and publication approval boundary.
 
 ## Roadmap
 
