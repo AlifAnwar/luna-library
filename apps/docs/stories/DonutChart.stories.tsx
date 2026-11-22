@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   DonutChart,
   Separator,
@@ -308,6 +309,7 @@ export const Responsive: Story = {
 
 export const KeyboardNavigation: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const surface = canvas.getByRole("group", { name: "Requests by status" });
 
@@ -348,6 +350,7 @@ export const KeyboardNavigation: Story = {
 
 export const LegendHighlight: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const legend = canvas.getByRole("list", { name: "Chart legend" });
     const [first, second] = within(legend).getAllByRole("listitem");

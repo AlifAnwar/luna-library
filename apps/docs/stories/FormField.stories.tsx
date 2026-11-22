@@ -72,6 +72,7 @@ export const Required: Story = {
 };
 
 export const Invalid: Story = {
+  tags: ["phase6c-reference"],
   render: () => (
     <FormField invalid>
       <FormLabel>Email address</FormLabel>

@@ -20,6 +20,10 @@ function resolveDirection(value: unknown): Direction {
   return value === "rtl" ? "rtl" : "ltr";
 }
 
+function shouldApplyDocumentPreferences(viewMode: unknown): boolean {
+  return viewMode !== "docs";
+}
+
 /**
  * Applies Storybook's selected appearance to the document root and returns a
  * cleanup that restores the exact attributes that existed beforehand.
@@ -53,6 +57,7 @@ export {
   applyDocumentPreferences,
   resolveDirection,
   resolveTheme,
+  shouldApplyDocumentPreferences,
   type DocumentPreferences,
   type Theme,
 };

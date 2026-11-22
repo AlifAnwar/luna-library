@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, fn, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Button,
   Command,
@@ -69,6 +70,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ args, canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const search = canvas.getByRole("combobox", {
       name: "Search workspace",
@@ -111,6 +113,7 @@ function CommandDialogExample() {
 export const InDialog: Story = {
   render: () => <CommandDialogExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
 
     await userEvent.click(

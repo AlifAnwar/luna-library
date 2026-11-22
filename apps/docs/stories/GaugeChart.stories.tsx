@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import { GaugeChart, TrendIndicator } from "@withalif/luna";
 
 const meta = {
@@ -27,6 +28,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const meter = within(canvasElement).getByRole("meter", {
       name: "Target completion",
     });

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "baselineDate": "2026-11-22",
+  "headroomPercent": 10,
+  "baselines": {
+    "viteJavaScript": { "rawBytes": 274618, "gzipBytes": 79710 },
+    "viteStyles": { "rawBytes": 74361, "gzipBytes": 13764 },
+    "nextClientJavaScript": { "rawBytes": 800791, "gzipBytes": 224554 },
+    "nextServerJavaScript": { "rawBytes": 782150, "gzipBytes": 194520 }
+  },
+  "budgets": {
+    "viteJavaScript": { "rawBytes": 302080, "gzipBytes": 87681 },
+    "viteStyles": { "rawBytes": 81798, "gzipBytes": 15141 },
+    "nextClientJavaScript": { "rawBytes": 880871, "gzipBytes": 247010 },
+    "nextServerJavaScript": { "rawBytes": 860365, "gzipBytes": 213972 }
+  }
+}

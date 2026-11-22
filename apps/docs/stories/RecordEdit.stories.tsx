@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -432,6 +433,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await expect(
       canvas.getByRole("heading", { level: 1, name: "Edit organization" }),
@@ -446,6 +448,7 @@ export const Default: Story = {
 export const ValidationErrors: Story = {
   args: { initialErrors: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const name = canvas.getByRole("textbox", { name: /Organization name/ });
     const organizationType = canvas.getByRole("combobox", {
@@ -499,6 +502,7 @@ export const ValidationErrors: Story = {
 export const SavePending: Story = {
   args: { saving: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const save = within(canvasElement).getByRole("button", {
       name: "Save changes",
     });
@@ -510,6 +514,7 @@ export const SavePending: Story = {
 export const NarrowViewport: Story = {
   args: { constrained: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const main = canvasElement.querySelector("main");
     await expect(main).not.toBeNull();

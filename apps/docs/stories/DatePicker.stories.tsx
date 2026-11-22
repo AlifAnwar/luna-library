@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   DatePicker,
   FormControl,
@@ -48,6 +49,7 @@ function ControlledDatePicker({ initialValue }: { initialValue?: Date }) {
 export const Default: Story = {
   render: () => <ControlledDatePicker />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
     const trigger = page.getByRole("button", { name: "Select date" });
 

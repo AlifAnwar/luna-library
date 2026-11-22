@@ -117,5 +117,7 @@ The complete integration boundary is documented in
 - Follow [RELEASING.md](RELEASING.md) to validate and tag an internal release.
 - Follow the [Phase 6 production-readiness roadmap](packages/ui/PHASE_6_PRODUCTION_READINESS.md)
   for package distribution, themes, compatibility, and release automation.
+- Review the [Phase 6C compatibility and accessibility matrix](packages/ui/PHASE_6C_COMPATIBILITY_ACCESSIBILITY.md)
+  for the exact tested runtime, framework, browser, and accessibility baseline.
 - Storybook is built and deployed to GitHub Pages after changes reach `main`.
   The repository must use **GitHub Actions** as its Pages publishing source.

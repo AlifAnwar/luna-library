@@ -46,6 +46,8 @@
     "check-types": "tsc --noEmit",
     "validate:dist": "publint run . --pack false --strict",
     "pack:check": "pnpm run build && node scripts/package-smoke-test.mjs --inspect-only",
+    "size:report": "pnpm run build && node scripts/package-size-report.mjs",
+    "size:check": "pnpm run build && node scripts/package-size-report.mjs --check",
     "test:package": "pnpm run clean && pnpm run build && node scripts/package-smoke-test.mjs"
   },
   "devDependencies": {

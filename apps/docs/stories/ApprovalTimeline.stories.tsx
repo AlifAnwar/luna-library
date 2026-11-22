@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 
 import {
   ApprovalTimeline,
@@ -129,6 +130,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const list = canvas.getByRole("list", { name: "Approval history" });
 
@@ -144,6 +146,7 @@ export const Default: Story = {
 export const RejectedStep: Story = {
   args: { rejected: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await expect(canvas.getByText("Rejected")).toBeVisible();
@@ -154,6 +157,7 @@ export const RejectedStep: Story = {
 export const LongLabels: Story = {
   args: { longLabels: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     await expect(
       within(canvasElement).getByText(/Regional operations and compliance/),
     ).toBeVisible();
@@ -163,6 +167,7 @@ export const LongLabels: Story = {
 export const NarrowViewport: Story = {
   args: { constrained: true, longLabels: true, rejected: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const section = canvasElement.querySelector("section");
 
     await expect(section).not.toBeNull();

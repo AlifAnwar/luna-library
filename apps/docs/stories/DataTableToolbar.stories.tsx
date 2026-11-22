@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Button,
@@ -131,6 +132,7 @@ function SearchExample({
 export const EmptySearch: Story = {
   render: () => <SearchExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const search = canvas.getByRole("searchbox", { name: "Search members" });
 
@@ -146,6 +148,7 @@ export const EmptySearch: Story = {
 export const ActiveSearch: Story = {
   render: () => <SearchExample initialValue="Priya" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     expect(
       canvas.getByRole("searchbox", { name: "Search members" }),
@@ -157,6 +160,7 @@ export const ActiveSearch: Story = {
 export const ClearSearch: Story = {
   render: () => <SearchExample initialValue="Amara" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Clear search" }));
     expect(
@@ -171,6 +175,7 @@ export const ClearSearch: Story = {
 export const DisabledSearch: Story = {
   render: () => <SearchExample initialValue="Locked query" disabled />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     expect(
       canvas.getByRole("searchbox", { name: "Search members" }),
@@ -197,6 +202,7 @@ function SingleFilterExample({ initialValue }: { initialValue?: string }) {
 export const SingleFilter: Story = {
   render: () => <SingleFilterExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole("button", { name: "Status" });
@@ -220,6 +226,7 @@ export const SingleFilter: Story = {
 export const ActiveSingleFilter: Story = {
   render: () => <SingleFilterExample initialValue="active" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -253,6 +260,7 @@ function MultiFilterExample({
 export const MultiFilter: Story = {
   render: () => <MultiFilterExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -277,6 +285,7 @@ export const MultiFilter: Story = {
 export const MultipleActiveValues: Story = {
   render: () => <MultiFilterExample initialValue={["Admin", "Staff"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -289,6 +298,7 @@ export const MultipleActiveValues: Story = {
 export const DisabledOption: Story = {
   render: () => <MultiFilterExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -302,6 +312,7 @@ export const DisabledOption: Story = {
 export const ClearFilter: Story = {
   render: () => <SingleFilterExample initialValue="inactive" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -418,6 +429,7 @@ function IntegratedExample({
 export const SearchAndTable: Story = {
   render: () => <IntegratedExample showStatus={false} showRoles={false} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await userEvent.type(
       canvas.getByRole("searchbox", { name: "Search members" }),
@@ -432,6 +444,7 @@ export const SearchAndTable: Story = {
 export const FilterAndTable: Story = {
   render: () => <IntegratedExample showRoles={false} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
     await userEvent.click(canvas.getByRole("button", { name: "Status" }));
@@ -451,6 +464,7 @@ export const FilterAndTable: Story = {
 export const SearchAndMultipleFilters: Story = {
   render: () => <IntegratedExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -478,6 +492,7 @@ export const ClearAllFilters: Story = {
     />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole("button", { name: "Clear all" }));
 
@@ -494,6 +509,7 @@ export const ClearAllFilters: Story = {
 export const NoMatchingResults: Story = {
   render: () => <IntegratedExample initialSearch="No such member" />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     expect(canvas.getByText("No matching members")).toBeInTheDocument();
     expect(
@@ -514,6 +530,7 @@ export const NarrowViewport: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const toolbar = canvas.getByRole("searchbox", {
       name: "Search members",

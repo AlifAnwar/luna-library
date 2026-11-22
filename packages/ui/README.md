@@ -105,6 +105,24 @@ Luna is consumed through compiled files in `dist/`; consumers never compile the
 package source. The package remains private and is installed through
 `workspace:*` inside this monorepo until the Phase 6D publication decision.
 
+## Verified compatibility baseline
+
+The Phase 6C support baseline is intentionally exact. The packed package has
+repeatable evidence for:
+
+- Node.js `24.22.3` and `26.5.0` with pnpm `12.4.2`;
+- React and React DOM `19.2.8`;
+- TypeScript `7.0.2` with strict `Bundler` and `NodeNext` declaration checks;
+- Vite `8.3.0` client builds and browser mounting;
+- Next.js `16.3.4` production build, server render, and hydration; and
+- Playwright `1.63.0` using Chromium `153.0.8010.12`, Firefox `155.0`, and
+  WebKit `26.6`.
+
+Other versions, frameworks, package managers, and browser engines are not part
+of the current compatibility claim. The package metadata remains exact for
+React peers until additional versions receive the same packed-archive fixture
+evidence.
+
 ## Development
 
 Run package checks from the repository root:
@@ -114,7 +132,13 @@ pnpm --filter @withalif/luna lint
 pnpm --filter @withalif/luna check-types
 pnpm --filter @withalif/luna run build
 pnpm --filter @withalif/luna run pack:check
+pnpm --filter @withalif/luna run size:report
+pnpm --filter @withalif/luna run size:check
 pnpm --filter @withalif/luna run test:package
+pnpm --filter docs run test:phase6c:fixture
+pnpm --filter docs run test:phase6c:browser
+pnpm --filter docs run test:phase6c:preferences
+pnpm --filter docs run test:phase6c:narrow
 ```
 
 Use Storybook for component behavior, accessibility, and responsive examples:
@@ -127,6 +151,10 @@ The package exports compiled ESM, declarations, declaration maps, JavaScript
 source maps, and a compiled stylesheet. Read
 [Phase 6A — Package Distribution](PHASE_6A_PACKAGE_DISTRIBUTION.md) for the
 artifact contract, dependency boundaries, and isolated consumer gate.
+Read
+[Phase 6C — Compatibility and Accessibility](PHASE_6C_COMPATIBILITY_ACCESSIBILITY.md)
+for the exact support matrix, fixture budgets, automated evidence, and manual
+review gate.
 
 ## Roadmap
 

@@ -268,3 +268,77 @@
     --tw-exit-rotate: 0;
   }
 }
+
+/* High-contrast modes can suppress the box-shadow rings used by Luna's
+   standard focus treatment. Keep a system-colored outline as a non-color-only
+   fallback for every native or explicitly tabbable interactive element. */
+@media (forced-colors: active) {
+  :root,
+  [data-theme="light"],
+  [data-theme="dark"] {
+    --primary: Highlight;
+    --primary-hover: Highlight;
+    --primary-active: Highlight;
+    --primary-subtle: Canvas;
+    --primary-foreground: HighlightText;
+    --background: Canvas;
+    --surface: Canvas;
+    --surface-subtle: Canvas;
+    --surface-muted: Canvas;
+    --foreground: CanvasText;
+    --foreground-secondary: CanvasText;
+    --foreground-muted: CanvasText;
+    --card: Canvas;
+    --card-foreground: CanvasText;
+    --popover: Canvas;
+    --popover-foreground: CanvasText;
+    --secondary: ButtonFace;
+    --secondary-foreground: ButtonText;
+    --muted: Canvas;
+    --muted-foreground: CanvasText;
+    --accent: Highlight;
+    --accent-foreground: HighlightText;
+    --border: ButtonText;
+    --border-subtle: ButtonText;
+    --input: ButtonText;
+    --ring: Highlight;
+    --success: CanvasText;
+    --success-subtle: Canvas;
+    --success-border: ButtonText;
+    --success-foreground: CanvasText;
+    --warning: CanvasText;
+    --warning-subtle: Canvas;
+    --warning-border: ButtonText;
+    --danger: CanvasText;
+    --danger-subtle: Canvas;
+    --danger-border: ButtonText;
+    --info: LinkText;
+    --info-subtle: Canvas;
+    --info-border: LinkText;
+    --destructive: CanvasText;
+    --destructive-foreground: CanvasText;
+    --chart-1: Highlight;
+    --chart-2: LinkText;
+    --chart-3: ActiveText;
+    --chart-4: CanvasText;
+    --chart-5: GrayText;
+    --chart-outline: CanvasText;
+    --chart-1-foreground: HighlightText;
+    --chart-2-foreground: Canvas;
+    --chart-3-foreground: Canvas;
+    --chart-4-foreground: Canvas;
+    --chart-5-foreground: Canvas;
+  }
+
+  :where(
+    a[href],
+    button,
+    input:not([type="hidden"]),
+    select,
+    textarea,
+    [tabindex]:not([tabindex="-1"])
+  ):focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}

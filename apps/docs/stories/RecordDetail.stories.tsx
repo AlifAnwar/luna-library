@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Breadcrumb,
@@ -204,6 +205,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await expect(
       canvas.getByRole("heading", { level: 1, name: "Aster Labs" }),
@@ -222,6 +224,7 @@ export const Default: Story = {
 export const EmptyValues: Story = {
   args: { emptyValues: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await expect(canvas.getAllByText("Not provided")).toHaveLength(2);
   },
@@ -230,6 +233,7 @@ export const EmptyValues: Story = {
 export const LongValues: Story = {
   args: { longValues: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     await expect(
       canvas.getByText("REG-2026-INDONESIA-ENTERPRISE-0000000000001042"),
@@ -244,6 +248,7 @@ export const DenseDetail: Story = {
 export const NarrowViewport: Story = {
   args: { constrained: true, longValues: true },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const main = canvasElement.querySelector("main");
     await expect(main).not.toBeNull();
     await expect(main!.scrollWidth).toBeLessThanOrEqual(main!.clientWidth);

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Combobox,
   FormControl,
@@ -41,7 +42,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
+  tags: ["phase6c-reference"],
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const page = within(canvasElement.ownerDocument.body);
 
     await userEvent.click(

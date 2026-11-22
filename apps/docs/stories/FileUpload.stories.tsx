@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   FileUpload,
   FormControl,
@@ -52,6 +53,7 @@ function ControlledFileUpload({ multiple = false }: { multiple?: boolean }) {
 export const Default: Story = {
   render: () => <ControlledFileUpload />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const input = canvas.getByLabelText("Upload documents");
     const file = new File(["quarterly report"], "report.pdf", {
@@ -153,6 +155,7 @@ export const FlexSqueeze: Story = {
   ],
   render: () => <PrefilledFileUpload names={[LONG_FILENAME, "scan.pdf"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const row = canvasElement.querySelector<HTMLElement>(
       ".flex.w-\\[420px\\]",
@@ -188,6 +191,7 @@ export const DisabledWithFiles: Story = {
   name: "Regression: disabled remove is visibly disabled",
   render: () => <PrefilledFileUpload names={["report.pdf"]} disabled />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const remove = canvas.getByRole("button", { name: "Remove report.pdf" });
 
@@ -209,6 +213,7 @@ export const FocusAfterRemoval: Story = {
     <PrefilledFileUpload names={["first.pdf", "second.pdf", "third.pdf"]} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     // Removing a middle file hands focus to whatever took its index.

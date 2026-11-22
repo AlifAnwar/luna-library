@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Button,
@@ -191,6 +192,7 @@ function openExportMenu(canvasElement: HTMLElement) {
 export const ExportDefault: Story = {
   render: () => <ExportExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger, open } = openExportMenu(canvasElement);
 
     expect(trigger).toHaveAttribute("aria-haspopup", "menu");
@@ -219,6 +221,7 @@ export const ExportDefault: Story = {
 export const ExportCSVOnly: Story = {
   render: () => <ExportExample formats={["csv"]} selectedCount={2} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { page, open } = openExportMenu(canvasElement);
 
     await open();
@@ -237,6 +240,7 @@ export const ExportCSVOnly: Story = {
 export const ExportExcelOnly: Story = {
   render: () => <ExportExample formats={["excel"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     await open();
@@ -254,6 +258,7 @@ export const ExportExcelOnly: Story = {
 export const ExportCurrentView: Story = {
   render: () => <ExportExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     const menu = await open();
@@ -275,6 +280,7 @@ export const ExportCurrentView: Story = {
 export const ExportWithSelectedRows: Story = {
   render: () => <ExportExample selectedCount={3} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     const menu = await open();
@@ -296,6 +302,7 @@ export const ExportWithSelectedRows: Story = {
 export const ExportSingleSelectedRow: Story = {
   render: () => <ExportExample selectedCount={1} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { page, open } = openExportMenu(canvasElement);
 
     await open();
@@ -309,6 +316,7 @@ export const ExportSingleSelectedRow: Story = {
 export const ExportNoSelection: Story = {
   render: () => <ExportExample selectedCount={0} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     const menu = await open();
@@ -341,6 +349,7 @@ export const ExportNoSelection: Story = {
 export const ExportLoading: Story = {
   render: () => <ExportExample loading selectedCount={3} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger } = openExportMenu(canvasElement);
 
     expect(trigger).toHaveAttribute("aria-busy", "true");
@@ -395,6 +404,7 @@ function LoadingAfterRequestExample() {
 export const ExportLoadingBlocksDuplicates: Story = {
   render: () => <LoadingAfterRequestExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger, open } = openExportMenu(canvasElement);
 
     await open();
@@ -422,6 +432,7 @@ export const ExportLoadingBlocksDuplicates: Story = {
 export const ExportDisabled: Story = {
   render: () => <ExportExample disabled selectedCount={3} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger } = openExportMenu(canvasElement);
 
     expect(trigger).toBeDisabled();
@@ -439,6 +450,7 @@ export const ExportDisabled: Story = {
 export const ExportNoFormats: Story = {
   render: () => <ExportExample formats={[]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(canvas.queryByRole("button", { name: "Export" })).toBeNull();
@@ -455,6 +467,7 @@ export const ExportKeyboard: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger } = openExportMenu(canvasElement);
 
     canvas.getByRole("button", { name: "Before" }).focus();
@@ -502,6 +515,7 @@ export const ExportClassName: Story = {
     <DataTableExport className="w-full sm:w-auto" onExport={() => {}} />
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const trigger = within(canvasElement).getByRole("button", {
       name: "Export",
     });
@@ -559,6 +573,7 @@ function BulkActionsExportExample() {
 export const ExportInBulkActions: Story = {
   render: () => <BulkActionsExportExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     await open();
@@ -732,6 +747,7 @@ function FullExportExample({ pageSize = 4 }: { pageSize?: number }) {
 export const FullDataTableExport: Story = {
   render: () => <FullExportExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger, open } = openExportMenu(canvasElement);
 
     await userEvent.click(
@@ -787,6 +803,7 @@ export const FullDataTableExport: Story = {
 export const IntegratedFlow: Story = {
   render: () => <FullExportExample pageSize={2} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, open } = openExportMenu(canvasElement);
 
     // Search → Filter
@@ -851,6 +868,7 @@ export const ExportResponsive: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const { canvas, page, trigger, open } = openExportMenu(canvasElement);
     const toolbar = canvasElement.querySelector<HTMLElement>(
       '[data-slot="data-table-toolbar"]',

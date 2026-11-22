@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Button,
   DashboardWidget,
@@ -67,6 +68,7 @@ export const OptionalActions: Story = {
     ),
   },
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const widget = canvas.getByRole("region", { name: "Monthly activity" });
     await expect(widget).toHaveAccessibleDescription(
@@ -116,6 +118,7 @@ export const LongTitle: Story = {
     ),
   ],
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const widget = canvas.getByRole("region");
     const action = canvas.getByRole("button", { name: "View details" });
@@ -143,6 +146,7 @@ export const NarrowViewport: Story = {
     ),
   ],
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const widget = canvas.getByRole("region", { name: "Monthly activity" });
     const action = canvas.getByRole("button", { name: "View details" });

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import { PieChart, type DistributionChartDatum } from "@withalif/luna";
 
 const formatCount = (value: number) =>
@@ -139,7 +140,9 @@ export const Responsive: Story = {
 };
 
 export const SliceHover: Story = {
+  tags: ["phase6c-reference"],
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const slices = canvasElement.querySelectorAll<SVGPathElement>(
       ".recharts-pie-sector path",

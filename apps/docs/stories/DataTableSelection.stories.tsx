@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+import { shouldRunStoryPlay } from "./story-play";
 import {
   Badge,
   Button,
@@ -142,6 +143,7 @@ function SelectionExample({
 export const SelectionNone: Story = {
   render: () => <SelectionExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const selectAll = canvas.getByRole("checkbox", {
       name: "Select all rows on this page",
@@ -159,6 +161,7 @@ export const SelectionNone: Story = {
 export const SelectionSingle: Story = {
   render: () => <SelectionExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const row = canvas.getByRole("checkbox", {
       name: "Select row Priya Raman",
@@ -181,6 +184,7 @@ export const SelectionSingle: Story = {
 export const SelectionMultiple: Story = {
   render: () => <SelectionExample initialSelection={["member-1"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await userEvent.click(
@@ -204,6 +208,7 @@ export const SelectionMultiple: Story = {
 export const SelectionAllVisible: Story = {
   render: () => <SelectionExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const selectAll = canvas.getByRole("checkbox", {
       name: "Select all rows on this page",
@@ -224,6 +229,7 @@ export const SelectionAllVisible: Story = {
 export const SelectionIndeterminate: Story = {
   render: () => <SelectionExample initialSelection={["member-2"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const selectAll = canvas.getByRole("checkbox", {
       name: "Select all rows on this page",
@@ -243,6 +249,7 @@ export const SelectionIndeterminate: Story = {
 export const SelectionWithDisabledRow: Story = {
   render: () => <SelectionExample withDisabledRow />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const archived = canvas.getByRole("checkbox", {
       name: "Select row Tomas Novak",
@@ -268,6 +275,7 @@ export const SelectionWithDisabledRow: Story = {
 export const SelectionEmptyTable: Story = {
   render: () => <SelectionExample rows={[]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -342,6 +350,7 @@ function BulkActionsExample({
 export const BulkActionsDefault: Story = {
   render: () => <BulkActionsExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const bar = canvasElement.querySelector<HTMLElement>(
       '[data-slot="data-table-bulk-actions"]',
@@ -358,6 +367,7 @@ export const BulkActionsDefault: Story = {
 export const BulkActionsDestructive: Story = {
   render: () => <BulkActionsExample initialSelection={["member-3"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const remove = canvas.getByRole("button", { name: "Delete" });
 
@@ -378,6 +388,7 @@ export const BulkActionsDestructive: Story = {
 export const BulkActionsDisabled: Story = {
   render: () => <BulkActionsExample busy />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(canvas.getByRole("button", { name: "Archive" })).toBeDisabled();
@@ -392,6 +403,7 @@ export const BulkActionsDisabled: Story = {
 export const BulkActionsHiddenWhenEmpty: Story = {
   render: () => <BulkActionsExample initialSelection={[]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     expect(
@@ -421,6 +433,7 @@ export const BulkActionsHiddenWhenEmpty: Story = {
 export const BulkActionsAlwaysVisible: Story = {
   render: () => <BulkActionsExample initialSelection={[]} alwaysVisible />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const bar = canvasElement.querySelector<HTMLElement>(
       '[data-slot="data-table-bulk-actions"]',
@@ -449,6 +462,7 @@ export const BulkActionsResponsive: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const bar = canvasElement.querySelector<HTMLElement>(
       '[data-slot="data-table-bulk-actions"]',
@@ -602,6 +616,7 @@ function FullSelectionExample({
 export const SelectionWithSorting: Story = {
   render: () => <FullSelectionExample initialSelection={["member-1"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await userEvent.click(canvas.getByRole("button", { name: "Name" }));
@@ -624,6 +639,7 @@ export const SelectionWithSorting: Story = {
 export const SelectionWithFilters: Story = {
   render: () => <FullSelectionExample initialSelection={["member-3"]} />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const page = within(canvasElement.ownerDocument.body);
 
@@ -653,6 +669,7 @@ export const SelectionWithFilters: Story = {
 export const SelectionWithPagination: Story = {
   render: () => <FullSelectionExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
     const selectAll = canvas.getByRole("checkbox", {
       name: "Select all rows on this page",
@@ -682,8 +699,10 @@ export const SelectionWithPagination: Story = {
 };
 
 export const FullDataTableSelection: Story = {
+  tags: ["phase6c-reference"],
   render: () => <FullSelectionExample />,
   play: async ({ canvasElement }) => {
+    if (!shouldRunStoryPlay()) return;
     const canvas = within(canvasElement);
 
     await userEvent.click(
