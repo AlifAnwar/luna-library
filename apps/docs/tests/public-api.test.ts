@@ -104,3 +104,9 @@ describe("Phase 5D public API", () => {
     expect(luna[name as keyof typeof luna]).toBeTypeOf("function");
   });
 });
+
+describe("Phase 6B public API", () => {
+  it("exports the Luna direction provider facade", () => {
+    expect(luna.DirectionProvider).toBeTypeOf("function");
+  });
+});

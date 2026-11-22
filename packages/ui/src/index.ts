@@ -24,6 +24,7 @@ export * from "./components/ui/data-table-view-options.js";
 export * from "./components/ui/dashboard-grid.js";
 export * from "./components/ui/dashboard-widget.js";
 export * from "./components/ui/detail-list.js";
+export * from "./components/ui/direction-provider.js";
 export * from "./components/ui/date-picker.js";
 export * from "./components/ui/date-range-picker.js";
 export * from "./components/ui/distribution-chart.js";

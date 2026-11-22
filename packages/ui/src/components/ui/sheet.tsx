@@ -79,7 +79,7 @@ function SheetContent({
                 type="button"
                 variant="ghost"
                 size="icon-sm"
-                className="absolute top-3 right-3"
+                className="absolute top-3 end-3"
               />
             }
           >
@@ -97,7 +97,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="sheet-header"
       className={cn(
-        "flex flex-col gap-1.5 border-b border-border p-4 pr-12",
+        "flex flex-col gap-1.5 border-b border-border p-4 pe-12",
         className,
       )}
       {...props}

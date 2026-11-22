@@ -51,6 +51,7 @@ type SidebarContextValue = {
 };
 
 const SidebarContext = React.createContext<SidebarContextValue | null>(null);
+const SidebarSideContext = React.createContext<SidebarSide>("left");
 
 function useSidebar(componentName: string) {
   const context = React.useContext(SidebarContext);
@@ -209,35 +210,39 @@ function Sidebar({
 
   if (collapsible === "none") {
     return (
-      <div
-        data-slot="sidebar"
-        data-side={side}
-        data-collapsible="none"
-        className={cn(
-          "sticky top-0 flex h-svh w-(--sidebar-width) shrink-0 self-start flex-col border-border bg-surface text-foreground",
-          side === "left" ? "border-r" : "border-l",
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </div>
+      <SidebarSideContext.Provider value={side}>
+        <div
+          data-slot="sidebar"
+          data-side={side}
+          data-collapsible="none"
+          className={cn(
+            "sticky top-0 flex h-svh w-(--sidebar-width) shrink-0 self-start flex-col border-border bg-surface text-foreground",
+            side === "left" ? "border-r" : "border-l",
+            className,
+          )}
+          {...props}
+        >
+          {children}
+        </div>
+      </SidebarSideContext.Provider>
     );
   }
 
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile}>
-        <SheetContent
-          data-slot="sidebar"
-          data-mobile="true"
-          side={side}
-          className="w-(--sidebar-width) gap-0 overflow-hidden bg-surface p-0 text-foreground"
-        >
-          <SheetTitle className="sr-only">{mobileTitle}</SheetTitle>
-          <div className="flex h-full w-full flex-col">{children}</div>
-        </SheetContent>
-      </Sheet>
+      <SidebarSideContext.Provider value={side}>
+        <Sheet open={openMobile} onOpenChange={setOpenMobile}>
+          <SheetContent
+            data-slot="sidebar"
+            data-mobile="true"
+            side={side}
+            className="w-(--sidebar-width) gap-0 overflow-hidden bg-surface p-0 text-foreground"
+          >
+            <SheetTitle className="sr-only">{mobileTitle}</SheetTitle>
+            <div className="flex h-full w-full flex-col">{children}</div>
+          </SheetContent>
+        </Sheet>
+      </SidebarSideContext.Provider>
     );
   }
 
@@ -245,39 +250,41 @@ function Sidebar({
     state === "collapsed" && collapsible === "offcanvas";
 
   return (
-    <div
-      data-slot="sidebar"
-      data-state={state}
-      data-collapsible={state === "collapsed" ? collapsible : undefined}
-      data-side={side}
-      className={cn(
-        "group/sidebar sticky top-0 hidden h-svh shrink-0 self-start flex-col border-border bg-surface text-foreground transition-[width] duration-200 ease-linear motion-reduce:transition-none md:flex",
-        side === "right" && "order-1",
-        side === "left" ? "border-r" : "border-l",
-        state === "expanded" && "w-(--sidebar-width)",
-        state === "collapsed" &&
-          collapsible === "icon" &&
-          "w-(--sidebar-width-icon)",
-        isOffcanvasCollapsed && "w-0 overflow-hidden border-transparent",
-        className,
-      )}
-      {...props}
-    >
-      {/*
-       * `w-0 overflow-hidden` clips the off-canvas sidebar but leaves its
-       * controls in the sequential focus order, so keyboard focus would
-       * disappear into a zero-width region. `inert` removes the subtree from
-       * focus and from the accessibility tree while leaving the outer width
-       * transition untouched.
-       */}
+    <SidebarSideContext.Provider value={side}>
       <div
-        data-slot="sidebar-content-wrapper"
-        inert={isOffcanvasCollapsed}
-        className="flex h-full w-full flex-col overflow-hidden"
+        data-slot="sidebar"
+        data-state={state}
+        data-collapsible={state === "collapsed" ? collapsible : undefined}
+        data-side={side}
+        className={cn(
+          "group/sidebar sticky top-0 hidden h-svh shrink-0 self-start flex-col border-border bg-surface text-foreground transition-[width] duration-200 ease-linear motion-reduce:transition-none md:flex",
+          side === "right" && "order-1",
+          side === "left" ? "border-r" : "border-l",
+          state === "expanded" && "w-(--sidebar-width)",
+          state === "collapsed" &&
+            collapsible === "icon" &&
+            "w-(--sidebar-width-icon)",
+          isOffcanvasCollapsed && "w-0 overflow-hidden border-transparent",
+          className,
+        )}
+        {...props}
       >
-        {children}
+        {/*
+         * `w-0 overflow-hidden` clips the off-canvas sidebar but leaves its
+         * controls in the sequential focus order, so keyboard focus would
+         * disappear into a zero-width region. `inert` removes the subtree from
+         * focus and from the accessibility tree while leaving the outer width
+         * transition untouched.
+         */}
+        <div
+          data-slot="sidebar-content-wrapper"
+          inert={isOffcanvasCollapsed}
+          className="flex h-full w-full flex-col overflow-hidden"
+        >
+          {children}
+        </div>
       </div>
-    </div>
+    </SidebarSideContext.Provider>
   );
 }
 
@@ -430,7 +437,7 @@ function SidebarGroupAction({
       data-slot="sidebar-group-action"
       className={cn(
         buttonVariants({ variant: "ghost", size: "icon-xs" }),
-        "absolute top-3 right-3 group-data-[collapsible=icon]/sidebar:hidden",
+        "absolute top-3 end-3 group-data-[collapsible=icon]/sidebar:hidden",
         className,
       )}
       {...props}
@@ -472,7 +479,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
 }
 
 const sidebarMenuButtonVariants = cva(
-  "peer/sidebar-menu-button flex h-control-md w-full items-center justify-start gap-2 overflow-hidden rounded-md px-2.5 text-left text-body font-medium text-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 group-data-[collapsible=icon]/sidebar:justify-center group-data-[collapsible=icon]/sidebar:gap-0 group-data-[collapsible=icon]/sidebar:px-0 [&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5 [&>span:last-child]:truncate [&>span:last-child]:group-data-[collapsible=icon]/sidebar:hidden",
+  "peer/sidebar-menu-button flex h-control-md w-full items-center justify-start gap-2 overflow-hidden rounded-md px-2.5 text-start text-body font-medium text-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 group-data-[collapsible=icon]/sidebar:justify-center group-data-[collapsible=icon]/sidebar:gap-0 group-data-[collapsible=icon]/sidebar:px-0 [&>svg]:pointer-events-none [&>svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5 [&>span:last-child]:truncate [&>span:last-child]:group-data-[collapsible=icon]/sidebar:hidden",
   {
     variants: {
       variant: {
@@ -510,6 +517,7 @@ function SidebarMenuButton({
   ...props
 }: SidebarMenuButtonProps) {
   const { state, isMobile, collapsible } = useSidebar("SidebarMenuButton");
+  const sidebarSide = React.useContext(SidebarSideContext);
 
   const button = (
     <button
@@ -537,7 +545,10 @@ function SidebarMenuButton({
   return (
     <Tooltip>
       <TooltipTrigger render={button} />
-      <TooltipContent side="right" align="center">
+      <TooltipContent
+        side={sidebarSide === "left" ? "right" : "left"}
+        align="center"
+      >
         {tooltip}
       </TooltipContent>
     </Tooltip>
@@ -571,6 +582,7 @@ function SidebarMenuLink({
 }: SidebarMenuLinkProps) {
   const { state, isMobile, collapsible, setOpenMobile } =
     useSidebar("SidebarMenuLink");
+  const sidebarSide = React.useContext(SidebarSideContext);
   const showTooltip =
     collapsible === "icon" && state === "collapsed" && !isMobile;
   const link = useRender({
@@ -620,7 +632,10 @@ function SidebarMenuLink({
   return (
     <Tooltip>
       <TooltipTrigger render={link} />
-      <TooltipContent side="right" align="center">
+      <TooltipContent
+        side={sidebarSide === "left" ? "right" : "left"}
+        align="center"
+      >
         {label}
       </TooltipContent>
     </Tooltip>
@@ -637,7 +652,7 @@ function SidebarMenuAction({
       data-slot="sidebar-menu-action"
       className={cn(
         buttonVariants({ variant: "ghost", size: "icon-xs" }),
-        "absolute top-1/2 right-1 -translate-y-1/2 group-data-[collapsible=icon]/sidebar:hidden",
+        "absolute top-1/2 end-1 -translate-y-1/2 group-data-[collapsible=icon]/sidebar:hidden",
         className,
       )}
       {...props}
@@ -654,7 +669,7 @@ function SidebarMenuBadge({
       data-slot="sidebar-menu-badge"
       variant="secondary"
       className={cn(
-        "pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 group-data-[collapsible=icon]/sidebar:hidden",
+        "pointer-events-none absolute top-1/2 end-2 -translate-y-1/2 group-data-[collapsible=icon]/sidebar:hidden",
         className,
       )}
       {...props}
@@ -667,7 +682,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
     <ul
       data-slot="sidebar-menu-sub"
       className={cn(
-        "ml-3.5 flex min-w-0 flex-col gap-1 border-l border-border px-2.5 py-0.5 group-data-[collapsible=icon]/sidebar:hidden",
+        "ms-3.5 flex min-w-0 flex-col gap-1 border-s border-border px-2.5 py-0.5 group-data-[collapsible=icon]/sidebar:hidden",
         className,
       )}
       {...props}
@@ -742,7 +757,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"nav">) {
       data-slot="sidebar-rail"
       aria-label="Primary"
       className={cn(
-        "sticky top-0 hidden h-svh w-14 shrink-0 self-start flex-col items-center gap-1 border-r border-border bg-muted py-3 md:flex",
+        "sticky top-0 hidden h-svh w-14 shrink-0 self-start flex-col items-center gap-1 border-e border-border bg-muted py-3 md:flex",
         className,
       )}
       {...props}
@@ -783,7 +798,7 @@ function SidebarRailItem({
   return (
     <Tooltip>
       <TooltipTrigger render={button} />
-      <TooltipContent side="right" align="center">
+      <TooltipContent side="inline-end" align="center">
         {tooltip}
       </TooltipContent>
     </Tooltip>

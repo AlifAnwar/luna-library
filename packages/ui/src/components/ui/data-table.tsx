@@ -129,7 +129,7 @@ function DataTableContainer({
       role={role ?? (isScrollable && hasAccessibleName ? "region" : undefined)}
       tabIndex={tabIndex ?? (isScrollable ? 0 : undefined)}
       className={cn(
-        "w-full overflow-x-auto rounded-lg border border-border bg-card shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
+        "relative w-full overflow-x-auto rounded-lg border border-border bg-card shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
         className,
       )}
       {...props}

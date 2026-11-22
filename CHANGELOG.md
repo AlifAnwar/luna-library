@@ -12,6 +12,10 @@ tags for milestone releases and is not published to npm.
 - Compiled ESM, declarations, declaration maps, source maps, and a processed
   stylesheet for the private `@withalif/luna` package.
 - Package archive inspection and an isolated client/SSR consumer smoke test.
+- Public light/dark semantic theme selectors, document-root theme guidance,
+  and a Luna `DirectionProvider` facade for direction-aware interactions.
+- Four pinned Storybook review stories covering light/dark and LTR/RTL
+  combinations at a narrow application boundary.
 
 ### Changed
 
@@ -19,6 +23,9 @@ tags for milestone releases and is not published to npm.
   React DOM are exact tested peer dependencies.
 - Workspace applications now validate the built package contract instead of
   transpiling Luna source directly.
+- Components now use theme-independent semantic colors, accessible focus and
+  control boundaries, logical layout utilities, and direction-aware Luna-owned
+  navigation glyphs.
 
 ## [0.5.0] - 2026-11-17
 

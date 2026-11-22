@@ -113,12 +113,12 @@ function DropdownMenuCheckboxItem({
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
         itemClassName,
-        "pl-8 data-checked:bg-primary-subtle data-checked:text-primary-active",
+        "ps-8 data-checked:bg-primary-subtle data-checked:text-primary-active",
         className,
       )}
       {...props}
     >
-      <MenuPrimitive.CheckboxItemIndicator className="absolute left-2 flex size-4 items-center justify-center text-primary">
+      <MenuPrimitive.CheckboxItemIndicator className="absolute start-2 flex size-4 items-center justify-center text-primary">
         <CheckIcon aria-hidden="true" />
       </MenuPrimitive.CheckboxItemIndicator>
       {children}
@@ -136,12 +136,12 @@ function DropdownMenuRadioItem({
       data-slot="dropdown-menu-radio-item"
       className={cn(
         itemClassName,
-        "pl-8 data-checked:bg-primary-subtle data-checked:text-primary-active",
+        "ps-8 data-checked:bg-primary-subtle data-checked:text-primary-active",
         className,
       )}
       {...props}
     >
-      <MenuPrimitive.RadioItemIndicator className="absolute left-2 flex size-4 items-center justify-center">
+      <MenuPrimitive.RadioItemIndicator className="absolute start-2 flex size-4 items-center justify-center">
         <span className="size-2 rounded-full bg-primary" />
       </MenuPrimitive.RadioItemIndicator>
       {children}
@@ -174,7 +174,10 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ml-auto" aria-hidden="true" />
+      <ChevronRightIcon
+        className="ms-auto rtl:-scale-x-100"
+        aria-hidden="true"
+      />
     </MenuPrimitive.SubmenuTrigger>
   );
 }

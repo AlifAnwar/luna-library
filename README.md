@@ -62,6 +62,13 @@ import "@withalif/luna/styles.css";
 import { Button, Card, CardContent } from "@withalif/luna";
 ```
 
+Light/LTR remains the no-configuration default. Applications can select the
+public `light` or `dark` theme on `document.documentElement.dataset.theme` and
+must pair the document `dir` attribute with Luna's public `DirectionProvider`
+for direction-aware keyboard and popup behavior. See the
+[UI package guide](packages/ui/README.md#theme-and-direction) for the complete
+theme, portal, RTL, and semantic-token override contract.
+
 The private package exports compiled ESM, TypeScript declarations, and a
 compiled stylesheet from `dist/`. See the
 [UI package guide](packages/ui/README.md) for ownership boundaries and usage

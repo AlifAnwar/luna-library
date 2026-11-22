@@ -19,11 +19,14 @@ import {
   BreadcrumbSeparator,
   Button,
   buttonVariants,
+  CancelIcon,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  Checkbox,
+  CheckCircleIcon,
   CheckIcon,
   DataTable,
   DataTableEmptyState,
@@ -33,9 +36,28 @@ import {
   DashboardGrid,
   DashboardGridItem,
   DashboardWidget,
+  DatePicker,
   DateRangePicker,
   DetailField,
   DetailList,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   EditIcon,
   FileIcon,
   FormControl,
@@ -44,6 +66,7 @@ import {
   FormLabel,
   FormMessage,
   HomeIcon,
+  InfoIcon,
   Input,
   KpiCard,
   LineChart,
@@ -53,6 +76,33 @@ import {
   PageHeaderContent,
   PageHeaderDescription,
   PageHeaderHeading,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Popover,
+  PopoverClose,
+  PopoverContent,
+  PopoverDescription,
+  PopoverTitle,
+  PopoverTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SearchableSelect,
+  Sheet,
+  SheetBody,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
   Sidebar,
   SidebarContent,
   SidebarGroup,
@@ -64,8 +114,16 @@ import {
   SidebarMenuLink,
   SidebarProvider,
   SidebarTrigger,
+  Switch,
   Textarea,
+  ToastProvider,
+  ToastViewport,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
   WarningIcon,
+  useToast,
   type CartesianChartDatum,
   type CartesianChartSeries,
   type DataTableColumn,
@@ -1164,6 +1222,326 @@ function CrossPatternApplication({
   );
 }
 
+function MatrixToastButton() {
+  const toast = useToast();
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      onClick={() =>
+        toast.add({
+          title: "Theme review saved",
+          description: "The selected appearance and direction are active.",
+          type: "success",
+        })
+      }
+    >
+      Show status toast
+    </Button>
+  );
+}
+
+function ThemeDirectionInteractionTray() {
+  const [date, setDate] = React.useState<Date | undefined>(
+    new Date(2026, 10, 18),
+  );
+
+  return (
+    <div className="grid min-w-0 gap-6 border-t border-border bg-background p-4 text-foreground">
+      <section
+        aria-labelledby="matrix-states-heading"
+        className="grid min-w-0 gap-3"
+      >
+        <div>
+          <h2 id="matrix-states-heading" className="text-section font-semibold">
+            Theme and control states
+          </h2>
+          <p className="text-body-sm text-foreground-secondary">
+            Default, hover, active, selected, invalid, disabled, and loading
+            treatments share semantic tokens. Mixed-direction values stay
+            isolated: <bdi>طلب REQ-2042 · 1,250</bdi>.
+          </p>
+        </div>
+
+        <div className="flex min-w-0 flex-wrap gap-2">
+          <Button type="button">Default action</Button>
+          <Button type="button" variant="secondary">
+            Secondary action
+          </Button>
+          <Button type="button" loading>
+            Saving changes
+          </Button>
+          <Button type="button" disabled>
+            Unavailable
+          </Button>
+          <Button type="button" aria-invalid="true">
+            Invalid action
+          </Button>
+        </div>
+
+        <div className="grid min-w-0 gap-3">
+          <label className="flex min-w-0 items-center gap-2 text-body">
+            <Checkbox defaultChecked />
+            Include archived records
+          </label>
+          <label className="flex min-w-0 items-center gap-2 text-body">
+            <Switch defaultChecked />
+            Send review notifications
+          </label>
+          <div className="grid min-w-0 gap-1.5">
+            <label
+              htmlFor="matrix-reference"
+              className="text-label font-medium"
+            >
+              Reference
+            </label>
+            <Input
+              id="matrix-reference"
+              defaultValue="Incomplete reference"
+              aria-invalid="true"
+              aria-describedby="matrix-reference-error"
+            />
+            <span
+              id="matrix-reference-error"
+              className="text-body-sm text-destructive"
+            >
+              Enter a complete reference.
+            </span>
+          </div>
+          <Select
+            defaultValue="ready"
+            items={{ ready: "Ready", review: "In review", held: "On hold" }}
+          >
+            <SelectTrigger aria-label="Theme review status" className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ready">Ready</SelectItem>
+              <SelectItem value="review">In review</SelectItem>
+              <SelectItem value="held">On hold</SelectItem>
+            </SelectContent>
+          </Select>
+          <SearchableSelect
+            aria-label="Theme review assignee"
+            searchLabel="Search theme review assignees"
+            placeholder="Choose an assignee"
+            items={[
+              { value: "maya", label: "Maya Chen" },
+              { value: "andre", label: "Andre Silva" },
+              { value: "priya", label: "Priya Nair" },
+            ]}
+          />
+          <DatePicker
+            aria-label="Theme review date"
+            value={date}
+            onValueChange={setDate}
+            calendarProps={{ defaultMonth: new Date(2026, 10, 1) }}
+          />
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="matrix-statuses-heading"
+        className="grid min-w-0 gap-3"
+      >
+        <h2 id="matrix-statuses-heading" className="text-section font-semibold">
+          Status treatments
+        </h2>
+        <Alert variant="info">
+          <InfoIcon aria-hidden="true" />
+          <AlertTitle>Information</AlertTitle>
+          <AlertDescription>Review details before continuing.</AlertDescription>
+        </Alert>
+        <Alert variant="success">
+          <CheckCircleIcon aria-hidden="true" />
+          <AlertTitle>Saved</AlertTitle>
+          <AlertDescription>The review was saved.</AlertDescription>
+        </Alert>
+        <Alert variant="warning">
+          <WarningIcon aria-hidden="true" />
+          <AlertTitle>Check this</AlertTitle>
+          <AlertDescription>Some details need attention.</AlertDescription>
+        </Alert>
+        <Alert variant="destructive">
+          <CancelIcon aria-hidden="true" />
+          <AlertTitle>Unable to save</AlertTitle>
+          <AlertDescription>Check the fields and try again.</AlertDescription>
+        </Alert>
+      </section>
+
+      <section
+        aria-labelledby="matrix-overlays-heading"
+        className="grid min-w-0 gap-3"
+      >
+        <h2 id="matrix-overlays-heading" className="text-section font-semibold">
+          Portals and overlays
+        </h2>
+        <div className="flex min-w-0 flex-wrap gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger render={<Button variant="outline" />}>
+              Open review menu
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>Review actions</DropdownMenuLabel>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    More review options
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem>Advanced review</DropdownMenuItem>
+                    <DropdownMenuItem>Review history</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem>Open details</DropdownMenuItem>
+                <DropdownMenuItem>Edit record</DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive">
+                Delete record
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Popover>
+            <PopoverTrigger render={<Button variant="outline" />}>
+              Open review popover
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverTitle>Review context</PopoverTitle>
+              <PopoverDescription className="mt-1">
+                Portaled content inherits the document theme and direction.
+              </PopoverDescription>
+              <PopoverClose
+                render={<Button size="sm" variant="outline" className="mt-3" />}
+              >
+                Close popover
+              </PopoverClose>
+            </PopoverContent>
+          </Popover>
+
+          <TooltipProvider delay={0}>
+            <Tooltip>
+              <TooltipTrigger render={<Button variant="outline" />}>
+                Focus for help
+              </TooltipTrigger>
+              <TooltipContent>Direction-aware help</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+
+          <Dialog>
+            <DialogTrigger render={<Button variant="outline" />}>
+              Open review dialog
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Confirm review</DialogTitle>
+                <DialogDescription>
+                  Verify focus, surface, and close-control placement.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose render={<Button variant="outline" />}>
+                  Cancel review
+                </DialogClose>
+                <DialogClose render={<Button />}>Confirm review</DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Sheet>
+            <SheetTrigger render={<Button variant="outline" />}>
+              Open review sheet
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                <SheetTitle>Review details</SheetTitle>
+                <SheetDescription>
+                  The physical right-side API stays on the requested edge.
+                </SheetDescription>
+              </SheetHeader>
+              <SheetBody>
+                <p className="text-body text-foreground-secondary">
+                  Logical content alignment follows the document direction.
+                </p>
+              </SheetBody>
+              <SheetFooter>
+                <SheetClose render={<Button variant="outline" />}>
+                  Close review sheet
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+
+          <MatrixToastButton />
+        </div>
+      </section>
+
+      <section
+        aria-labelledby="matrix-navigation-heading"
+        className="grid min-w-0 gap-3"
+      >
+        <h2
+          id="matrix-navigation-heading"
+          className="text-section font-semibold"
+        >
+          Directional navigation
+        </h2>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#matrix-states-heading">
+                Review
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Appearance</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#matrix-navigation-heading" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#matrix-navigation-heading" isActive>
+                1
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#matrix-navigation-heading">
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#matrix-navigation-heading" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </section>
+    </div>
+  );
+}
+
+function ThemeDirectionReview() {
+  return (
+    <ToastProvider>
+      <div
+        data-slot="theme-direction-matrix"
+        className="mx-auto w-80 max-w-full min-w-0 overflow-x-hidden bg-background text-foreground"
+        style={{ contain: "layout paint" }}
+      >
+        <CrossPatternApplication constrained />
+        <ThemeDirectionInteractionTray />
+      </div>
+      <ToastViewport />
+    </ToastProvider>
+  );
+}
+
 const meta = {
   title: "Patterns/Cross-pattern application",
   component: CrossPatternApplication,
@@ -1372,4 +1750,188 @@ export const NarrowViewport: Story = {
       canvas.getByRole("button", { name: "Save changes" }),
     ).toBeVisible();
   },
+};
+
+const playThemeDirectionReview: NonNullable<Story["play"]> = async ({
+  canvasElement,
+  globals,
+}) => {
+  const canvas = within(canvasElement);
+  const page = within(canvasElement.ownerDocument.body);
+  const documentRoot = canvasElement.ownerDocument.documentElement;
+  const matrix = canvasElement.querySelector<HTMLElement>(
+    '[data-slot="theme-direction-matrix"]',
+  );
+
+  await expect(documentRoot).toHaveAttribute("data-theme", globals.theme);
+  await expect(documentRoot).toHaveAttribute("dir", globals.direction);
+  await expect(matrix).not.toBeNull();
+  await expect(documentRoot.scrollWidth).toBeLessThanOrEqual(
+    documentRoot.clientWidth,
+  );
+  await expect(canvas.getByRole("figure")).toBeInTheDocument();
+  await expect(
+    canvas.getByRole("table", { name: "Operational review records" }),
+  ).toBeInTheDocument();
+  await expect(canvas.getAllByRole("alert")).toHaveLength(4);
+  await expect(
+    canvas.getByRole("button", { name: "Focus for help" }),
+  ).toBeInTheDocument();
+
+  const defaultAction = canvas.getByRole("button", {
+    name: "Default action",
+  });
+  await userEvent.hover(defaultAction);
+  defaultAction.focus();
+  await expect(defaultAction).toHaveFocus();
+  await userEvent.click(defaultAction);
+
+  const reviewSwitch = canvas.getByRole("switch", {
+    name: "Send review notifications",
+  });
+  await expect(reviewSwitch).toHaveAttribute("aria-checked", "true");
+  await userEvent.click(reviewSwitch);
+  await expect(reviewSwitch).toHaveAttribute("aria-checked", "false");
+
+  const selectTrigger = canvas.getByRole("combobox", {
+    name: "Theme review status",
+  });
+  await userEvent.click(selectTrigger);
+  await waitFor(() => expect(page.getByRole("listbox")).toBeVisible());
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() => expect(page.queryByRole("listbox")).toBeNull());
+  await expect(selectTrigger).toHaveFocus();
+
+  const searchableTrigger = canvas.getByRole("combobox", {
+    name: "Theme review assignee",
+  });
+  await userEvent.click(searchableTrigger);
+  const searchableInput = await waitFor(() => {
+    const input = page.getByRole("combobox", {
+      name: "Search theme review assignees",
+    });
+    expect(input).toBeVisible();
+    return input;
+  });
+  await userEvent.type(searchableInput, "Priya");
+  await userEvent.keyboard("{ArrowDown}{Enter}");
+  await waitFor(() =>
+    expect(
+      page.queryByRole("combobox", {
+        name: "Search theme review assignees",
+      }),
+    ).toBeNull(),
+  );
+  await expect(searchableTrigger).toHaveTextContent("Priya Nair");
+
+  const dateTrigger = canvas.getByRole("button", {
+    name: "Theme review date",
+  });
+  await userEvent.click(dateTrigger);
+  await waitFor(() => expect(page.getByRole("grid")).toBeVisible());
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() => expect(page.queryByRole("grid")).toBeNull());
+  await expect(dateTrigger).toHaveFocus();
+
+  const menuTrigger = canvas.getByRole("button", {
+    name: "Open review menu",
+  });
+  await userEvent.click(menuTrigger);
+  await waitFor(() => expect(page.getByRole("menu")).toBeVisible());
+  const submenuTrigger = page.getByRole("menuitem", {
+    name: "More review options",
+  });
+  submenuTrigger.focus();
+  await userEvent.keyboard(
+    globals.direction === "rtl" ? "{ArrowLeft}" : "{ArrowRight}",
+  );
+  await waitFor(() =>
+    expect(
+      page.getByRole("menuitem", { name: "Advanced review" }),
+    ).toBeVisible(),
+  );
+  await userEvent.keyboard("{Escape}{Escape}");
+  await waitFor(() => expect(page.queryByRole("menu")).toBeNull());
+  await expect(menuTrigger).toHaveFocus();
+
+  const popoverTrigger = canvas.getByRole("button", {
+    name: "Open review popover",
+  });
+  await userEvent.click(popoverTrigger);
+  await waitFor(() =>
+    expect(
+      page.getByRole("heading", { name: "Review context" }),
+    ).toBeVisible(),
+  );
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() =>
+    expect(page.queryByRole("heading", { name: "Review context" })).toBeNull(),
+  );
+  await expect(popoverTrigger).toHaveFocus();
+
+  const dialogTrigger = canvas.getByRole("button", {
+    name: "Open review dialog",
+  });
+  await userEvent.click(dialogTrigger);
+  await waitFor(() =>
+    expect(
+      page.getByRole("dialog", { name: "Confirm review" }),
+    ).toBeVisible(),
+  );
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() =>
+    expect(page.queryByRole("dialog", { name: "Confirm review" })).toBeNull(),
+  );
+  await expect(dialogTrigger).toHaveFocus();
+
+  const sheetTrigger = canvas.getByRole("button", {
+    name: "Open review sheet",
+  });
+  await userEvent.click(sheetTrigger);
+  await waitFor(() =>
+    expect(
+      page.getByRole("dialog", { name: "Review details" }),
+    ).toBeVisible(),
+  );
+  await userEvent.keyboard("{Escape}");
+  await waitFor(() =>
+    expect(page.queryByRole("dialog", { name: "Review details" })).toBeNull(),
+  );
+  await expect(sheetTrigger).toHaveFocus();
+
+  await userEvent.click(
+    canvas.getByRole("button", { name: "Show status toast" }),
+  );
+  await expect(page.getByText("Theme review saved")).toBeVisible();
+  await expect(
+    canvas.getByRole("navigation", { name: "pagination" }),
+  ).toBeInTheDocument();
+};
+
+export const LightLtrMatrix: Story = {
+  name: "Matrix · Light · LTR",
+  globals: { theme: "light", direction: "ltr" },
+  render: () => <ThemeDirectionReview />,
+  play: playThemeDirectionReview,
+};
+
+export const LightRtlMatrix: Story = {
+  name: "Matrix · Light · RTL",
+  globals: { theme: "light", direction: "rtl" },
+  render: () => <ThemeDirectionReview />,
+  play: playThemeDirectionReview,
+};
+
+export const DarkLtrMatrix: Story = {
+  name: "Matrix · Dark · LTR",
+  globals: { theme: "dark", direction: "ltr" },
+  render: () => <ThemeDirectionReview />,
+  play: playThemeDirectionReview,
+};
+
+export const DarkRtlMatrix: Story = {
+  name: "Matrix · Dark · RTL",
+  globals: { theme: "dark", direction: "rtl" },
+  render: () => <ThemeDirectionReview />,
+  play: playThemeDirectionReview,
 };

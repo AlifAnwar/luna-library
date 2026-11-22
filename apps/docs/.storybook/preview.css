@@ -1,8 +1,14 @@
-@import "@withalif/luna/styles.css";
-@import "tailwindcss/utilities.css" layer(storybook) source(none);
+@layer properties, theme, base, components, utilities;
 
-/* Storybook authors Luna-token utilities; the public theme compiler contract
-   is intentionally deferred to Phase 6B. Runtime styles still come from the
-   compiled package import above. */
-@reference "../../../packages/ui/src/styles/globals.css";
+@import "@withalif/luna/styles.css";
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+
+/* Runtime styles come from the compiled stylesheet. The authoring-only theme
+   export teaches Tailwind Luna's public utility namespaces without exposing
+   package source files. */
+@reference "tailwindcss/theme.css";
+@reference "@withalif/luna/theme.css";
+/* Compile component and story candidates together so Tailwind can preserve
+   base-before-responsive ordering across the precompiled package boundary. */
+@source "../node_modules/@withalif/luna/dist/components";
 @source "../stories";

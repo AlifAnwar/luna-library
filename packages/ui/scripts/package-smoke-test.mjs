@@ -83,6 +83,7 @@ async function validateDist() {
     "index.d.ts",
     "index.d.ts.map",
     "styles.css",
+    "theme.css",
     "components/ui/button.js",
     "components/ui/button.d.ts",
   ];
@@ -133,6 +134,20 @@ async function validateDist() {
     !stylesheet.includes('@import "tailwindcss"'),
     "Tailwind import must be compiled before packaging",
   );
+
+  const theme = await readFile(path.join(distDirectory, "theme.css"), "utf8");
+  assert(
+    theme.includes("@theme inline"),
+    "Theme authoring contract must preserve its Tailwind directive",
+  );
+  assert(
+    !theme.includes("@source"),
+    "Theme authoring contract must not expose repository source paths",
+  );
+  assert(
+    !theme.includes("--color-luna-blue-"),
+    "Theme authoring contract must not expose primitive palette utilities",
+  );
 }
 
 async function validateArchive(tarballPath) {
@@ -164,6 +179,7 @@ async function validateArchive(tarballPath) {
     "dist/index.d.ts",
     "dist/index.d.ts.map",
     "dist/styles.css",
+    "dist/theme.css",
   ];
   for (const requiredEntry of requiredEntries) {
     assert(
@@ -211,6 +227,7 @@ async function validateArchive(tarballPath) {
   assert.equal(packedPackageJson.exports["."].types, "./dist/index.d.ts");
   assert.equal(packedPackageJson.exports["."].import, "./dist/index.js");
   assert.equal(packedPackageJson.exports["./styles.css"], "./dist/styles.css");
+  assert.equal(packedPackageJson.exports["./theme.css"], "./dist/theme.css");
   assert.deepEqual(packedPackageJson.sideEffects, ["./dist/styles.css"]);
   assert.equal(packedPackageJson.dependencies?.react, undefined);
   assert.equal(packedPackageJson.dependencies?.["react-dom"], undefined);
@@ -347,6 +364,12 @@ assert.equal(lunaReact, consumerReact, "Luna resolved a duplicate React instance
 const stylesheetPath = require.resolve("@withalif/luna/styles.css");
 assert(readFileSync(stylesheetPath, "utf8").length > 10_000);
 
+const themePath = require.resolve("@withalif/luna/theme.css");
+const theme = readFileSync(themePath, "utf8");
+assert(theme.includes("@theme inline"));
+assert(!theme.includes("@source"));
+assert(!theme.includes("--color-luna-blue-"));
+
 let privateImportBlocked = false;
 try {
   await import("@withalif/luna/src/index.ts");
@@ -355,7 +378,7 @@ try {
 }
 assert(privateImportBlocked, "Private src/ imports must be blocked by exports");
 
-console.log("Public exports, CSS, React peer, and private imports passed");
+console.log("Public exports, runtime CSS, theme CSS, React peer, and private imports passed");
 `,
     "utf8",
   );
