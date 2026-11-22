@@ -5,6 +5,8 @@ tags for milestone releases and is not published to npm.
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-22
+
 ### Added
 
 - Phase 6 production-readiness roadmap covering package distribution, themes,
@@ -70,5 +72,5 @@ tags for milestone releases and is not published to npm.
   unsaved-change blocking, permission enforcement, workflow execution, and a
   production application template remain outside the v0.5.0 package contract.
 
-[Unreleased]: https://github.com/AlifAnwar/luna-library/compare/v0.5.0...HEAD
-[0.5.0]: https://github.com/AlifAnwar/luna-library/compare/v0.4.0...v0.5.0
+[Unreleased]: https://github.com/AlifAnwar/luna-library/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/AlifAnwar/luna-library/compare/v0.5.0...v0.6.0
