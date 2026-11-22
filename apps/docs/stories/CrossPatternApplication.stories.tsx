@@ -1629,6 +1629,10 @@ export const OverviewDetailEditFlow: Story = {
     await expect(
       canvas.getByRole("heading", { level: 1, name: "Edit record" }),
     ).toBeInTheDocument();
+    // Navigation moves focus to <main> in the next animation frame. Wait for
+    // it before typing; WebKit can run that frame mid-typing and send the
+    // remaining keystrokes to <main> instead of the field.
+    await waitFor(() => expect(main).toHaveFocus());
 
     const name = canvas.getByRole("textbox", { name: /Organization name/ });
     await userEvent.clear(name);
