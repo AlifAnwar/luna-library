@@ -4,7 +4,13 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
-const engines = ["chromium", "firefox", "webkit"] as const;
+import { resolvePhase6cEngines } from "./phase6c-engines";
+
+const engines = resolvePhase6cEngines();
+const failureEvidenceDir = path.join(
+  import.meta.dirname,
+  "test-results/phase6c/narrow",
+);
 
 export default defineConfig({
   optimizeDeps: {
@@ -27,6 +33,11 @@ export default defineConfig({
         },
       }),
       viewport: { width: 320, height: 800 },
+      screenshotDirectory: path.join(failureEvidenceDir, "screenshots"),
+      trace: {
+        mode: process.env.PHASE6C_TRACE === "1" ? "retain-on-failure" : "off",
+        tracesDir: path.join(failureEvidenceDir, "traces"),
+      },
       instances: engines.map((browser) => ({ browser })),
     },
   },

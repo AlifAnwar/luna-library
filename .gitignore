@@ -27,6 +27,9 @@ out/
 build
 dist
 storybook-static/
+/release-artifacts/
+test-results/
+.vitest/
 /documentation
 /.agents
 /.aider-desk

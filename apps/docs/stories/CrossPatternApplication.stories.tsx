@@ -1629,6 +1629,10 @@ export const OverviewDetailEditFlow: Story = {
     await expect(
       canvas.getByRole("heading", { level: 1, name: "Edit record" }),
     ).toBeInTheDocument();
+    // Navigation moves focus to <main> in the next animation frame. Wait for
+    // it before typing; WebKit can run that frame mid-typing and send the
+    // remaining keystrokes to <main> instead of the field.
+    await waitFor(() => expect(main).toHaveFocus());
 
     const name = canvas.getByRole("textbox", { name: /Organization name/ });
     await userEvent.clear(name);
@@ -1643,9 +1647,13 @@ export const OverviewDetailEditFlow: Story = {
         }),
       ).toBeInTheDocument(),
     );
-    await expect(
-      canvas.getByText("Changes saved. Record details opened."),
-    ).toBeInTheDocument();
+    // announce() clears the live region and sets the message in the next
+    // animation frame, so the message can land after the heading renders.
+    await waitFor(() =>
+      expect(
+        canvas.getByText("Changes saved. Record details opened."),
+      ).toBeInTheDocument(),
+    );
   },
 };
 
@@ -1715,9 +1723,10 @@ export const UnavailableOverview: Story = {
         canvas.getByRole("rowheader", { name: /REQ-2042/ }),
       ).toBeInTheDocument(),
     );
-    await expect(
-      canvas.getByText("Workspace data loaded."),
-    ).toBeInTheDocument();
+    // The announcement is set in the next animation frame (see announce()).
+    await waitFor(() =>
+      expect(canvas.getByText("Workspace data loaded.")).toBeInTheDocument(),
+    );
   },
 };
 

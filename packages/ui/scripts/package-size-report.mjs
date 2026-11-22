@@ -1,6 +1,13 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFile, readdir, realpath, rm, stat } from "node:fs/promises";
+import {
+  readFile,
+  readdir,
+  realpath,
+  rm,
+  stat,
+  writeFile,
+} from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import process from "node:process";
@@ -15,6 +22,22 @@ const distDirectory = path.join(packageRoot, "dist");
 const budgetPath = path.join(packageRoot, "package-size-budget.json");
 const checkBudgets = process.argv.includes("--check");
 const jsonOutput = process.argv.includes("--json");
+const outputArgumentIndex = process.argv.indexOf("--output");
+const reportOutput =
+  outputArgumentIndex === -1
+    ? null
+    : path.resolve(process.argv[outputArgumentIndex + 1] ?? "");
+if (outputArgumentIndex !== -1 && !process.argv[outputArgumentIndex + 1]) {
+  throw new Error("--output requires a report path");
+}
+const archiveArgumentIndex = process.argv.indexOf("--archive");
+const providedArchive =
+  archiveArgumentIndex === -1
+    ? null
+    : path.resolve(process.argv[archiveArgumentIndex + 1] ?? "");
+if (archiveArgumentIndex !== -1 && !process.argv[archiveArgumentIndex + 1]) {
+  throw new Error("--archive requires a package archive path");
+}
 const temporaryPrefix = path.join(os.tmpdir(), "luna-size-report-");
 const resolvedTemporaryPrefix = path.join(
   await realpath(os.tmpdir()),
@@ -51,6 +74,17 @@ async function measureFiles(files) {
 }
 
 async function createArchive() {
+  if (providedArchive) {
+    assert(
+      providedArchive.endsWith(".tgz"),
+      "Provided archive must end in .tgz",
+    );
+    return {
+      bytes: (await stat(providedArchive)).size,
+      temporaryRoot: null,
+    };
+  }
+
   const { mkdtemp } = await import("node:fs/promises");
   const temporaryRoot = await mkdtemp(temporaryPrefix);
 
@@ -109,7 +143,7 @@ function formatBytes(bytes) {
   return `${(bytes / 1024).toFixed(2)} KiB`;
 }
 
-function printReport(metrics) {
+function formatReport(metrics) {
   const rows = [
     ["Packed archive", metrics.archive.bytes, null],
     ["Unpacked dist", metrics.dist.rawBytes, null],
@@ -136,11 +170,12 @@ function printReport(metrics) {
     ],
   ];
 
-  console.log("Luna package size report");
+  const lines = ["Luna package size report"];
   for (const [label, rawBytes, gzipBytes] of rows) {
     const gzip = gzipBytes === null ? "" : `; gzip ${formatBytes(gzipBytes)}`;
-    console.log(`- ${label}: ${formatBytes(rawBytes)}${gzip}`);
+    lines.push(`- ${label}: ${formatBytes(rawBytes)}${gzip}`);
   }
+  return lines.join("\n");
 }
 
 async function verifyBudgets(metrics) {
@@ -210,15 +245,24 @@ try {
     declarationMaps: await measureFiles(declarationMapFiles),
   };
 
-  if (jsonOutput) {
-    console.log(JSON.stringify(metrics, null, 2));
-  } else {
-    printReport(metrics);
-  }
+  const report = jsonOutput
+    ? JSON.stringify(metrics, null, 2)
+    : formatReport(metrics);
+  console.log(report);
 
   if (checkBudgets) {
     await verifyBudgets(metrics);
   }
+
+  if (reportOutput) {
+    await writeFile(
+      reportOutput,
+      `${report}\n${checkBudgets ? "Package size budgets passed\n" : ""}`,
+      "utf8",
+    );
+  }
 } finally {
-  await removeTemporaryRoot(archive.temporaryRoot);
+  if (archive.temporaryRoot) {
+    await removeTemporaryRoot(archive.temporaryRoot);
+  }
 }

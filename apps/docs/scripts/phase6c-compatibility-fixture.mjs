@@ -18,6 +18,25 @@ import { gzipSync } from "node:zlib";
 
 import { chromium, firefox, webkit } from "playwright";
 
+// Mirrors apps/docs/phase6c-engines.ts. CI runs WebKit on a macOS runner and
+// Chromium/Firefox on Linux, so each job exercises only its own engines.
+const browserEngines = { chromium, firefox, webkit };
+const engineLabels = {
+  chromium: "Chromium",
+  firefox: "Firefox",
+  webkit: "WebKit",
+};
+const selectedEngines = process.env.PHASE6C_ENGINES?.trim()
+  ? [...new Set(process.env.PHASE6C_ENGINES.split(",").map((e) => e.trim()))]
+  : Object.keys(browserEngines);
+for (const engine of selectedEngines) {
+  assert(
+    engine in browserEngines,
+    `Unsupported PHASE6C_ENGINES entry "${engine}"`,
+  );
+}
+const includesChromium = selectedEngines.includes("chromium");
+
 const docsRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
@@ -134,16 +153,37 @@ async function waitForServer(url, processLogs) {
   throw new Error(`Next.js fixture did not start:\n${processLogs.join("")}`);
 }
 
+// Servers are spawned through pnpm in their own process group. Signal the
+// whole group: pnpm does not reliably forward signals to the server it starts
+// on Linux, and a surviving server keeps the stdio pipes (and this script)
+// alive until the CI job times out.
+function signalServer(child, signal) {
+  try {
+    process.kill(-child.pid, signal);
+  } catch (error) {
+    if (error.code !== "ESRCH") throw error;
+  }
+}
+
 async function stopServer(child) {
-  if (child.exitCode !== null) return;
-  child.kill("SIGTERM");
+  if (child.exitCode === null && child.signalCode === null) {
+    const exited = new Promise((resolve) => child.once("exit", resolve));
+    signalServer(child, "SIGTERM");
+    let timeout;
+    await Promise.race([
+      exited,
+      new Promise((resolve) => {
+        timeout = setTimeout(resolve, 5_000);
+      }),
+    ]);
+    clearTimeout(timeout);
+  }
 
-  await Promise.race([
-    new Promise((resolve) => child.once("exit", resolve)),
-    new Promise((resolve) => setTimeout(resolve, 5_000)),
-  ]);
-
-  if (child.exitCode === null) child.kill("SIGKILL");
+  // The pnpm wrapper may exit before the server it started; always clear the
+  // rest of the group and release the pipes.
+  signalServer(child, "SIGKILL");
+  child.stdout?.destroy();
+  child.stderr?.destroy();
 }
 
 async function createFixture(tarballPath) {
@@ -551,6 +591,7 @@ try {
         NEXT_TELEMETRY_DISABLED: "1",
       },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: true,
     },
   );
   serverProcess.stdout.on("data", (chunk) =>
@@ -566,15 +607,12 @@ try {
   assert(serverMarkup.includes("Server-rendered Luna card"));
   assert(serverMarkup.includes("Initial value"));
 
-  for (const [name, browserType] of [
-    ["Chromium", chromium],
-    ["Firefox", firefox],
-    ["WebKit", webkit],
-  ]) {
-    await exerciseEngine(name, browserType, url);
+  for (const engine of selectedEngines) {
+    await exerciseEngine(engineLabels[engine], browserEngines[engine], url);
   }
 
-  await exerciseMediaPreferences(url);
+  // Preference emulation and the Vite client mount are Chromium checks.
+  if (includesChromium) await exerciseMediaPreferences(url);
 
   await stopServer(serverProcess);
   serverProcess = undefined;
@@ -598,12 +636,13 @@ try {
       cwd: fixtureRoot,
       env: { ...process.env, CI: "1" },
       stdio: ["ignore", "pipe", "pipe"],
+      detached: true,
     },
   );
   serverProcess.stdout.on("data", (chunk) => viteLogs.push(chunk.toString()));
   serverProcess.stderr.on("data", (chunk) => viteLogs.push(chunk.toString()));
   await waitForServer(viteUrl, viteLogs);
-  await exerciseViteClient(viteUrl);
+  if (includesChromium) await exerciseViteClient(viteUrl);
 
   console.log("Phase 6C packed Next.js SSR/hydration fixture passed");
 } finally {
