@@ -28,6 +28,7 @@ build
 dist
 storybook-static/
 /release-artifacts/
+test-results/
 /documentation
 /.agents
 /.aider-desk

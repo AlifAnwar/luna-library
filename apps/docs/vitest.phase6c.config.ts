@@ -6,6 +6,10 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 
 const engines = ["chromium", "firefox", "webkit"] as const;
+const failureEvidenceDir = path.join(
+  import.meta.dirname,
+  "test-results/phase6c/reference",
+);
 
 export default defineConfig({
   optimizeDeps: {
@@ -28,6 +32,14 @@ export default defineConfig({
         },
       }),
       viewport: { width: 1280, height: 800 },
+      // Keep Playwright traces and screenshots only for failed tests so CI
+      // failures in engines that cannot run locally (Linux WebKit) can be
+      // inspected from the uploaded workflow artifact.
+      screenshotDirectory: path.join(failureEvidenceDir, "screenshots"),
+      trace: {
+        mode: "retain-on-failure",
+        tracesDir: path.join(failureEvidenceDir, "traces"),
+      },
       instances: engines.map((browser) => ({ browser })),
     },
   },

@@ -5,6 +5,10 @@ import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
 const engines = ["chromium", "firefox", "webkit"] as const;
+const failureEvidenceDir = path.join(
+  import.meta.dirname,
+  "test-results/phase6c/narrow",
+);
 
 export default defineConfig({
   optimizeDeps: {
@@ -27,6 +31,11 @@ export default defineConfig({
         },
       }),
       viewport: { width: 320, height: 800 },
+      screenshotDirectory: path.join(failureEvidenceDir, "screenshots"),
+      trace: {
+        mode: "retain-on-failure",
+        tracesDir: path.join(failureEvidenceDir, "traces"),
+      },
       instances: engines.map((browser) => ({ browser })),
     },
   },

@@ -43,6 +43,15 @@ jobs:
       - name: Run release gate
         run: pnpm release:check
 
+      - name: Upload browser failure evidence
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: phase6c-browser-failures-${{ github.sha }}
+          path: apps/docs/test-results/phase6c/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Upload validated package archive
         uses: actions/upload-artifact@v7
         with:
